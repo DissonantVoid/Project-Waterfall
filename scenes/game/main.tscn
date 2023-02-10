@@ -16,7 +16,7 @@ outline_size = 1
 font_data = ExtResource( 6 )
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 13, 11.5 )
+extents = Vector2( 12, 11.125 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 14, 138 )
@@ -92,10 +92,11 @@ texture = ExtResource( 1 )
 polygon = PoolVector2Array( -16, -16, -16, 17, 16, 17, 16, -16, 12, -16, 12, 13, -12, 13, -12, -16 )
 
 [node name="Area2D" type="Area2D" parent="Bucket"]
+position = Vector2( 0, 2 )
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket/Area2D"]
-position = Vector2( 0, 1.5 )
+position = Vector2( 0, -0.125 )
 shape = SubResource( 1 )
 
 [node name="Characters" type="Node2D" parent="."]
@@ -125,10 +126,9 @@ position = Vector2( 334, 88 )
 shape = SubResource( 2 )
 
 [node name="Top" type="StaticBody2D" parent="Walls"]
-position = Vector2( 165, -62 )
+position = Vector2( 160, -62 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top"]
-position = Vector2( -5, 0 )
 shape = SubResource( 3 )
 
 [node name="Bottom" type="StaticBody2D" parent="Walls"]

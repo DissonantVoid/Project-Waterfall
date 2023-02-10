@@ -30,7 +30,7 @@ func _on_spawn_timeout() -> void:
 	var instance := _character_scene.instance()
 	_chars_container.add_child(instance)
 	instance.setup(_rng)
-	instance.global_position = Vector2(_rng.randf_range(0,_window_width),-10)
+	instance.global_position = Vector2(_rng.randf_range(0, _window_width), -10)
 	_ui.increment_jumpers()
 	
 	_spawn_timer.start()

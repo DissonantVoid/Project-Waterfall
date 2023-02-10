@@ -10,6 +10,7 @@ var _saved : int = 0
 
 var _levelup_chars : int
 
+
 func set_levelup_chars(levelup_chars : int):
 	_levelup_chars = levelup_chars
 

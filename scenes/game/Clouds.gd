@@ -1,6 +1,6 @@
 extends Node2D
 
-#TODO: maybe clouds should manage themselves without main.gd just like bucket
+# TODO: maybe clouds should manage themselves without main.gd just like bucket
  
 signal Passed
 

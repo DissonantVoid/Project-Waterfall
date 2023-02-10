@@ -7,14 +7,15 @@ onready var _front_sprite : Sprite = $Front
 const _shine_shader : ShaderMaterial = preload("res://resources/godot/shine_shader.tres")
 
 const _front_spr_fade_time : float = 0.3
-const _score_time : float = 0.5 #a score is added when character stays in bucket for that time
+const _score_time : float = 0.5 # a score is added when character stays in bucket for that time
 const _max_rotation : float = 45.0
-var _bodies_in_bucket : Array = [] #[{character,timeLeftToScore},..]
+var _bodies_in_bucket : Array = [] # [{character,timeLeftToScore},..]
+
 
 func _process(delta: float) -> void:
-	#follow mouse
-	global_position = lerp(global_position,get_global_mouse_position(),0.2) #TODO: frame dependent lerp
-	rotation_degrees = clamp(get_global_mouse_position().x-global_position.x,-_max_rotation,_max_rotation)
+	# follow mouse
+	global_position = lerp(global_position, get_global_mouse_position(), 0.2) # TODO: frame dependent lerp
+	rotation_degrees = clamp(get_global_mouse_position().x-global_position.x, -_max_rotation, _max_rotation)
 	
 	# check bodies in bucket
 	for entry in _bodies_in_bucket:
@@ -32,7 +33,7 @@ func _process(delta: float) -> void:
 
 func _onbody_entered(body: Node) -> void:
 	if body is Character:
-		_bodies_in_bucket.append({"character":body,"time_left":_score_time})
+		_bodies_in_bucket.append({"character":body, "time_left":_score_time})
 		body.set_material(_shine_shader)
 		
 		_update_front_spr_visibility()
@@ -49,5 +50,5 @@ func _on_body_exited(body: Node) -> void:
 
 func _update_front_spr_visibility():
 	var color : Color = Color.white if _bodies_in_bucket.empty() else Color.transparent
-	var tween := get_tree().create_tween()
-	tween.tween_property(_front_sprite,"modulate",color,_front_spr_fade_time)
+	var tween : SceneTreeTween = get_tree().create_tween()
+	tween.tween_property(_front_sprite, "modulate", color, _front_spr_fade_time)
