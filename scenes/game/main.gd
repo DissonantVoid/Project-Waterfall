@@ -30,7 +30,7 @@ func _on_spawn_timeout() -> void:
 	_spawn_timer.start()
 
 func _on_bucked_scored():
-	_ui.increment_saved()
+	_ui.increment_saved(_bucket.global_position)
 
 func _on_abyss_body_entered(body: Node) -> void:
 	body.queue_free()
