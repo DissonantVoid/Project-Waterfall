@@ -1,46 +1,57 @@
 extends Node2D
 
-# TODO: maybe clouds should manage themselves without main.gd just like bucket
- 
-signal Passed
+onready var _sprites_container : Node2D = $SpritesContainer
+onready var _spawn_timer : Timer = $SpawnTimer
 
-onready var _sprite : Sprite = $Sprite
-
-const _cloud_spr_count : int = 4
+const _cloud_sprite_count : int = 4 # how many clouds in sprite sheet
 const _half_cloud_size : Vector2 = Vector2(72,32)
 
 var _spawn_bounds : Dictionary = {
-	"x":Vector2(-_half_cloud_size.x,ProjectSettings.get_setting("display/window/size/width")+_half_cloud_size.x),
-	"y":Vector2(_half_cloud_size.y,ProjectSettings.get_setting("display/window/size/height")-_half_cloud_size.y)
+	"x":Vector2(
+		-_half_cloud_size.x,ProjectSettings.get_setting("display/window/size/width") * 2 +_half_cloud_size.x
+		),
+	"y":Vector2(
+		_half_cloud_size.y,ProjectSettings.get_setting("display/window/size/height") * 2 -_half_cloud_size.y
+		)
 }
-var _direction_x : float
-var _target_pos_x : float
-var _is_active : bool
 const _float_speed : float = 40.0
 
-func spawn_cloud(rng : RandomNumberGenerator):
-	_is_active = true
+
+func _ready():
+	_spawn_timer.start()
+
+func _on_spawn_timer_timeout():
+	_spawn_cloud()
+	_spawn_timer.start()
+
+func _spawn_cloud():
+	# make sprite
+	var sprite : Sprite = Sprite.new()
+	sprite.texture = preload("res://resources/textures/clouds.png")
+	sprite.region_enabled = true
+	sprite.region_rect.size = _half_cloud_size * 2
+	sprite.region_rect.position.x = Utility.rng.randi_range(0, _cloud_sprite_count-1) * 144
+	_sprites_container.add_child(sprite)
 	
-	_sprite.show()
-	_sprite.region_rect.position.x = rng.randi_range(0,_cloud_spr_count-1) * 144
-	
-	if rng.randi_range(0,1) == 1:
-		_sprite.global_position.x = _spawn_bounds["x"][0]
-		_direction_x = 1
-		_target_pos_x = _spawn_bounds["x"][1]+_half_cloud_size.x
+	if Utility.rng.randi_range(0,1) == 1:
+		# left to right
+		sprite.global_position.x = _spawn_bounds["x"][0]
+		sprite.set_meta("x_direction", 1)
 	else:
-		_sprite.global_position.x = _spawn_bounds["x"][1]
-		_direction_x = -1
-		_target_pos_x = _spawn_bounds["x"][0]-_half_cloud_size.x
+		# right to left
+		sprite.global_position.x = _spawn_bounds["x"][1]
+		sprite.set_meta("x_direction", -1)
 	
-	_sprite.global_position.y = rng.randf_range(_spawn_bounds["y"][0],_spawn_bounds["y"][1])
+	sprite.global_position.y = Utility.rng.randf_range(
+		_spawn_bounds["y"][0],_spawn_bounds["y"][1]
+	)
 
 func _process(delta: float) -> void:
-	if _is_active == false: return
-	
-	global_position.x += _float_speed * _direction_x * delta
-	if ( (_direction_x == 1 && global_position.x > _target_pos_x) ||
-		 (_direction_x == -1 && global_position.x < _target_pos_x)):
-		_is_active = false
-		_sprite.hide()
-		emit_signal("Passed")
+	for sprite in _sprites_container.get_children():
+		var x_direction : int = sprite.get_meta("x_direction")
+		sprite.global_position.x += _float_speed * x_direction * delta
+		
+		# remove if out of bounds in the x axis
+		if ( (x_direction == 1 && sprite.global_position.x > _spawn_bounds["x"][1]+_half_cloud_size.x) ||
+			 (x_direction == -1 && sprite.global_position.x < _spawn_bounds["x"][0]+_half_cloud_size.x)):
+			sprite.queue_free() # don't worry, cloud won't be freed until loop in over

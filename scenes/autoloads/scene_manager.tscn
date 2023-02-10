@@ -21,6 +21,7 @@ shader = SubResource( 1 )
 shader_param/offset = 0.0
 
 [node name="SceneManager" type="CanvasLayer"]
+layer = 99
 script = ExtResource( 1 )
 
 [node name="ScreenCapture" type="TextureRect" parent="."]

@@ -27,6 +27,7 @@ config/icon="res://icon.png"
 [autoload]
 
 SceneManager="*res://scenes/autoloads/scene_manager.tscn"
+Utility="*res://scenes/autoloads/utility.gd"
 
 [display]
 
