@@ -1,8 +1,10 @@
 GAME DESIGN:
 [ ] menu
-[ ] game (improvements mostly)
 [ ] end screen
 [ ] credits
+[ ] game (improvements mostly)
+[ ] win/lose condition
+[ ] more mechanics..
 
 SOUNDS:
 [ ] character spawn
@@ -23,6 +25,7 @@ ART:
 [ ] credits art?
 [ ] clouds
 [ ] other ambient objects (birds, falling rocks, particles, etc..)
+[ ] game logo
 
 MUSIC:
 [ ] menu

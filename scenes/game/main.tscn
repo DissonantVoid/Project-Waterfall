@@ -1,13 +1,13 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
-[ext_resource path="res://scenes/objects/Bucket.gd" type="Script" id=3]
+[ext_resource path="res://scenes/objects/bucket.gd" type="Script" id=3]
 [ext_resource path="res://resources/textures/background.png" type="Texture" id=4]
 [ext_resource path="res://resources/textures/bucketBack.png" type="Texture" id=5]
 [ext_resource path="res://resources/fonts/m5x7.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://scenes/objects/ui.gd" type="Script" id=7]
-[ext_resource path="res://scenes/objects/Clouds.gd" type="Script" id=8]
+[ext_resource path="res://scenes/objects/clouds.gd" type="Script" id=8]
 [ext_resource path="res://resources/textures/ui.png" type="Texture" id=9]
 
 [sub_resource type="AtlasTexture" id=6]
@@ -21,6 +21,12 @@ font_data = ExtResource( 6 )
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 9 )
 region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.0980392, 0.568627, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12, 11.125 )
@@ -37,11 +43,6 @@ extents = Vector2( 348, 10 )
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
-current = true
-zoom = Vector2( 2, 2 )
-
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 7 )
 
@@ -49,7 +50,6 @@ script = ExtResource( 7 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
-custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer"]
@@ -101,16 +101,29 @@ custom_fonts/font = SubResource( 5 )
 text = "0"
 align = 1
 
-[node name="Timers" type="Node2D" parent="."]
-
-[node name="SpawnTimer" type="Timer" parent="Timers"]
-wait_time = 2.0
-one_shot = true
+[node name="Progress" type="ProgressBar" parent="UI/MarginContainer"]
+modulate = Color( 1, 1, 1, 0.784314 )
+margin_left = 5.0
+margin_right = 315.0
+margin_bottom = 8.0
+rect_min_size = Vector2( 0, 8 )
+custom_styles/fg = SubResource( 8 )
+custom_styles/bg = SubResource( 9 )
+rounded = true
+percent_visible = false
 
 [node name="Background" type="TextureRect" parent="."]
+margin_right = 640.0
+margin_bottom = 360.0
 rect_min_size = Vector2( 640, 360 )
+mouse_filter = 2
 texture = ExtResource( 4 )
 expand = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 2, 2 )
 
 [node name="Bucket" type="KinematicBody2D" parent="."]
 position = Vector2( 320, 180 )
@@ -171,8 +184,14 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Abyss"]
 shape = SubResource( 4 )
 
-[connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timeout"]
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="body_entered" from="Bucket/Area2D" to="Bucket" method="_onbody_entered"]
 [connection signal="body_exited" from="Bucket/Area2D" to="Bucket" method="_on_body_exited"]
 [connection signal="timeout" from="Clouds/SpawnTimer" to="Clouds" method="_on_spawn_timer_timeout"]
 [connection signal="body_entered" from="Abyss" to="." method="_on_abyss_body_entered"]
+[connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timeout"]

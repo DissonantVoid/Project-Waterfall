@@ -1,5 +1,5 @@
-extends RigidBody2D
 class_name Character
+extends RigidBody2D
 
 onready var _sprite : Sprite = $Sprite
 

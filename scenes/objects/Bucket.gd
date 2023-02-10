@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal CharScored
+signal char_scored
 
 onready var _front_sprite : Sprite = $Front
 
@@ -9,10 +9,10 @@ const _shine_shader : ShaderMaterial = preload("res://resources/godot/shine_shad
 const _front_spr_fade_time : float = 0.3
 const _score_time : float = 0.5 # a score is added when character stays in bucket for that time
 const _max_rotation : float = 45.0
-var _bodies_in_bucket : Array = [] # [{character,timeLeftToScore},..]
+var _bodies_in_bucket : Array = [] # [{character, timeLeftToScore},..]
 
 
-func _process(delta: float) -> void:
+func _process(delta : float):
 	# follow mouse
 	global_position = lerp(global_position, get_global_mouse_position(), 0.2) # TODO: frame dependent lerp
 	rotation_degrees = clamp(get_global_mouse_position().x-global_position.x, -_max_rotation, _max_rotation)
@@ -25,20 +25,20 @@ func _process(delta: float) -> void:
 		if timer <= 0:
 			entry["character"].queue_free()
 			_bodies_in_bucket.erase(entry)
-			emit_signal("CharScored")
+			emit_signal("char_scored")
 			
 			# wait for character to get freed
 			yield(get_tree(),"idle_frame")
 			_update_front_spr_visibility()
 
-func _onbody_entered(body: Node) -> void:
+func _onbody_entered(body : Node):
 	if body is Character:
 		_bodies_in_bucket.append({"character":body, "time_left":_score_time})
 		body.set_material(_shine_shader)
 		
 		_update_front_spr_visibility()
 
-func _on_body_exited(body: Node) -> void:
+func _on_body_exited(body : Node):
 	if body is Character:
 		for entry in _bodies_in_bucket:
 			if entry["character"] == body:

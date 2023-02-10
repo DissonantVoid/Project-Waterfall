@@ -10,6 +10,7 @@ const _low_volume_value : int = -24
 
 var _is_changing : bool
 
+
 func change_scene(scene_name : String):
 	if _is_changing:
 		return
@@ -36,7 +37,7 @@ func change_scene(scene_name : String):
 	_screen_capture.texture = null
 	_screen_capture.hide()
 	
-	#reset
+	# reset
 	_screen_capture.material.set_shader_param("offset", 0.0) # NOTE: this has to be 0.0 and not 0, as 0 will make tween treat offset as int and hence give error on next tween "missmatch between int and float"
 	tween = get_tree().create_tween() # tween becomes invalid after finishing, creating new one
 	tween.tween_method(self,"_set_master_volume", _low_volume_value, 0, _audio_tween_time)

@@ -46,7 +46,7 @@ func _spawn_cloud():
 		_spawn_bounds["y"][0],_spawn_bounds["y"][1]
 	)
 
-func _process(delta: float) -> void:
+func _process(delta : float):
 	for sprite in _sprites_container.get_children():
 		var x_direction : int = sprite.get_meta("x_direction")
 		sprite.global_position.x += _float_speed * x_direction * delta
