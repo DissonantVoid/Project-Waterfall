@@ -5,13 +5,12 @@
 [ext_resource path="res://scenes/objects/Bucket.gd" type="Script" id=3]
 [ext_resource path="res://resources/textures/background.png" type="Texture" id=4]
 [ext_resource path="res://resources/textures/bucketBack.png" type="Texture" id=5]
-[ext_resource path="res://resources/fonts/pixel.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://resources/fonts/m5x7.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://scenes/objects/ui.gd" type="Script" id=7]
 [ext_resource path="res://scenes/objects/Clouds.gd" type="Script" id=8]
 [ext_resource path="res://resources/textures/clouds.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=5]
-size = 8
 outline_size = 1
 font_data = ExtResource( 6 )
 
@@ -43,23 +42,23 @@ custom_constants/margin_bottom = 5
 
 [node name="HBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
 margin_left = 5.0
-margin_top = 149.0
-margin_right = 57.0
+margin_top = 145.0
+margin_right = 61.0
 margin_bottom = 175.0
 size_flags_horizontal = 2
 size_flags_vertical = 10
 
 [node name="Jumpers" type="Label" parent="UI/MarginContainer/HBoxContainer"]
-margin_right = 52.0
-margin_bottom = 11.0
+margin_right = 56.0
+margin_bottom = 13.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 5 )
 text = "Jumpers: 0"
 
 [node name="Saved" type="Label" parent="UI/MarginContainer/HBoxContainer"]
-margin_top = 15.0
-margin_right = 52.0
-margin_bottom = 26.0
+margin_top = 17.0
+margin_right = 56.0
+margin_bottom = 30.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 5 )
 text = "Saved: 0"
