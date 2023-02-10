@@ -20,9 +20,13 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Mini Characters Ball"
-run/main_scene="res://scenes/game/main.tscn"
+config/name="Project Waterfall"
+run/main_scene="res://scenes/game/menu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+SceneManager="*res://scenes/autoloads/scene_manager.tscn"
 
 [display]
 
