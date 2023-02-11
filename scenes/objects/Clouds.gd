@@ -4,14 +4,16 @@ onready var _sprites_container : Node2D = $SpritesContainer
 onready var _spawn_timer : Timer = $SpawnTimer
 
 const _cloud_sprite_count : int = 4 # how many clouds in sprite sheet
-const _half_cloud_size : Vector2 = Vector2(72,32)
+const _half_cloud_size : Vector2 = Vector2(72, 32)
 
 var _spawn_bounds : Dictionary = {
-	"x":Vector2(
-		-_half_cloud_size.x,ProjectSettings.get_setting("display/window/size/width") * 2 +_half_cloud_size.x
+	"x": Vector2(
+		-_half_cloud_size.x,
+		ProjectSettings.get_setting("display/window/size/width") * 2 +_half_cloud_size.x
 		),
-	"y":Vector2(
-		_half_cloud_size.y,ProjectSettings.get_setting("display/window/size/height") * 2 -_half_cloud_size.y
+	"y": Vector2(
+		_half_cloud_size.y,
+		ProjectSettings.get_setting("display/window/size/height") * 2 -_half_cloud_size.y
 		)
 }
 const _float_speed : float = 40.0
@@ -36,7 +38,7 @@ func _spawn_cloud():
 	sprite.region_rect.position.x = Utility.rng.randi_range(0, _cloud_sprite_count-1) * 144
 	_sprites_container.add_child(sprite)
 	
-	if Utility.rng.randi_range(0,1) == 1:
+	if Utility.rng.randi_range(0, 1) == 1:
 		# left to right
 		sprite.global_position.x = _spawn_bounds["x"][0]
 		sprite.set_meta("x_direction", 1)

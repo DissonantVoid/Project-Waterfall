@@ -22,15 +22,31 @@ const _levels_rules : Array = [
 	{"time_between_spawn":0.2,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.0},
 ]
 
+var _is_paused : bool = false
+
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	
-	_bucket.connect("char_scored",self,"_on_bucked_scored")
+	# all children should pause when scene tree is paused
+	for child in get_children():
+		child.pause_mode = Node.PAUSE_MODE_STOP
+	
+	_bucket.connect("character_saved",self,"_on_bucked_character_saved")
 	_ui.setup(_points_to_win)
 	
 	_apply_rules()
 	_spawn_timer.start()
+
+func _input(event : InputEvent):
+	if event.is_action_pressed("pause"):
+		# TODO: test potential bugs, like pausing right after winning
+		_is_paused = !_is_paused
+		_ui.set_pause(_is_paused)
+		get_tree().paused = _is_paused
+
+func _exit_tree():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_spawn_timeout():
 	var instance := _character_scene.instance()
@@ -39,7 +55,7 @@ func _on_spawn_timeout():
 	
 	_spawn_timer.start()
 
-func _on_bucked_scored():
+func _on_bucked_character_saved():
 	_increment_points(_levels_rules[_current_level]["points_per_catch"])
 
 func _on_abyss_body_entered(body : Node):
@@ -54,7 +70,7 @@ func _increment_points(value : float):
 		# level up
 		if int(_current_progress) / _points_to_levelup > _current_level:
 			_current_level += 1
-			if _current_level == (_points_to_win / _points_to_levelup) + 1:
+			if _current_level == (_points_to_win / _points_to_levelup):
 				# we won!
 				# do some particles n stuff first
 				SceneManager.change_scene("res://scenes/game/credits.tscn")

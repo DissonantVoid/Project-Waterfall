@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 onready var _progress_bar : ProgressBar = $MarginContainer/Progress
+onready var _pause_container : MarginContainer = $Pause
 
 const _point_tween_time : float = 0.8
 var _point_label_font : DynamicFont
@@ -15,6 +16,9 @@ func _ready():
 
 func setup(points_to_win : int):
 	_progress_bar.max_value = points_to_win
+
+func set_pause(should_pause : bool):
+	_pause_container.visible = should_pause
 
 func increment_point(value : float, bucket_position : Vector2):
 	# animate a score point moving from bucket to UI

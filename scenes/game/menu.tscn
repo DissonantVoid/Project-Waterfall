@@ -1,12 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/game/menu.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://scenes/objects/button.tscn" type="PackedScene" id=2]
 [ext_resource path="res://resources/fonts/m5x7.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
 font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+draw_center = false
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
 
 [node name="Menu" type="MarginContainer"]
 anchor_right = 1.0
@@ -23,41 +28,32 @@ margin_bottom = 168.0
 [node name="Label" type="Label" parent="VBoxContainer"]
 margin_left = 57.0
 margin_right = 263.0
-margin_bottom = 26.0
+margin_bottom = 28.0
 size_flags_horizontal = 6
 custom_fonts/font = SubResource( 1 )
+custom_styles/normal = SubResource( 2 )
 text = "PROJECT WATERFALL"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-margin_left = 50.0
-margin_top = 41.0
-margin_right = 270.0
-margin_bottom = 145.0
+margin_left = 128.0
+margin_top = 42.0
+margin_right = 192.0
+margin_bottom = 146.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
-[node name="Start" type="TextureButton" parent="VBoxContainer/VBoxContainer"]
-margin_right = 220.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 220, 32 )
-texture_normal = ExtResource( 2 )
-expand = true
+[node name="Start" parent="VBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
+_text = "START"
 
-[node name="Credits" type="TextureButton" parent="VBoxContainer/VBoxContainer"]
+[node name="Credits" parent="VBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 36.0
-margin_right = 220.0
 margin_bottom = 68.0
-rect_min_size = Vector2( 220, 32 )
-texture_normal = ExtResource( 2 )
-expand = true
+_text = "CREDITS"
 
-[node name="Quit" type="TextureButton" parent="VBoxContainer/VBoxContainer"]
+[node name="Quit" parent="VBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 72.0
-margin_right = 220.0
 margin_bottom = 104.0
-rect_min_size = Vector2( 220, 32 )
-texture_normal = ExtResource( 2 )
-expand = true
+_text = "QUIT"
 
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]

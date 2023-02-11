@@ -9,7 +9,7 @@ const vec3 mod_color = vec3(1);
 void fragment()
 {
 	COLOR = texture(TEXTURE,UV);
-	COLOR.rgb = mix(mod_color,COLOR.rgb,abs(sin(TIME*4.)));
+	COLOR.rgb = mix(mod_color,COLOR.rgb,abs(sin(TIME*10.)));
 }"
 
 [resource]
