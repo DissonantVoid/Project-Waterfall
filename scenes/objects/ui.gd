@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 signal leveled_up
-signal all_chars_collected
 
 onready var _jumpers_label : Label = $MarginContainer/HBoxContainer/Jumpers/Label
 onready var _saved_label : Label = $MarginContainer/HBoxContainer/Saved/Label
@@ -51,7 +50,5 @@ func _on_saved_point_added(label : Label):
 	_saved += 1
 	_saved_label.text = str(_saved)
 	
-	if _progress.value == _progress.max_value:
-		emit_signal("all_chars_collected")
-	elif _saved % _levelup_chars == 0:
+	if _saved % _levelup_chars == 0:
 		emit_signal("leveled_up")

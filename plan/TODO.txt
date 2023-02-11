@@ -16,6 +16,7 @@ SOUNDS:
 ART:
 [ ] mouse shape
 [ ] start animation (in boat)
+[ ] fallen/collected characters icons
 [X] bucket
 [ ] background
 [ ] menu background

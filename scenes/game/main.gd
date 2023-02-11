@@ -8,9 +8,10 @@ onready var _clouds : Node2D = $Clouds
 
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
-const _levelup_chars : int = 8 # characters needed for leveling up
-const _chars_to_win : int = 100
 var _view_width : int = ProjectSettings.get_setting("display/window/size/width") * 2
+const _chars_to_win : int = 100
+const _levelup_chars : int = _chars_to_win / 10 # characters needed for leveling up, spaced evenly so we can always have 10 levels
+var _current_level : int = 0
 
 
 func _ready():
@@ -19,7 +20,6 @@ func _ready():
 	_bucket.connect("char_scored",self,"_on_bucked_scored")
 	_ui.setup(_levelup_chars, _chars_to_win)
 	_ui.connect("leveled_up",self,"_on_levelup")
-	_ui.connect("all_chars_collected",self,"_on_all_chars_collected")
 	
 	_spawn_timer.start()
 
@@ -39,7 +39,7 @@ func _on_abyss_body_entered(body : Node):
 
 func _on_levelup():
 	_spawn_timer.wait_time -= 0.2
-
-func _on_all_chars_collected():
-	# WIN!
-	pass
+	_current_level += 1
+	
+	if _current_level == _chars_to_win / _levelup_chars:
+		print("YOU WON!")
