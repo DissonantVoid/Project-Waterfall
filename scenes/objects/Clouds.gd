@@ -20,6 +20,9 @@ const _float_speed : float = 40.0
 func _ready():
 	_spawn_timer.start()
 
+func set_time_between_clouds(time : float):
+	_spawn_timer.wait_time = time
+
 func _on_spawn_timer_timeout():
 	_spawn_cloud()
 	_spawn_timer.start()
@@ -53,5 +56,5 @@ func _process(delta : float):
 		
 		# remove if out of bounds in the x axis
 		if ( (x_direction == 1 && sprite.global_position.x > _spawn_bounds["x"][1]+_half_cloud_size.x) ||
-			 (x_direction == -1 && sprite.global_position.x < _spawn_bounds["x"][0]+_half_cloud_size.x)):
+			 (x_direction == -1 && sprite.global_position.x < _spawn_bounds["x"][0]-_half_cloud_size.x)):
 			sprite.queue_free() # don't worry, cloud won't be freed until loop in over

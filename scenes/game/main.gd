@@ -9,37 +9,71 @@ onready var _clouds : Node2D = $Clouds
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
 var _view_width : int = ProjectSettings.get_setting("display/window/size/width") * 2
-const _chars_to_win : int = 100
-const _levelup_chars : int = _chars_to_win / 10 # characters needed for leveling up, spaced evenly so we can always have 10 levels
+const _points_to_win : int = 100
+const _points_to_levelup : int = _points_to_win / 5 # spaced evenly so we always have 5 levels
+var _current_progress : float = 0
 var _current_level : int = 0
+
+const _levels_rules : Array = [
+	{"time_between_spawn":2,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":5.0},
+	{"time_between_spawn":1.4,"points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.4},
+	{"time_between_spawn":1,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.0},
+	{"time_between_spawn":0.6,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.8},
+	{"time_between_spawn":0.2,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.0},
+]
 
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	
 	_bucket.connect("char_scored",self,"_on_bucked_scored")
-	_ui.setup(_levelup_chars, _chars_to_win)
-	_ui.connect("leveled_up",self,"_on_levelup")
+	_ui.setup(_points_to_win)
 	
+	_apply_rules()
 	_spawn_timer.start()
 
 func _on_spawn_timeout():
 	var instance := _character_scene.instance()
 	_chars_container.add_child(instance)
 	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_width), -10)
-	_ui.increment_jumpers()
 	
 	_spawn_timer.start()
 
 func _on_bucked_scored():
-	_ui.increment_saved(_bucket.global_position)
+	_increment_points(_levels_rules[_current_level]["points_per_catch"])
 
 func _on_abyss_body_entered(body : Node):
 	body.queue_free()
+	_increment_points(_levels_rules[_current_level]["points_per_miss"])
 
-func _on_levelup():
-	_spawn_timer.wait_time -= 0.2
-	_current_level += 1
+func _increment_points(value : float):
+	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
 	
-	if _current_level == _chars_to_win / _levelup_chars:
-		print("YOU WON!")
+	if sign(value) == 1:
+		_ui.increment_point(value, _bucket.global_position)
+		# level up
+		if int(_current_progress) / _points_to_levelup > _current_level:
+			_current_level += 1
+			if _current_level == (_points_to_win / _points_to_levelup) + 1:
+				# we won!
+				# do some particles n stuff first
+				SceneManager.change_scene("res://scenes/game/credits.tscn")
+			else:
+				prints("LEVEL UP", _current_level)
+				_ui.level_up()
+				_apply_rules()
+				
+	elif sign(value) == -1:
+		_ui.decrement_points(value)
+		# level down
+		if int(_current_progress) / _points_to_levelup < _current_level:
+			_current_level -= 1
+			prints("LEVEL DOWN", _current_level)
+			_ui.level_down()
+			_apply_rules()
+
+func _apply_rules():
+	var curr_level_data : Dictionary = _levels_rules[_current_level]
+	_spawn_timer.wait_time = curr_level_data["time_between_spawn"]
+	_clouds.set_time_between_clouds(curr_level_data["time_between_clouds"])
+	#...

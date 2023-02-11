@@ -2,7 +2,6 @@ GAME DESIGN:
 [ ] menu
 [ ] end screen
 [ ] credits
-[ ] game (improvements mostly)
 [ ] win/lose condition
 [ ] more mechanics..
 
@@ -16,14 +15,14 @@ SOUNDS:
 ART:
 [ ] mouse shape
 [ ] start animation (in boat)
-[ ] fallen/collected characters icons
 [X] bucket
+[ ] progress bar
 [ ] background
 [ ] menu background
+[ ] credits art
 [ ] button (normal)
 [ ] button (hover)
-[ ] end screen background (after winning)
-[ ] credits art?
+[ ] end animation background (after winning)
 [ ] clouds
 [ ] other ambient objects (birds, falling rocks, particles, etc..)
 [ ] game logo
