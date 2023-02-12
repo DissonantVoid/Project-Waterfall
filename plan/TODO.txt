@@ -13,11 +13,11 @@ SOUNDS:
 [ ] button click
 
 ART:
-[ ] mouse shape
+[X] mouse shape
 [ ] start animation (in boat)
 [X] bucket
 [ ] progress bar
-[ ] background
+[X] background
 [ ] menu background
 [ ] credits art
 [ ] button (normal)

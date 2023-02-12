@@ -23,7 +23,6 @@ font_data = ExtResource( 3 )
 [node name="Button" type="TextureButton"]
 margin_right = 64.0
 margin_bottom = 32.0
-mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 texture_normal = SubResource( 1 )
 texture_pressed = SubResource( 2 )
