@@ -2,7 +2,7 @@ GAME DESIGN:
 [ ] menu
 [ ] end screen
 [ ] credits
-[ ] win/lose condition
+[X] win/lose condition
 [ ] more mechanics..
 
 SOUNDS:
@@ -20,12 +20,13 @@ ART:
 [X] background
 [ ] menu background
 [ ] credits art
-[ ] button (normal)
-[ ] button (hover)
+[X] button (normal)
+[X] button (hover)
 [ ] end animation background (after winning)
-[ ] clouds
+[X] clouds
 [ ] other ambient objects (birds, falling rocks, particles, etc..)
-[ ] game logo
+[X] game logo
+[ ] game icon (as in desktop icon)
 
 MUSIC:
 [ ] menu

@@ -3,8 +3,9 @@ extends Node2D
 onready var _sprites_container : Node2D = $SpritesContainer
 onready var _spawn_timer : Timer = $SpawnTimer
 
-const _cloud_sprite_count : int = 4 # how many clouds in sprite sheet
 const _half_cloud_size : Vector2 = Vector2(72, 32)
+const _texture : StreamTexture = preload("res://resources/textures/clouds.png")
+var _cloud_sprite_count : int # the number of clouds in the sprite sheet, calculated automatically
 
 var _spawn_bounds : Dictionary = {
 	"x": Vector2(
@@ -20,6 +21,7 @@ const _float_speed : float = 40.0
 
 
 func _ready():
+	_cloud_sprite_count = _texture.get_width() / _half_cloud_size.x*2
 	_spawn_timer.start()
 
 func set_time_between_clouds(time : float):
@@ -32,10 +34,10 @@ func _on_spawn_timer_timeout():
 func _spawn_cloud():
 	# make sprite
 	var sprite : Sprite = Sprite.new()
-	sprite.texture = preload("res://resources/textures/clouds.png")
+	sprite.texture = _texture
 	sprite.region_enabled = true
 	sprite.region_rect.size = _half_cloud_size * 2
-	sprite.region_rect.position.x = Utility.rng.randi_range(0, _cloud_sprite_count-1) * 144
+	sprite.region_rect.position.x = Utility.rng.randi_range(0, _cloud_sprite_count-1) * _half_cloud_size.x*2
 	_sprites_container.add_child(sprite)
 	
 	if Utility.rng.randi_range(0, 1) == 1:
