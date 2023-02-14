@@ -33,12 +33,3 @@ MUSIC:
 [ ] game
 [ ] end screen
 [ ] credits
-
-
-
-ISSUES:
--we have clipping issues. when a character is inside the bucket and the bucket moves too fast
- the character can clip out of the bucket walls, this can be solved by adding 1 more layer of thickness to
- the bucket walls, this wall only collides with a specific layer that we give characters that are inside
- the bucket, in other words, once a character enters the bucket we can make it collide with the 2nd layer of
- the bucket wall which is much thiker

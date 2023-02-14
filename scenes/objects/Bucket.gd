@@ -1,14 +1,13 @@
-extends KinematicBody2D
+extends Node2D
 
 signal character_saved
 
 onready var _front_sprite : Sprite = $Front
 
-const _shine_shader : ShaderMaterial = preload("res://resources/godot/shine_shader.tres")
-
 const _front_spr_fade_time : float = 0.3
 const _hold_time : float = 0.48 # a character is saved after staying in bucket for this time
 const _max_rotation : float = 45.0
+var _prev_position : Vector2
 var _characters_in_bucket : Array = [] # [{character, timeLeftToScore},..]
 
 
@@ -28,13 +27,18 @@ func _process(delta : float):
 
 func _physics_process(delta):
 	# follow mouse
-	global_position = lerp(global_position, get_global_mouse_position(), 0.2) # TODO: frame dependent lerp
+	var velocity : Vector2 = global_position - _prev_position
+	var lerp_value : Vector2 = lerp(global_position, get_global_mouse_position(), 0.25) # TODO: frame dependent lerp
+	global_position = lerp_value
+	
 	rotation_degrees = clamp(get_global_mouse_position().x-global_position.x, -_max_rotation, _max_rotation)
+	
+	_prev_position = global_position
 
-func _onbody_entered(body : Node):
+func _on_body_entered(body : Node):
 	if body is Character:
 		_characters_in_bucket.append({"character":body, "time_left":_hold_time})
-		body.set_material(_shine_shader)
+		body.bucket_interacted(true)
 		
 		_update_front_spr_visibility()
 
@@ -43,7 +47,7 @@ func _on_body_exited(body : Node):
 		for entry in _characters_in_bucket:
 			if entry["character"] == body:
 				_characters_in_bucket.erase(entry)
-				body.set_material(null)
+				body.bucket_interacted(false)
 				
 				_update_front_spr_visibility()
 				break

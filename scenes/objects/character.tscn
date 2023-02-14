@@ -10,6 +10,7 @@ absorbent = true
 radius = 8.0
 
 [node name="Character" type="RigidBody2D"]
+collision_mask = 3
 mass = 100.0
 physics_material_override = SubResource( 2 )
 continuous_cd = 2
