@@ -19,14 +19,39 @@ const _points_to_levelup : int = _points_to_win / 5 # spaced evenly so we always
 var _current_progress : float = 0
 var _current_level : int = 0
 
-# TODO: we should have a spreadsheet file for ease of use, and read from it
-const _levels_rules : Array = [
-	{"time_between_spawn":2,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":5.0, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":80.0, "bird_max_speed":150.0},
-	{"time_between_spawn":1.4,"points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.4, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
-	{"time_between_spawn":1,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.0, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
-	{"time_between_spawn":0.6,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.8, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
-	{"time_between_spawn":0.2,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.0, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
-]
+var _levels_rules = []
+
+func _load_config():
+	# Create empty dicts.
+	for i in range(5):
+		_levels_rules.append({ "time_between_spawn": 0, "points_per_catch": 0, "points_per_miss": 0, "time_between_clouds": 0, "time_between_hazards": 0, "hazard_hit_points": 0, "falling_rock_min_speed": 0, "falling_rock_max_speed": 0, "bird_min_speed": 0, "bird_max_speed": 0 })
+	# Useful class
+	var _config_file = ConfigFile.new()
+	# Load data from a file.
+	var err = _config_file.load("res://resources/files/level_rules.cfg")
+	# If the file didn't load, ignore it.
+	if err != OK:
+		return
+	# Iterate over all sections.
+	var level_number = 0
+	for level in _config_file.get_sections():
+			_levels_rules[level_number]["time_between_spawn"] = _config_file.get_value(level, "time_between_spawn")
+			_levels_rules[level_number]["points_per_catch"] = _config_file.get_value(level, "points_per_catch")
+			_levels_rules[level_number]["points_per_miss"] = _config_file.get_value(level, "points_per_miss")
+			_levels_rules[level_number]["time_between_clouds"] = _config_file.get_value(level, "time_between_clouds")
+			_levels_rules[level_number]["time_between_hazards"] = _config_file.get_value(level, "time_between_hazards")
+			_levels_rules[level_number]["hazard_hit_points"] = _config_file.get_value(level, "hazard_hit_points")
+			_levels_rules[level_number]["falling_rock_min_speed"] = _config_file.get_value(level, "falling_rock_min_speed")
+			_levels_rules[level_number]["falling_rock_max_speed"] = _config_file.get_value(level, "falling_rock_max_speed")
+			_levels_rules[level_number]["bird_min_speed"] = _config_file.get_value(level, "bird_min_speed")
+			_levels_rules[level_number]["bird_max_speed"] = _config_file.get_value(level, "bird_max_speed")
+			level_number = level_number + 1
+
+	# for debugging:
+	#for k in range(5):
+	#	prints("level----")
+	#	for j in _levels_rules[k]:
+	#		prints("%s : %d" % [j, _levels_rules[k][j]]) 
 
 var _is_paused : bool = false
 
@@ -107,6 +132,7 @@ func _increment_points(value : float):
 			_apply_rules()
 
 func _apply_rules():
+	_load_config()
 	var curr_level_data : Dictionary = _levels_rules[_current_level]
 	_spawn_timer.wait_time = curr_level_data["time_between_spawn"]
 	_clouds.update_rules(curr_level_data["time_between_clouds"])
