@@ -1,6 +1,8 @@
+class_name Bucket
 extends Node2D
 
 signal character_saved
+signal hit_hazard
 
 onready var _front_sprite : Sprite = $Front
 
@@ -35,14 +37,14 @@ func _physics_process(delta):
 	
 	_prev_position = global_position
 
-func _on_body_entered(body : Node):
+func _on_body_entered_inside_area(body : Node):
 	if body is Character:
 		_characters_in_bucket.append({"character":body, "time_left":_hold_time})
 		body.bucket_interacted(true)
 		
 		_update_front_spr_visibility()
 
-func _on_body_exited(body : Node):
+func _on_body_exited_inside_area(body : Node):
 	if body is Character:
 		for entry in _characters_in_bucket:
 			if entry["character"] == body:
@@ -51,6 +53,11 @@ func _on_body_exited(body : Node):
 				
 				_update_front_spr_visibility()
 				break
+
+func _on_detection_body_or_area_entered(object):
+	if object is HazardFallingRock || object is HazardBird:
+		object.queue_free()
+		emit_signal("hit_hazard")
 
 func _update_front_spr_visibility():
 	var color : Color = Color.white if _characters_in_bucket.empty() else Color.transparent

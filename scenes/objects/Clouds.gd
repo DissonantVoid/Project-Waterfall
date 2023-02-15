@@ -24,8 +24,8 @@ func _ready():
 	_cloud_sprite_count = _texture.get_width() / _half_cloud_size.x*2
 	_spawn_timer.start()
 
-func set_time_between_clouds(time : float):
-	_spawn_timer.wait_time = time
+func update_rules(time_between_clouds : float):
+	_spawn_timer.wait_time = time_between_clouds
 
 func _on_spawn_timer_timeout():
 	_spawn_cloud()

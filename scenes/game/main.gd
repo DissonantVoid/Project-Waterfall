@@ -1,12 +1,16 @@
 extends Node2D
 
 onready var _background : TextureRect = $Background
+onready var _camera : Camera2D = $GameCamera
 onready var _spawn_timer : Timer = $Timers/SpawnTimer
 onready var _chars_container : Node2D = $Characters
 onready var _bucket : Node2D = $Bucket
 onready var _ui : CanvasLayer = $UI
-onready var _clouds : Node2D = $Clouds
 
+onready var _clouds : Node2D = $Distractions/Clouds
+onready var _hazards_maker : Node2D = $Distractions/HazardsMaker
+
+# TODO: maybe we should move this to another class, why is characters spawning this calss's responsibility?
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
 var _view_width : int = ProjectSettings.get_setting("display/window/size/width") * 2
@@ -15,12 +19,13 @@ const _points_to_levelup : int = _points_to_win / 5 # spaced evenly so we always
 var _current_progress : float = 0
 var _current_level : int = 0
 
+# TODO: we should have a spreadsheet file for ease of use, and read from it
 const _levels_rules : Array = [
-	{"time_between_spawn":2,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":5.0},
-	{"time_between_spawn":1.4,"points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.4},
-	{"time_between_spawn":1,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.0},
-	{"time_between_spawn":0.6,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.8},
-	{"time_between_spawn":0.2,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.0},
+	{"time_between_spawn":2,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":5.0, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":80.0, "bird_max_speed":150.0},
+	{"time_between_spawn":1.4,"points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.4, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
+	{"time_between_spawn":1,  "points_per_catch":1, "points_per_miss":-0.5, "time_between_clouds":4.0, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
+	{"time_between_spawn":0.6,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.8, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
+	{"time_between_spawn":0.2,"points_per_catch":1, "points_per_miss":-0.2, "time_between_clouds":3.0, "time_between_hazards":5.0, "hazard_hit_points":-1.0, "falling_rock_min_speed":40.0, "falling_rock_max_speed":80.0, "bird_min_speed":40.0, "bird_max_speed":80.0},
 ]
 
 var _is_paused : bool = false
@@ -33,7 +38,8 @@ func _ready():
 	for child in get_children():
 		child.pause_mode = Node.PAUSE_MODE_STOP
 	
-	_bucket.connect("character_saved",self,"_on_bucked_character_saved")
+	_bucket.connect("character_saved",self,"_on_bucket_character_saved")
+	_bucket.connect("hit_hazard",self,"_on_bucket_hit_hazard")
 	_ui.setup(_points_to_win)
 	
 	_apply_rules()
@@ -56,19 +62,23 @@ func _on_spawn_timeout():
 	
 	_spawn_timer.start()
 
-func _on_bucked_character_saved():
+func _on_bucket_character_saved():
 	_increment_points(_levels_rules[_current_level]["points_per_catch"])
 
+func _on_bucket_hit_hazard():
+	_increment_points(_levels_rules[_current_level]["hazard_hit_points"])
+	_camera.shake(_camera.ShakeLevel.low)
+
 func _on_abyss_body_entered(body : Node):
-	body.queue_free()
-	_increment_points(_levels_rules[_current_level]["points_per_miss"])
+	if body is Character:
+		body.queue_free()
+		_increment_points(_levels_rules[_current_level]["points_per_miss"])
 
 func _on_next_background_timeout():
 	var new_y_pos : float = _background.texture.region.position.y + _background.texture.region.size.y
 	if new_y_pos >= _background.texture.atlas.get_height():
 		new_y_pos = 0
 	_background.texture.region.position.y = new_y_pos
-
 
 func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
@@ -99,5 +109,12 @@ func _increment_points(value : float):
 func _apply_rules():
 	var curr_level_data : Dictionary = _levels_rules[_current_level]
 	_spawn_timer.wait_time = curr_level_data["time_between_spawn"]
-	_clouds.set_time_between_clouds(curr_level_data["time_between_clouds"])
+	_clouds.update_rules(curr_level_data["time_between_clouds"])
+	_hazards_maker.update_rules(
+		curr_level_data["time_between_hazards"],
+		curr_level_data["falling_rock_min_speed"],
+		curr_level_data["falling_rock_max_speed"],
+		curr_level_data["bird_min_speed"],
+		curr_level_data["bird_max_speed"]
+	)
 	#...

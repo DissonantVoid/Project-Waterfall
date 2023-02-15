@@ -7,7 +7,7 @@ const _shine_shader : ShaderMaterial = preload("res://resources/godot/shine_shad
 const _collision_layers_out_of_bucket : int = 0b11
 const _collision_layers_in_bucket : int = 0b101
 const _max_speed_normal : float = 222.0
-const _max_speed_in_bucket : float = 500.0
+const _max_speed_in_bucket : float = 1500.0
 var _max_speed : float = _max_speed_normal
 
 const _char_count : int = 15 # how many characters are in the sprite sheet

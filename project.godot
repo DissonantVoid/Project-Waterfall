@@ -9,13 +9,31 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Bucket",
+"language": "GDScript",
+"path": "res://scenes/objects/bucket.gd"
+}, {
 "base": "RigidBody2D",
 "class": "Character",
 "language": "GDScript",
 "path": "res://scenes/objects/character.gd"
+}, {
+"base": "Area2D",
+"class": "HazardBird",
+"language": "GDScript",
+"path": "res://scenes/objects/hazards/hazard_bird.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "HazardFallingRock",
+"language": "GDScript",
+"path": "res://scenes/objects/hazards/hazard_falling_rock.gd"
 } ]
 _global_script_class_icons={
-"Character": ""
+"Bucket": "",
+"Character": "",
+"HazardBird": "",
+"HazardFallingRock": ""
 }
 
 [application]

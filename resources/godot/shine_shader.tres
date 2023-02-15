@@ -5,12 +5,14 @@ code = "shader_type canvas_item;
 render_mode unshaded;
 
 const vec3 mod_color = vec3(1);
+uniform float flash_speed = 10.0;
 
 void fragment()
 {
 	COLOR = texture(TEXTURE,UV);
-	COLOR.rgb = mix(mod_color,COLOR.rgb,abs(sin(TIME*10.)));
+	COLOR.rgb = mix(mod_color,COLOR.rgb,abs(sin(TIME*flash_speed)));
 }"
 
 [resource]
 shader = SubResource( 3 )
+shader_param/flash_speed = 2.0

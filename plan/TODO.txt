@@ -24,7 +24,8 @@ ART:
 [X] button (hover)
 [ ] end animation background (after winning)
 [X] clouds
-[ ] other ambient objects (birds, falling rocks, particles, etc..)
+[ ] falling rocks
+[ ] birds, warning sign
 [X] game logo
 [ ] game icon (as in desktop icon)
 
