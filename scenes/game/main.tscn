@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://scenes/objects/game_camera.gd" type="Script" id=10]
 [ext_resource path="res://scenes/objects/ui/progress_bar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://resources/textures/progress_bar.png" type="Texture" id=12]
+[ext_resource path="res://resources/sounds/score.wav" type="AudioStream" id=13]
+[ext_resource path="res://resources/sounds/collide.wav" type="AudioStream" id=14]
 
 [sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.0980392, 0.568627, 0, 1 )
@@ -190,6 +192,12 @@ polygon = PoolVector2Array( -28, -17, -28, 25, 28, 25, 28, -17, 16, -17, 13, -17
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket/DetectionArea"]
 shape = SubResource( 12 )
 
+[node name="Score" type="AudioStreamPlayer" parent="Bucket"]
+volume_db = 1.748
+
+[node name="Collide" type="AudioStreamPlayer" parent="Bucket"]
+volume_db = 1.748
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Distractions" type="Node2D" parent="."]
@@ -245,6 +253,14 @@ one_shot = true
 [node name="NextBackground" type="Timer" parent="Timers"]
 wait_time = 0.07
 autostart = true
+
+[node name="Falling" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+volume_db = 0.874
+
+[node name="Splash" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+volume_db = 1.748
 
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]
 [connection signal="body_entered" from="Bucket/InsideArea" to="Bucket" method="_on_body_entered_inside_area"]
