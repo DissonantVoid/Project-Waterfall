@@ -1,10 +1,11 @@
 extends Node2D
 
+onready var _background : AnimatedSprite = $Background
+onready var _ui : CanvasLayer = $UI
 onready var _camera : Camera2D = $GameCamera
 onready var _spawn_timer : Timer = $Timers/SpawnTimer
 onready var _chars_container : Node2D = $Characters
 onready var _bucket : Node2D = $Bucket
-onready var _ui : CanvasLayer = $UI
 
 onready var _hazards_maker : Node2D = $Spawners/HazardsMaker
 onready var _clouds : Node2D = $Spawners/Clouds
@@ -30,6 +31,11 @@ var _is_paused : bool = false
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	
+	# have to do this manually, otherwise everytime I commit a change
+	# the background animation will be in a different frame leading
+	# to a commit history full of frame=2, frame=5, frame=12.....
+	_background.playing = true
 	
 	# all children should pause when scene tree is paused
 	for child in get_children():
@@ -57,18 +63,18 @@ func _on_spawn_timeout():
 	var instance := _character_scene.instance()
 	_chars_container.add_child(instance)
 	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_width), -10)
-	$Falling.play()
+	MusicManager.play_sound("falling", true)
 	
 	_spawn_timer.start()
 
 func _on_bucket_character_saved():
 	_increment_points(_levels_rules[_current_level]["points_per_catch"])
-	$Bucket/Score.play()
+	MusicManager.play_sound("score", true)
 
 func _on_bucket_hit_hazard():
 	_increment_points(_levels_rules[_current_level]["hazard_hit_points"])
 	_camera.shake(_camera.ShakeLevel.low)
-	$Bucket/Collide.play()
+	MusicManager.play_sound("collide", true)
 
 func _on_bucket_powerup_finished():
 	_powerups_spawner.bucket_powerup_finished()
@@ -77,7 +83,7 @@ func _on_abyss_body_entered(body : Node):
 	if body is Character:
 		body.queue_free()
 		_increment_points(_levels_rules[_current_level]["points_per_miss"])
-		$Splash.play()
+		MusicManager.play_sound("splash", true)
 
 func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
