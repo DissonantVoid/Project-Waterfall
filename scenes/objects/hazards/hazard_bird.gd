@@ -5,6 +5,7 @@ onready var _sprite : AnimatedSprite = $Sprite
 onready var _warning_sprite : Sprite = $Warning
 onready var _collider : CollisionShape2D = $CollisionShape2D
 
+const _warning_time : float = 2.0
 var _speed : float
 var _direction : Vector2
 var _x_edges : Vector2
@@ -28,12 +29,12 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 	_x_edges = Vector2(0, view_size.x)
 	
 	# warn before showing the bird
-	# TODO: feels hacky, maybe hazard_maker should do this for rocks and birds
+	# TODO: feels hacky, maybe hazards_maker.gd should do this for rocks and birds
 	_sprite.hide()
 	_warning_sprite.show()
 	_warning_sprite.global_position.x = clamp(_warning_sprite.global_position.x, 32, view_size.x-32)
 	_collider.disabled = true
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(_warning_time), "timeout")
 	
 	_sprite.show()
 	_warning_sprite.hide()

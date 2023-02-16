@@ -35,11 +35,14 @@ func _process(delta):
 		character.apply_central_impulse(-direction * force * delta)
 	
 	# rotate magnet to face average position
+	var new_rotation : float
 	if _characters_in_range.empty() == false:
 		average_characters_position /= _characters_in_range.size()
-		_sprite.rotation = average_characters_position.angle() + PI/2
+		new_rotation = average_characters_position.angle() + PI/2
 	else:
-		_sprite.rotation = 0
+		new_rotation = 0
+	
+	_sprite.rotation = lerp(_sprite.rotation, new_rotation, 0.2)
 	
 	update()
 
