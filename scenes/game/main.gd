@@ -23,6 +23,10 @@ var _current_level : int = 0
 var _levels_rules = []
 var _is_paused : bool = false
 
+# TODO: the game starts immidiatly, we need to give player
+#       time to process what's what first, a delay at the start before
+#       characters start to fall would do the trick
+
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN

@@ -3,6 +3,8 @@ extends Control
 
 # built in progress bar doesn't support tiling :(
 # more manual work for me
+# THIS IS UNFINISHED now that our friend AddinSachen#6946 agreed
+# to make a non-tiled progress bar texture
 
 # NOTE: the texture must contain 6 tiles, layed in a similar order to res:/textures/progress_bar.png
 # NOTE: textures can use AnimatedTexture

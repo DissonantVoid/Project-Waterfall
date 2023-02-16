@@ -14,7 +14,7 @@ texture = ExtResource( 3 )
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharactersDetection" index="0"]
-polygon = PoolVector2Array( -44, -3, 43, -3, 50, -37, 34, -63, 0, -76, -34, -63, -50, -37 )
+polygon = PoolVector2Array( -44, -3, 43, -3, 50, -37, 34, -63, 0, -79, -34, -63, -50, -37 )
 
 [node name="LifeTimer" type="Timer" parent="." index="2"]
 wait_time = 12.0

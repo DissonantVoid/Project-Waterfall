@@ -10,7 +10,7 @@
 [ext_resource path="res://scenes/objects/clouds.gd" type="Script" id=8]
 [ext_resource path="res://scenes/objects/hazards_maker.gd" type="Script" id=9]
 [ext_resource path="res://scenes/objects/game_camera.gd" type="Script" id=10]
-[ext_resource path="res://scenes/objects/ui/progress_bar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/unused/progress_bar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://resources/textures/progress_bar.png" type="Texture" id=12]
 [ext_resource path="res://resources/sounds/score.wav" type="AudioStream" id=13]
 [ext_resource path="res://resources/sounds/collide.wav" type="AudioStream" id=14]
@@ -200,7 +200,7 @@ text = "PAUSED"
 position = Vector2( 320, 180 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 31 )
-frame = 5
+frame = 6
 playing = true
 
 [node name="GameCamera" type="Camera2D" parent="."]
