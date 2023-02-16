@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/objects/powerup_stone.gd" type="Script" id=1]
+[ext_resource path="res://resources/textures/powerups/powerup_stones.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 9.0
+
+[node name="PowerupStone" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )

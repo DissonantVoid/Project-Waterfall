@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://resources/sounds/collide.wav" type="AudioStream" id=14]
 [ext_resource path="res://resources/sounds/falling.wav" type="AudioStream" id=15]
 [ext_resource path="res://resources/sounds/splash.wav" type="AudioStream" id=16]
+[ext_resource path="res://scenes/objects/powerups_spawner.gd" type="Script" id=17]
 
 [sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.0980392, 0.568627, 0, 1 )
@@ -204,22 +205,30 @@ volume_db = 1.748
 
 [node name="Characters" type="Node2D" parent="."]
 
-[node name="Distractions" type="Node2D" parent="."]
+[node name="Spawners" type="Node2D" parent="."]
 
-[node name="HazardsMaker" type="Node2D" parent="Distractions"]
+[node name="HazardsMaker" type="Node2D" parent="Spawners"]
 script = ExtResource( 9 )
 
-[node name="HazardsContainer" type="Node2D" parent="Distractions/HazardsMaker"]
+[node name="HazardsContainer" type="Node2D" parent="Spawners/HazardsMaker"]
 
-[node name="SpawnTimer" type="Timer" parent="Distractions/HazardsMaker"]
+[node name="SpawnTimer" type="Timer" parent="Spawners/HazardsMaker"]
 one_shot = true
 
-[node name="Clouds" type="Node2D" parent="Distractions"]
+[node name="Clouds" type="Node2D" parent="Spawners"]
 script = ExtResource( 8 )
 
-[node name="SpritesContainer" type="Node2D" parent="Distractions/Clouds"]
+[node name="SpritesContainer" type="Node2D" parent="Spawners/Clouds"]
 
-[node name="SpawnTimer" type="Timer" parent="Distractions/Clouds"]
+[node name="SpawnTimer" type="Timer" parent="Spawners/Clouds"]
+one_shot = true
+
+[node name="PowerupsSpawner" type="Node2D" parent="Spawners"]
+script = ExtResource( 17 )
+
+[node name="StonesContainer" type="Node2D" parent="Spawners/PowerupsSpawner"]
+
+[node name="SpawnTimer" type="Timer" parent="Spawners/PowerupsSpawner"]
 one_shot = true
 
 [node name="Walls" type="Node2D" parent="."]
@@ -271,8 +280,9 @@ volume_db = 1.748
 [connection signal="body_exited" from="Bucket/InsideArea" to="Bucket" method="_on_body_exited_inside_area"]
 [connection signal="area_entered" from="Bucket/DetectionArea" to="Bucket" method="_on_detection_body_or_area_entered"]
 [connection signal="body_entered" from="Bucket/DetectionArea" to="Bucket" method="_on_detection_body_or_area_entered"]
-[connection signal="timeout" from="Distractions/HazardsMaker/SpawnTimer" to="Distractions/HazardsMaker" method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Distractions/Clouds/SpawnTimer" to="Distractions/Clouds" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Spawners/HazardsMaker/SpawnTimer" to="Spawners/HazardsMaker" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Spawners/Clouds/SpawnTimer" to="Spawners/Clouds" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Spawners/PowerupsSpawner/SpawnTimer" to="Spawners/PowerupsSpawner" method="_on_spawn_timer_timeout"]
 [connection signal="body_entered" from="Abyss" to="." method="_on_abyss_body_entered"]
 [connection signal="timeout" from="Timers/SpawnTimer" to="." method="_on_spawn_timeout"]
 [connection signal="timeout" from="Timers/NextBackground" to="." method="_on_next_background_timeout"]

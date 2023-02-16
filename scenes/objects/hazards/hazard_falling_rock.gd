@@ -15,7 +15,7 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 	_bottom_y = view_size.y
 	_fall_speed = Utility.rng.randf_range(min_speed, max_speed)
 
-func _process(delta):
+func _process(delta : float):
 	rotation_degrees += _fall_speed * delta
 	move_and_collide(Vector2(0, _fall_speed) * delta)
 	

@@ -20,7 +20,7 @@ func _ready():
 	
 	apply_central_impulse(Vector2(Utility.rng.randf_range(-100, 100), 0))
 
-func _physics_process(delta):
+func _physics_process(delta : float):
 	# speed limit
 	if abs(linear_velocity.x) > _max_speed:
 		linear_velocity.x = _max_speed * sign(linear_velocity.x)

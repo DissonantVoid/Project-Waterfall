@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "HazardFallingRock",
 "language": "GDScript",
 "path": "res://scenes/objects/hazards/hazard_falling_rock.gd"
+}, {
+"base": "Area2D",
+"class": "PowerUpStone",
+"language": "GDScript",
+"path": "res://scenes/objects/powerup_stone.gd"
 } ]
 _global_script_class_icons={
 "Bucket": "",
 "Character": "",
 "HazardBird": "",
-"HazardFallingRock": ""
+"HazardFallingRock": "",
+"PowerUpStone": ""
 }
 
 [application]

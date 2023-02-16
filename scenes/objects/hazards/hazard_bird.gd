@@ -38,7 +38,7 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 	_collider.disabled = false
 	_is_moving = true
 
-func _process(delta):
+func _process(delta : float):
 	if _is_moving:
 		global_position += _direction * _speed * delta
 		if global_position.x < _x_edges[0] || global_position.x > _x_edges[1]:

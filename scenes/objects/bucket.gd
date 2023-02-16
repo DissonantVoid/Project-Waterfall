@@ -3,6 +3,7 @@ extends Node2D
 
 signal character_saved
 signal hit_hazard
+signal powerup_finished
 
 onready var _front_sprite : Sprite = $Front
 
@@ -27,7 +28,7 @@ func _process(delta : float):
 			_update_front_spr_visibility()
 			emit_signal("character_saved")
 
-func _physics_process(delta):
+func _physics_process(delta : float):
 	# follow mouse
 	var velocity : Vector2 = global_position - _prev_position
 	var lerp_value : Vector2 = lerp(global_position, get_global_mouse_position(), 0.25) # TODO: frame dependent lerp
@@ -54,14 +55,32 @@ func _on_body_exited_inside_area(body : Node):
 				_update_front_spr_visibility()
 				break
 
-func _on_detection_body_or_area_entered(object):
-	if object is HazardFallingRock || object is HazardBird:
-		object.queue_free()
-		emit_signal("hit_hazard")
-
 func _update_front_spr_visibility():
 	var color : Color = Color.white if _characters_in_bucket.empty() else Color.transparent
 	
 	if _front_sprite.modulate != color:
 		var tween : SceneTreeTween = get_tree().create_tween()
 		tween.tween_property(_front_sprite, "modulate", color, _front_spr_fade_time)
+
+func _on_detection_body_or_area_entered(object):
+	if object is HazardFallingRock || object is HazardBird:
+		object.queue_free()
+		emit_signal("hit_hazard")
+	elif object is PowerUpStone:
+		var powerup_scene : String = object.pickup()
+		var powerup_instance = load(powerup_scene).instance()
+		powerup_instance.connect("finished", self, "_on_powerup_finished")
+		
+		yield(get_tree(), "idle_frame") # removing this causes issues with physics, godot moment
+		get_tree().current_scene.add_child(powerup_instance)
+		powerup_instance.powerup_start(funcref(self, "_powerup_request"))
+
+func _on_powerup_finished(powerup : Node2D):
+	powerup.powerup_cleanup()
+	emit_signal("powerup_finished")
+
+func _powerup_request(request_string : String):
+	# for when a powerup can't do something on its own, and
+	# needs the bucket class to do it, like double its size etc..
+	if request_string == "bucket_sprite":
+		return _front_sprite

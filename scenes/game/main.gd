@@ -7,15 +7,17 @@ onready var _chars_container : Node2D = $Characters
 onready var _bucket : Node2D = $Bucket
 onready var _ui : CanvasLayer = $UI
 
-onready var _clouds : Node2D = $Distractions/Clouds
-onready var _hazards_maker : Node2D = $Distractions/HazardsMaker
+onready var _hazards_maker : Node2D = $Spawners/HazardsMaker
+onready var _clouds : Node2D = $Spawners/Clouds
+onready var _powerups_spawner : Node2D = $Spawners/PowerupsSpawner
 
 # TODO: maybe we should move this to another class, why is characters spawning this calss's responsibility?
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
 var _view_width : int = ProjectSettings.get_setting("display/window/size/width") * 2
+const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg
 const _points_to_win : int = 100
-const _points_to_levelup : int = _points_to_win / 5 # spaced evenly so we always have 5 levels
+const _points_to_levelup : int = _points_to_win / _levels_count
 var _current_progress : float = 0
 var _current_level : int = 0
 
@@ -32,6 +34,7 @@ func _ready():
 	
 	_bucket.connect("character_saved",self,"_on_bucket_character_saved")
 	_bucket.connect("hit_hazard",self,"_on_bucket_hit_hazard")
+	_bucket.connect("powerup_finished",self,"_on_bucket_powerup_finished")
 	_ui.setup(_points_to_win)
 	
 	_apply_rules()
@@ -63,6 +66,9 @@ func _on_bucket_hit_hazard():
 	_increment_points(_levels_rules[_current_level]["hazard_hit_points"])
 	_camera.shake(_camera.ShakeLevel.low)
 	$Bucket/Collide.play()
+
+func _on_bucket_powerup_finished():
+	_powerups_spawner.bucket_powerup_finished()
 
 func _on_abyss_body_entered(body : Node):
 	if body is Character:
@@ -110,18 +116,21 @@ func _load_config():
 	assert(err == OK, "couldn't open the config file")
 	# Iterate over all sections.
 	for level in config_file.get_sections():
-			var level_dict : Dictionary = {}
-			level_dict["time_between_spawn"] = config_file.get_value(level, "time_between_spawn")
-			level_dict["points_per_catch"] = config_file.get_value(level, "points_per_catch")
-			level_dict["points_per_miss"] = config_file.get_value(level, "points_per_miss")
-			level_dict["time_between_clouds"] = config_file.get_value(level, "time_between_clouds")
-			level_dict["time_between_hazards"] = config_file.get_value(level, "time_between_hazards")
-			level_dict["hazard_hit_points"] = config_file.get_value(level, "hazard_hit_points")
-			level_dict["falling_rock_min_speed"] = config_file.get_value(level, "falling_rock_min_speed")
-			level_dict["falling_rock_max_speed"] = config_file.get_value(level, "falling_rock_max_speed")
-			level_dict["bird_min_speed"] = config_file.get_value(level, "bird_min_speed")
-			level_dict["bird_max_speed"] = config_file.get_value(level, "bird_max_speed")
-			_levels_rules.append(level_dict)
+		var level_dict : Dictionary = {}
+		level_dict["time_between_spawn"] = config_file.get_value(level, "time_between_spawn")
+		level_dict["points_per_catch"] = config_file.get_value(level, "points_per_catch")
+		level_dict["points_per_miss"] = config_file.get_value(level, "points_per_miss")
+		level_dict["time_between_clouds"] = config_file.get_value(level, "time_between_clouds")
+		level_dict["time_between_hazards"] = config_file.get_value(level, "time_between_hazards")
+		level_dict["hazard_hit_points"] = config_file.get_value(level, "hazard_hit_points")
+		level_dict["falling_rock_min_speed"] = config_file.get_value(level, "falling_rock_min_speed")
+		level_dict["falling_rock_max_speed"] = config_file.get_value(level, "falling_rock_max_speed")
+		level_dict["bird_min_speed"] = config_file.get_value(level, "bird_min_speed")
+		level_dict["bird_max_speed"] = config_file.get_value(level, "bird_max_speed")
+		level_dict["time_between_powerups"] = config_file.get_value(level, "time_between_powerups")
+		level_dict["powerup_min_speed"] = config_file.get_value(level, "powerup_min_speed")
+		level_dict["powerup_max_speed"] = config_file.get_value(level, "powerup_max_speed")
+		_levels_rules.append(level_dict)
 	
 	# for debugging:
 	#for k in range(5):
@@ -140,5 +149,10 @@ func _apply_rules():
 		curr_level_data["falling_rock_max_speed"],
 		curr_level_data["bird_min_speed"],
 		curr_level_data["bird_max_speed"]
+	)
+	_powerups_spawner.update_rules(
+		curr_level_data["time_between_powerups"],
+		curr_level_data["powerup_min_speed"],
+		curr_level_data["powerup_max_speed"]
 	)
 	#...

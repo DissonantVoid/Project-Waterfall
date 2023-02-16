@@ -21,6 +21,9 @@ SOUNDS:
 [ ] bird warning
 [ ] bird sound
 [ ] (optional) character hit rock
+[ ] powerup collected (different per powerup)
+[ ] powerup over
+[ ] powerup spawned
 
 ART:
 [X] mouse shape
@@ -38,6 +41,8 @@ ART:
 [ ] birds, warning sign
 [X] game logo
 [ ] game icon (as in desktop icon)
+[ ] powerup stones
+[ ] powerup magnet
 
 MUSIC:
 [ ] menu
