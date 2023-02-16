@@ -7,10 +7,20 @@ GAME DESIGN:
 
 SOUNDS:
 [ ] character spawn
-[ ] character in bucket
+[ ] character hit bucket
 [ ] character fell
+[ ] character collected
 [ ] button hover
 [ ] button click
+[ ] level up
+[ ] level down
+[ ] scene changed
+[ ] bucket hit rock/bird
+[ ] ambiant waterfall loop
+[ ] player won
+[ ] bird warning
+[ ] bird sound
+[ ] (optional) character hit rock
 
 ART:
 [X] mouse shape

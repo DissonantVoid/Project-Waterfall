@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://resources/textures/progress_bar.png" type="Texture" id=12]
 [ext_resource path="res://resources/sounds/score.wav" type="AudioStream" id=13]
 [ext_resource path="res://resources/sounds/collide.wav" type="AudioStream" id=14]
+[ext_resource path="res://resources/sounds/falling.wav" type="AudioStream" id=15]
+[ext_resource path="res://resources/sounds/splash.wav" type="AudioStream" id=16]
 
 [sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.0980392, 0.568627, 0, 1 )
@@ -82,7 +84,6 @@ custom_constants/margin_right = 5
 custom_constants/margin_left = 5
 
 [node name="Progress" type="ProgressBar" parent="UI/MarginContainer"]
-visible = false
 modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 5.0
 margin_right = 315.0
@@ -93,6 +94,7 @@ custom_styles/bg = SubResource( 9 )
 percent_visible = false
 
 [node name="ProgressBar" parent="UI/MarginContainer" instance=ExtResource( 11 )]
+visible = false
 modulate = Color( 1, 1, 1, 0.784314 )
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -193,9 +195,11 @@ polygon = PoolVector2Array( -28, -17, -28, 25, 28, 25, 28, -17, 16, -17, 13, -17
 shape = SubResource( 12 )
 
 [node name="Score" type="AudioStreamPlayer" parent="Bucket"]
+stream = ExtResource( 13 )
 volume_db = 1.748
 
 [node name="Collide" type="AudioStreamPlayer" parent="Bucket"]
+stream = ExtResource( 14 )
 volume_db = 1.748
 
 [node name="Characters" type="Node2D" parent="."]
@@ -255,11 +259,11 @@ wait_time = 0.07
 autostart = true
 
 [node name="Falling" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 13 )
+stream = ExtResource( 15 )
 volume_db = 0.874
 
 [node name="Splash" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 14 )
+stream = ExtResource( 16 )
 volume_db = 1.748
 
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]
