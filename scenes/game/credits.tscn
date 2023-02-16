@@ -132,7 +132,8 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 181.0
-margin_bottom = 1488.0
+margin_right = 320.0
+margin_bottom = 1668.0
 custom_fonts/normal_font = SubResource( 1 )
 bbcode_enabled = true
 bbcode_text = "[center]
@@ -180,6 +181,7 @@ Dissonant-Void
 
 [img]res://resources/textures/credits/4.png[/img]
 Dissonant-Void
+jsalex7
 
 Thank you to all of you, who helped us to make this game real, and thanks to you, Saultoons, For the entertainment You’ve been giving us for so long.
 Happy Milestone !!
@@ -232,6 +234,7 @@ Dissonant-Void
 
 
 Dissonant-Void
+jsalex7
 
 Thank you to all of you, who helped us to make this game real, and thanks to you, Saultoons, For the entertainment You’ve been giving us for so long.
 Happy Milestone !!
@@ -247,10 +250,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -70.5
-margin_top = -24.5
-margin_right = 70.5
-margin_bottom = 24.5013
+margin_left = 89.5
+margin_top = 65.5
+margin_right = 230.5
+margin_bottom = 114.501
 rect_pivot_offset = Vector2( 70, 24 )
 texture = ExtResource( 3 )
 

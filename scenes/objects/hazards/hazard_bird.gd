@@ -10,6 +10,7 @@ var _direction : Vector2
 var _x_edges : Vector2
 var _is_moving : bool = false
 
+
 func setup(view_size : Vector2, min_speed : float, max_speed : float):
 	var view_25_percent : Vector2 = Vector2(lerp(0, view_size.x, 0.25), lerp(0, view_size.y, 0.25))
 	global_position.y = Utility.rng.randi_range(0, view_size.y - view_25_percent.y)

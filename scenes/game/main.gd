@@ -20,39 +20,6 @@ var _current_progress : float = 0
 var _current_level : int = 0
 
 var _levels_rules = []
-
-func _load_config():
-	# Create empty dicts.
-	for i in range(5):
-		_levels_rules.append({ "time_between_spawn": 0, "points_per_catch": 0, "points_per_miss": 0, "time_between_clouds": 0, "time_between_hazards": 0, "hazard_hit_points": 0, "falling_rock_min_speed": 0, "falling_rock_max_speed": 0, "bird_min_speed": 0, "bird_max_speed": 0 })
-	# Useful class
-	var _config_file = ConfigFile.new()
-	# Load data from a file.
-	var err = _config_file.load("res://resources/files/level_rules.cfg")
-	# If the file didn't load, ignore it.
-	if err != OK:
-		return
-	# Iterate over all sections.
-	var level_number = 0
-	for level in _config_file.get_sections():
-			_levels_rules[level_number]["time_between_spawn"] = _config_file.get_value(level, "time_between_spawn")
-			_levels_rules[level_number]["points_per_catch"] = _config_file.get_value(level, "points_per_catch")
-			_levels_rules[level_number]["points_per_miss"] = _config_file.get_value(level, "points_per_miss")
-			_levels_rules[level_number]["time_between_clouds"] = _config_file.get_value(level, "time_between_clouds")
-			_levels_rules[level_number]["time_between_hazards"] = _config_file.get_value(level, "time_between_hazards")
-			_levels_rules[level_number]["hazard_hit_points"] = _config_file.get_value(level, "hazard_hit_points")
-			_levels_rules[level_number]["falling_rock_min_speed"] = _config_file.get_value(level, "falling_rock_min_speed")
-			_levels_rules[level_number]["falling_rock_max_speed"] = _config_file.get_value(level, "falling_rock_max_speed")
-			_levels_rules[level_number]["bird_min_speed"] = _config_file.get_value(level, "bird_min_speed")
-			_levels_rules[level_number]["bird_max_speed"] = _config_file.get_value(level, "bird_max_speed")
-			level_number = level_number + 1
-
-	# for debugging:
-	#for k in range(5):
-	#	prints("level----")
-	#	for j in _levels_rules[k]:
-	#		prints("%s : %d" % [j, _levels_rules[k][j]]) 
-
 var _is_paused : bool = false
 
 
@@ -130,6 +97,33 @@ func _increment_points(value : float):
 			prints("LEVEL DOWN", _current_level)
 			_ui.level_down()
 			_apply_rules()
+
+func _load_config():
+	var config_file : ConfigFile = ConfigFile.new()
+	# Load data from a file.
+	var err : int = config_file.load("res://resources/files/level_rules.cfg")
+	# If the file didn't load, stop.
+	assert(err == OK, "couldn't open the config file")
+	# Iterate over all sections.
+	for level in config_file.get_sections():
+			var level_dict : Dictionary = {}
+			level_dict["time_between_spawn"] = config_file.get_value(level, "time_between_spawn")
+			level_dict["points_per_catch"] = config_file.get_value(level, "points_per_catch")
+			level_dict["points_per_miss"] = config_file.get_value(level, "points_per_miss")
+			level_dict["time_between_clouds"] = config_file.get_value(level, "time_between_clouds")
+			level_dict["time_between_hazards"] = config_file.get_value(level, "time_between_hazards")
+			level_dict["hazard_hit_points"] = config_file.get_value(level, "hazard_hit_points")
+			level_dict["falling_rock_min_speed"] = config_file.get_value(level, "falling_rock_min_speed")
+			level_dict["falling_rock_max_speed"] = config_file.get_value(level, "falling_rock_max_speed")
+			level_dict["bird_min_speed"] = config_file.get_value(level, "bird_min_speed")
+			level_dict["bird_max_speed"] = config_file.get_value(level, "bird_max_speed")
+			_levels_rules.append(level_dict)
+	
+	# for debugging:
+	#for k in range(5):
+	#	prints("level----")
+	#	for j in _levels_rules[k]:
+	#		prints("%s : %d" % [j, _levels_rules[k][j]]) 
 
 func _apply_rules():
 	_load_config()
