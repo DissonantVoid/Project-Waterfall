@@ -57,18 +57,18 @@ func _on_spawn_timeout():
 	var instance := _character_scene.instance()
 	_chars_container.add_child(instance)
 	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_width), -10)
-	$Falling.play()
+	MusicManager.play_sound("falling")
 	
 	_spawn_timer.start()
 
 func _on_bucket_character_saved():
 	_increment_points(_levels_rules[_current_level]["points_per_catch"])
-	$Bucket/Score.play()
+	MusicManager.play_sound("score")
 
 func _on_bucket_hit_hazard():
 	_increment_points(_levels_rules[_current_level]["hazard_hit_points"])
 	_camera.shake(_camera.ShakeLevel.low)
-	$Bucket/Collide.play()
+	MusicManager.play_sound("collide")
 
 func _on_bucket_powerup_finished():
 	_powerups_spawner.bucket_powerup_finished()
@@ -77,7 +77,7 @@ func _on_abyss_body_entered(body : Node):
 	if body is Character:
 		body.queue_free()
 		_increment_points(_levels_rules[_current_level]["points_per_miss"])
-		$Splash.play()
+		MusicManager.play_sound("splash")
 
 func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)

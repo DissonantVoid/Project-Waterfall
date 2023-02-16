@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -12,10 +12,6 @@
 [ext_resource path="res://scenes/objects/game_camera.gd" type="Script" id=10]
 [ext_resource path="res://scenes/unused/progress_bar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://resources/textures/progress_bar.png" type="Texture" id=12]
-[ext_resource path="res://resources/sounds/score.wav" type="AudioStream" id=13]
-[ext_resource path="res://resources/sounds/collide.wav" type="AudioStream" id=14]
-[ext_resource path="res://resources/sounds/falling.wav" type="AudioStream" id=15]
-[ext_resource path="res://resources/sounds/splash.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/objects/powerups_spawner.gd" type="Script" id=17]
 
 [sub_resource type="StyleBoxFlat" id=8]
@@ -200,7 +196,7 @@ text = "PAUSED"
 position = Vector2( 320, 180 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 31 )
-frame = 6
+frame = 8
 playing = true
 
 [node name="GameCamera" type="Camera2D" parent="."]
@@ -257,14 +253,6 @@ polygon = PoolVector2Array( -28, -17, -28, 25, 28, 25, 28, -17, 16, -17, 13, -17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket/DetectionArea"]
 shape = SubResource( 12 )
-
-[node name="Score" type="AudioStreamPlayer" parent="Bucket"]
-stream = ExtResource( 13 )
-volume_db = 1.748
-
-[node name="Collide" type="AudioStreamPlayer" parent="Bucket"]
-stream = ExtResource( 14 )
-volume_db = 1.748
 
 [node name="Characters" type="Node2D" parent="."]
 
@@ -325,14 +313,6 @@ shape = SubResource( 4 )
 
 [node name="SpawnTimer" type="Timer" parent="Timers"]
 one_shot = true
-
-[node name="Falling" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 15 )
-volume_db = 0.874
-
-[node name="Splash" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 16 )
-volume_db = 1.748
 
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]
 [connection signal="body_entered" from="Bucket/InsideArea" to="Bucket" method="_on_body_entered_inside_area"]

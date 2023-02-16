@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/autoloads/music_manager.gd" type="Script" id=1]
+[ext_resource path="res://resources/sounds/collide.wav" type="AudioStream" id=2]
+[ext_resource path="res://resources/sounds/falling.wav" type="AudioStream" id=3]
+[ext_resource path="res://resources/sounds/score.wav" type="AudioStream" id=4]
+[ext_resource path="res://resources/sounds/splash.wav" type="AudioStream" id=5]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+
+[node name="CollideSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+
+[node name="FallingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="ScoreSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="SplashSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
