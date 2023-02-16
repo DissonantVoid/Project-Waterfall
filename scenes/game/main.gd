@@ -1,6 +1,5 @@
 extends Node2D
 
-onready var _background : TextureRect = $Background
 onready var _camera : Camera2D = $GameCamera
 onready var _spawn_timer : Timer = $Timers/SpawnTimer
 onready var _chars_container : Node2D = $Characters
@@ -75,12 +74,6 @@ func _on_abyss_body_entered(body : Node):
 		body.queue_free()
 		_increment_points(_levels_rules[_current_level]["points_per_miss"])
 		$Splash.play()
-
-func _on_next_background_timeout():
-	var new_y_pos : float = _background.texture.region.position.y + _background.texture.region.size.y
-	if new_y_pos >= _background.texture.atlas.get_height():
-		new_y_pos = 0
-	_background.texture.region.position.y = new_y_pos
 
 func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
