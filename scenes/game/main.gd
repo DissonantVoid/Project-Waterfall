@@ -21,7 +21,7 @@ const _points_to_levelup : int = _points_to_win / _levels_count
 var _current_progress : float = 0
 var _current_level : int = 0
 
-var _levels_rules = []
+var _levels_rules : Array
 var _is_paused : bool = false
 
 # TODO: the game starts immidiatly, we need to give player
@@ -46,6 +46,7 @@ func _ready():
 	_bucket.connect("powerup_finished",self,"_on_bucket_powerup_finished")
 	_ui.setup(_points_to_win)
 	
+	_load_rules_from_file()
 	_apply_rules()
 	_spawn_timer.start()
 
@@ -111,38 +112,7 @@ func _increment_points(value : float):
 			_ui.level_down()
 			_apply_rules()
 
-func _load_config():
-	var config_file : ConfigFile = ConfigFile.new()
-	# Load data from a file.
-	var err : int = config_file.load("res://resources/files/level_rules.cfg")
-	# If the file didn't load, stop.
-	assert(err == OK, "couldn't open the config file")
-	# Iterate over all sections.
-	for level in config_file.get_sections():
-		var level_dict : Dictionary = {}
-		level_dict["time_between_spawn"] = config_file.get_value(level, "time_between_spawn")
-		level_dict["points_per_catch"] = config_file.get_value(level, "points_per_catch")
-		level_dict["points_per_miss"] = config_file.get_value(level, "points_per_miss")
-		level_dict["time_between_clouds"] = config_file.get_value(level, "time_between_clouds")
-		level_dict["time_between_hazards"] = config_file.get_value(level, "time_between_hazards")
-		level_dict["hazard_hit_points"] = config_file.get_value(level, "hazard_hit_points")
-		level_dict["falling_rock_min_speed"] = config_file.get_value(level, "falling_rock_min_speed")
-		level_dict["falling_rock_max_speed"] = config_file.get_value(level, "falling_rock_max_speed")
-		level_dict["bird_min_speed"] = config_file.get_value(level, "bird_min_speed")
-		level_dict["bird_max_speed"] = config_file.get_value(level, "bird_max_speed")
-		level_dict["time_between_powerups"] = config_file.get_value(level, "time_between_powerups")
-		level_dict["powerup_min_speed"] = config_file.get_value(level, "powerup_min_speed")
-		level_dict["powerup_max_speed"] = config_file.get_value(level, "powerup_max_speed")
-		_levels_rules.append(level_dict)
-	
-	# for debugging:
-	#for k in range(5):
-	#	prints("level----")
-	#	for j in _levels_rules[k]:
-	#		prints("%s : %d" % [j, _levels_rules[k][j]]) 
-
 func _apply_rules():
-	_load_config()
 	var curr_level_data : Dictionary = _levels_rules[_current_level]
 	_spawn_timer.wait_time = curr_level_data["time_between_spawn"]
 	_clouds.update_rules(curr_level_data["time_between_clouds"])
@@ -159,3 +129,33 @@ func _apply_rules():
 		curr_level_data["powerup_max_speed"]
 	)
 	#...
+
+func _load_rules_from_file():
+	var config_file : ConfigFile = ConfigFile.new()
+	# Load data from a file.
+	var err : int = config_file.load("res://resources/files/level_rules.cfg")
+	# If the file didn't load, stop.
+	assert(err == OK, "couldn't open the config file")
+	# Iterate over all sections.
+	for level in config_file.get_sections():
+		var level_dict : Dictionary = {}
+		level_dict["time_between_spawn"]     = config_file.get_value(level, "time_between_spawn")
+		level_dict["points_per_catch"]       = config_file.get_value(level, "points_per_catch")
+		level_dict["points_per_miss"]        = config_file.get_value(level, "points_per_miss")
+		level_dict["time_between_clouds"]    = config_file.get_value(level, "time_between_clouds")
+		level_dict["time_between_hazards"]   = config_file.get_value(level, "time_between_hazards")
+		level_dict["hazard_hit_points"]      = config_file.get_value(level, "hazard_hit_points")
+		level_dict["falling_rock_min_speed"] = config_file.get_value(level, "falling_rock_min_speed")
+		level_dict["falling_rock_max_speed"] = config_file.get_value(level, "falling_rock_max_speed")
+		level_dict["bird_min_speed"]         = config_file.get_value(level, "bird_min_speed")
+		level_dict["bird_max_speed"]         = config_file.get_value(level, "bird_max_speed")
+		level_dict["time_between_powerups"]  = config_file.get_value(level, "time_between_powerups")
+		level_dict["powerup_min_speed"]      = config_file.get_value(level, "powerup_min_speed")
+		level_dict["powerup_max_speed"]      = config_file.get_value(level, "powerup_max_speed")
+		_levels_rules.append(level_dict)
+	
+	# for debugging:
+	#for k in range(5):
+	#	prints("level----")
+	#	for j in _levels_rules[k]:
+	#		prints("%s : %d" % [j, _levels_rules[k][j]]) 
