@@ -3,7 +3,7 @@ GAME DESIGN:
 [ ] end screen
 [ ] credits
 [X] win condition
-[ ] progress bar
+[X] progress bar
 [ ] powerups
 [X] global audio manager
 [X] hazards
@@ -21,7 +21,7 @@ SOUNDS:
 [ ] level up
 [ ] level down
 [ ] scene changed
-[ ] bucket hit rock/bird
+[X] bucket hit rock/bird
 [ ] ambiant waterfall loop
 [ ] player won
 [ ] bird warning

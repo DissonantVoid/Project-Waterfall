@@ -273,7 +273,7 @@ margin_left = -32.0
 margin_top = -41.0
 margin_right = 32.0
 margin_bottom = -9.0
-_text = "Go Back"
+_text = "TO MENU"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

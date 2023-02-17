@@ -142,7 +142,7 @@ script = ExtResource( 2 )
 pause_mode = 2
 script = ExtResource( 7 )
 
-[node name="MarginContainer" type="MarginContainer" parent="UI"]
+[node name="Hud" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
@@ -150,7 +150,7 @@ custom_constants/margin_top = 4
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 4
 
-[node name="Progress" type="Control" parent="UI/MarginContainer"]
+[node name="Progress" type="Control" parent="UI/Hud"]
 modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 10.0
 margin_top = 4.0
@@ -161,27 +161,27 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 script = ExtResource( 11 )
 
-[node name="CharactersContainer" type="Control" parent="UI/MarginContainer/Progress"]
+[node name="CharactersContainer" type="Control" parent="UI/Hud/Progress"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 25.0
 margin_top = 1.0
 margin_right = -7.0
 
-[node name="Back" type="TextureRect" parent="UI/MarginContainer/Progress"]
+[node name="Back" type="TextureRect" parent="UI/Hud/Progress"]
 margin_left = 18.0
 margin_right = 299.0
 margin_bottom = 16.0
 texture = SubResource( 33 )
 
-[node name="Progress" type="TextureRect" parent="UI/MarginContainer/Progress"]
+[node name="Progress" type="TextureRect" parent="UI/Hud/Progress"]
 material = ExtResource( 13 )
 margin_left = 18.0
 margin_right = 299.0
 margin_bottom = 16.0
 texture = SubResource( 34 )
 
-[node name="Front" type="TextureRect" parent="UI/MarginContainer/Progress"]
+[node name="Front" type="TextureRect" parent="UI/Hud/Progress"]
 margin_right = 302.0
 margin_bottom = 16.0
 texture = SubResource( 32 )

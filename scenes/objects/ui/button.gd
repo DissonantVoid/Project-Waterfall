@@ -6,8 +6,10 @@ export(String) var _text : String setget _set_text
 onready var _label : Label = $Label
 
 const _normal_font_color : Color = Color.black
-const _hover_font_color : Color = Color("65fec1")
+const _hover_font_color : Color = Color.white
 
+# TODO: any change to this class will cause all instances to loose their
+#       text, something wrong with _set_text
 
 func _set_text(value : String):
 	if is_inside_tree() == false:

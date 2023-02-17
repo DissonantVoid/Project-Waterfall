@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-onready var _progress_bar : Control = $MarginContainer/Progress
+onready var _progress_bar : Control = $Hud/Progress
 onready var _pause_container : MarginContainer = $Pause
 
 const _point_tween_time : float = 0.8

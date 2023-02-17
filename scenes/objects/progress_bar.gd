@@ -5,7 +5,7 @@ onready var _chars_container : Control = $CharactersContainer
 
 const _characters_sprite : StreamTexture = preload("res://resources/textures/characters.png")
 const _char_sprite_size : int = 16
-const _backflip_time : float = 0.6
+const _backflip_time : float = 0.8
 
 var _min_value : float
 var _max_value : float
@@ -71,6 +71,8 @@ func increment_value(increment : float):
 			var character_pos : Vector2 = character.rect_position
 			move_tween.tween_property(character, "rect_position:y", character_pos.y - 8, _backflip_time/2)
 			move_tween.tween_property(character, "rect_position:y", character_pos.y, _backflip_time/2)
+			# NOTE: if this somehow gets called again before the move tween finishes
+			#       it will cause character position to start/end in a wrong position
 
 func decrement_value(decrement : float):
 	_set_value(_value + decrement)
