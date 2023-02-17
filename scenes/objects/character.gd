@@ -14,9 +14,9 @@ const _char_sprite_size : int = 16
 
 
 func _ready():
-	var characters_count : int = _sprite.texture.get_width() / _char_sprite_size
+	var characters_count : int = _sprite.texture.atlas.get_width() / _char_sprite_size
 	var char_index : int = Utility.rng.randi_range(0, characters_count-1) * _char_sprite_size
-	_sprite.region_rect.position.x = char_index
+	_sprite.texture.region.position.x = char_index
 	
 	apply_central_impulse(Vector2(Utility.rng.randf_range(-100, 100), 0))
 
@@ -39,3 +39,6 @@ func bucket_interacted(is_inside : bool):
 
 func set_material(material : Material):
 	_sprite.material = material
+
+func get_texture() -> Texture:
+	return _sprite.texture

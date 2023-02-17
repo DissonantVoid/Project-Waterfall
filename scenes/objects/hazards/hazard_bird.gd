@@ -2,6 +2,7 @@ class_name HazardBird
 extends Area2D
 
 onready var _sprite : AnimatedSprite = $Sprite
+onready var _held_character_sprite : Sprite = $HeldCharacter
 onready var _warning_sprite : Sprite = $Warning
 onready var _collider : CollisionShape2D = $CollisionShape2D
 
@@ -10,6 +11,7 @@ var _speed : float
 var _direction : Vector2
 var _x_edges : Vector2
 var _is_moving : bool = false
+var _is_holding_character : bool = false
 
 
 func setup(view_size : Vector2, min_speed : float, max_speed : float):
@@ -48,3 +50,10 @@ func _process(delta : float):
 		global_position += _direction * _speed * delta
 		if global_position.x < _x_edges[0] || global_position.x > _x_edges[1]:
 			queue_free()
+
+func _on_body_entered(body):
+	if body is Character && _is_holding_character == false:
+		body.queue_free()
+		_speed *= 2.0
+		_held_character_sprite.texture = body.get_texture()
+		_is_holding_character = true

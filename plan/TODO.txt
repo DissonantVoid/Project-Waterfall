@@ -21,7 +21,7 @@ SOUNDS:
 [ ] level up
 [ ] level down
 [ ] scene changed
-[X] bucket hit rock/bird
+[ ] bucket hit rock/bird
 [ ] ambiant waterfall loop
 [ ] player won
 [ ] bird warning
@@ -56,3 +56,6 @@ MUSIC:
 [ ] game (all layers)
 [ ] end screen
 [ ] credits
+
+NOTES:
+-make sure that all audio is at 6DB or close, we tweak volume in engine
