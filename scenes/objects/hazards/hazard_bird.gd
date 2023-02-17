@@ -11,20 +11,22 @@ var _direction : Vector2
 var _x_edges : Vector2
 var _is_moving : bool = false
 
-# TODO: bird pattern is very basic, maybe we should have multiple points
-#       that the birds move between before leaving
 
 func setup(view_size : Vector2, min_speed : float, max_speed : float):
-	var view_25_percent : Vector2 = Vector2(lerp(0, view_size.x, 0.25), lerp(0, view_size.y, 0.25))
-	global_position.y = Utility.rng.randi_range(0, view_size.y - view_25_percent.y)
+	var y_25_percent : float = lerp(0, view_size.y, 0.25)
+	var end_position : Vector2
+	global_position.y = Utility.rng.randi_range(0, view_size.y - y_25_percent)
 	if Utility.rng.randi_range(0,1) == 0:
-		_direction = Vector2.LEFT
+		end_position.x = 0
 		global_position.x = view_size.x
 	else:
-		_direction = Vector2.RIGHT
+		end_position.x = view_size.x
 		global_position.x = 0
 		_sprite.flip_h = true
 	
+	end_position.y = Utility.rng.randi_range(0, view_size.y - y_25_percent)
+	
+	_direction = (end_position - global_position).normalized()
 	_speed = Utility.rng.randf_range(min_speed, max_speed)
 	_x_edges = Vector2(0, view_size.x)
 	

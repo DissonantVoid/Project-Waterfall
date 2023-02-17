@@ -3,6 +3,7 @@ extends Node2D
 
 signal character_saved
 signal hit_hazard
+signal powerup_picked
 signal powerup_finished
 
 onready var _front_sprite : Sprite = $Front
@@ -74,6 +75,7 @@ func _on_detection_body_or_area_entered(object):
 		yield(get_tree(), "idle_frame") # removing this causes issues with physics, godot moment
 		get_tree().current_scene.add_child(powerup_instance)
 		powerup_instance.powerup_start(funcref(self, "_powerup_request"))
+		emit_signal("powerup_picked")
 
 func _on_powerup_finished(powerup : Node2D):
 	powerup.powerup_cleanup()
@@ -82,5 +84,13 @@ func _on_powerup_finished(powerup : Node2D):
 func _powerup_request(request_string : String):
 	# for when a powerup can't do something on its own, and
 	# needs the bucket class to do it, like double its size etc..
-	if request_string == "bucket_sprite":
-		return _front_sprite
+	match request_string:
+		"bucket_sprite":
+			return _front_sprite
+		"shrink":
+			# is this gonna cause issues in the future?
+			# looks very fragile
+			var tween : SceneTreeTween = get_tree().create_tween()
+			tween.tween_property(self, "scale", Vector2(0.8, 0.8), 0.4)
+		"unshrink":
+			scale = Vector2.ONE

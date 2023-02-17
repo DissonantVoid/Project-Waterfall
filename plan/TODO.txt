@@ -2,8 +2,13 @@ GAME DESIGN:
 [ ] menu
 [ ] end screen
 [ ] credits
-[X] win/lose condition
-[ ] more mechanics..
+[X] win condition
+[ ] progress bar
+[ ] powerups
+[X] global audio manager
+[X] hazards
+[ ] difficulty balancing
+[ ] introduction animation
 
 SOUNDS:
 [ ] character spawn
@@ -21,9 +26,10 @@ SOUNDS:
 [ ] bird warning
 [ ] bird sound
 [ ] (optional) character hit rock
-[ ] powerup collected (different per powerup)
-[ ] powerup over
 [ ] powerup spawned
+[ ] powerup magnet collected
+[ ] powerup shrink collected
+[ ] powerup over
 
 ART:
 [X] mouse shape
@@ -42,10 +48,10 @@ ART:
 [X] game logo
 [ ] game icon (as in desktop icon)
 [ ] powerup stones
-[ ] powerup magnet
+[X] powerup magnet
 
 MUSIC:
 [ ] menu
-[ ] game
+[ ] game (all layers)
 [ ] end screen
 [ ] credits

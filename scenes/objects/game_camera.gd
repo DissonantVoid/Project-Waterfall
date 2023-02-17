@@ -5,9 +5,9 @@ enum ShakeLevel {low, med, high}
 onready var _shake_timer : Timer = $ShakeTimer
 
 const _shake_data : Dictionary = {
-	ShakeLevel.low: {"offsets_count":5, "shake_strength":15},
-	ShakeLevel.med: {"offsets_count":8, "shake_strength":30},
-	ShakeLevel.high: {"offsets_count":10, "shake_strength":80}
+	ShakeLevel.low: {"offsets_count":5, "shake_strength":10},
+	ShakeLevel.med: {"offsets_count":8, "shake_strength":19},
+	ShakeLevel.high: {"offsets_count":10, "shake_strength":30}
 }
 var _noise : OpenSimplexNoise = OpenSimplexNoise.new()
 var _curr_shake_level : int

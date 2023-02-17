@@ -106,8 +106,11 @@ animations = [ {
 emission_shape = 2
 emission_box_extents = Vector3( 320, 1, 1 )
 flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 69, 0 )
+direction = Vector3( 0, 1, 0 )
+spread = 8.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.5
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 angle = 368.1
@@ -210,8 +213,8 @@ one_shot = true
 
 [node name="WaterParticles" type="Particles2D" parent="."]
 position = Vector2( 320, -48 )
-amount = 120
-lifetime = 4.0
+amount = 220
+lifetime = 3.0
 preprocess = 4.0
 process_material = SubResource( 13 )
 
