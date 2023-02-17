@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -10,23 +10,23 @@
 [ext_resource path="res://scenes/objects/clouds.gd" type="Script" id=8]
 [ext_resource path="res://scenes/objects/hazards_maker.gd" type="Script" id=9]
 [ext_resource path="res://scenes/objects/game_camera.gd" type="Script" id=10]
-[ext_resource path="res://scenes/unused/progress_bar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/objects/progress_bar.gd" type="Script" id=11]
 [ext_resource path="res://resources/textures/progress_bar.png" type="Texture" id=12]
+[ext_resource path="res://resources/godot/progress_shader.tres" type="Material" id=13]
+[ext_resource path="res://scenes/objects/ui/button.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/objects/powerups_spawner.gd" type="Script" id=17]
 
-[sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0.0980392, 0.568627, 0, 1 )
-
-[sub_resource type="StyleBoxFlat" id=9]
-bg_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 12 )
-region = Rect2( 48, 0, 48, 16 )
+region = Rect2( 0, 16, 281, 16 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=34]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 48, 16 )
+region = Rect2( 0, 0, 281, 16 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 32, 302, 16 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 82
@@ -139,41 +139,52 @@ pause_mode = 2
 script = ExtResource( 2 )
 
 [node name="UI" type="CanvasLayer" parent="."]
+pause_mode = 2
 script = ExtResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 5
+custom_constants/margin_top = 4
 custom_constants/margin_left = 5
+custom_constants/margin_bottom = 4
 
-[node name="Progress" type="ProgressBar" parent="UI/MarginContainer"]
+[node name="Progress" type="Control" parent="UI/MarginContainer"]
 modulate = Color( 1, 1, 1, 0.784314 )
-margin_left = 5.0
-margin_right = 315.0
-margin_bottom = 8.0
-rect_min_size = Vector2( 0, 8 )
-custom_styles/fg = SubResource( 8 )
-custom_styles/bg = SubResource( 9 )
-percent_visible = false
-
-[node name="ProgressBar" parent="UI/MarginContainer" instance=ExtResource( 11 )]
-visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 5.0
-margin_right = 315.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 0, 32 )
+margin_left = 10.0
+margin_top = 4.0
+margin_right = 310.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 300, 16 )
+size_flags_horizontal = 4
 size_flags_vertical = 0
-max_value = 100.0
-value = 50.0
-_on_texture = SubResource( 1 )
-_off_texture = SubResource( 2 )
-_margin_right = 16.0
-_margin_left = 16.0
-_margin_center = 8.0
+script = ExtResource( 11 )
+
+[node name="CharactersContainer" type="Control" parent="UI/MarginContainer/Progress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.0
+margin_top = 1.0
+margin_right = -7.0
+
+[node name="Back" type="TextureRect" parent="UI/MarginContainer/Progress"]
+margin_left = 18.0
+margin_right = 299.0
+margin_bottom = 16.0
+texture = SubResource( 33 )
+
+[node name="Progress" type="TextureRect" parent="UI/MarginContainer/Progress"]
+material = ExtResource( 13 )
+margin_left = 18.0
+margin_right = 299.0
+margin_bottom = 16.0
+texture = SubResource( 34 )
+
+[node name="Front" type="TextureRect" parent="UI/MarginContainer/Progress"]
+margin_right = 302.0
+margin_bottom = 16.0
+texture = SubResource( 32 )
 
 [node name="Pause" type="MarginContainer" parent="UI"]
 visible = false
@@ -194,6 +205,19 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 10 )
 text = "PAUSED"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Pause"]
+margin_right = 320.0
+margin_bottom = 180.0
+custom_constants/margin_bottom = 12
+
+[node name="Back" parent="UI/Pause/MarginContainer" instance=ExtResource( 14 )]
+margin_left = 128.0
+margin_top = 136.0
+margin_right = 192.0
+margin_bottom = 168.0
+size_flags_vertical = 8
+_text = "TO MENU"
 
 [node name="Background" type="AnimatedSprite" parent="."]
 position = Vector2( 320, 180 )
@@ -316,6 +340,7 @@ shape = SubResource( 4 )
 [node name="SpawnTimer" type="Timer" parent="Timers"]
 one_shot = true
 
+[connection signal="pressed" from="UI/Pause/MarginContainer/Back" to="UI" method="_on_back_to_menu_pressed"]
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]
 [connection signal="body_entered" from="Bucket/InsideArea" to="Bucket" method="_on_body_entered_inside_area"]
 [connection signal="body_exited" from="Bucket/InsideArea" to="Bucket" method="_on_body_exited_inside_area"]

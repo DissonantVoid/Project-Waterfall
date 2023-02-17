@@ -9,6 +9,7 @@ GAME DESIGN:
 [X] hazards
 [ ] difficulty balancing
 [ ] introduction animation
+[ ] tutorial before the game starts
 
 SOUNDS:
 [ ] character spawn
@@ -35,7 +36,7 @@ ART:
 [X] mouse shape
 [ ] start animation (in boat)
 [X] bucket
-[ ] progress bar
+[X] progress bar
 [X] background
 [ ] menu background
 [ ] credits art

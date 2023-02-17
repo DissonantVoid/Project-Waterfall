@@ -15,7 +15,7 @@ onready var _powerups_spawner : Node2D = $Spawners/PowerupsSpawner
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
 var _view_width : int = ProjectSettings.get_setting("display/window/size/width") * 2
-const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg
+const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg, you'd also need to change the progress bar and.. just don't do it alright?
 const _points_to_win : int = 100
 const _points_to_levelup : int = _points_to_win / _levels_count
 var _current_progress : float = 0
@@ -37,9 +37,12 @@ func _ready():
 	# to a commit history full of frame=2, frame=5, frame=12.....
 	_background.playing = true
 	
-	# all children should pause when scene tree is paused
+	# reconfigure children pause mode, since we are root, we can't change
+	# our pause mode without affecting the rest of the tree, we need to
+	# remove this effect by getting rid of INHERIT pause mode
 	for child in get_children():
-		child.pause_mode = Node.PAUSE_MODE_STOP
+		if child.pause_mode == Node.PAUSE_MODE_INHERIT:
+			child.pause_mode = Node.PAUSE_MODE_STOP
 	
 	_bucket.connect("character_saved",self,"_on_bucket_character_saved")
 	_bucket.connect("hit_hazard",self,"_on_bucket_hit_hazard")
@@ -57,9 +60,15 @@ func _input(event : InputEvent):
 		_is_paused = !_is_paused
 		_ui.set_pause(_is_paused)
 		get_tree().paused = _is_paused
+		
+		if _is_paused:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _exit_tree():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().paused = false
 
 func _on_spawn_timeout():
 	var instance := _character_scene.instance()
@@ -94,7 +103,7 @@ func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
 	
 	if sign(value) == 1:
-		_ui.increment_point(value, _bucket.global_position)
+		_ui.increment_points(value, _bucket.global_position)
 		# level up
 		if int(_current_progress) / _points_to_levelup > _current_level:
 			_current_level += 1
