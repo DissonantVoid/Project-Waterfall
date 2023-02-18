@@ -117,15 +117,15 @@ flag_disable_z = true
 direction = Vector3( 0, 1, 0 )
 spread = 6.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 180.0
+initial_velocity = 160.0
 initial_velocity_random = 0.5
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
+orbit_velocity = -0.02
+orbit_velocity_random = 0.5
 angle = 368.1
 angle_random = 1.0
 scale = 5.0
 scale_random = 0.6
-color = Color( 0.643137, 0.788235, 0.976471, 1 )
+color = Color( 0.592157, 0.741176, 0.937255, 1 )
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 15, 13.0625 )
@@ -244,8 +244,6 @@ one_shot = true
 position = Vector2( 320, 180 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 54 )
-frame = 4
-playing = true
 
 [node name="RocksBack" type="Sprite" parent="Background"]
 position = Vector2( 320, 332 )
@@ -283,7 +281,7 @@ flip_h = true
 
 [node name="WaterParticles" type="Particles2D" parent="."]
 position = Vector2( 320, -24 )
-amount = 220
+amount = 120
 lifetime = 3.2
 preprocess = 4.0
 process_material = SubResource( 13 )

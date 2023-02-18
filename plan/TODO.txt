@@ -21,7 +21,8 @@ SOUNDS:
 [ ] level up
 [ ] level down
 [ ] scene changed
-[ ] bucket hit rock/bird
+[ ] rock destroyed
+[ ] bird destroyed :'(
 [ ] ambiant waterfall loop
 [ ] player won
 [ ] bird warning
