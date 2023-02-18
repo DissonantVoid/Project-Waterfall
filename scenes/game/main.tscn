@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://resources/textures/bg_rocks.png" type="Texture" id=18]
 [ext_resource path="res://resources/textures/bg_rocks_back.png" type="Texture" id=19]
 [ext_resource path="res://resources/godot/wiggle_shader.tres" type="Material" id=20]
+[ext_resource path="res://resources/godot/pulse_shader.tres" type="Material" id=21]
 
 [sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 12 )
@@ -34,7 +35,7 @@ atlas = ExtResource( 12 )
 region = Rect2( 0, 32, 302, 16 )
 
 [sub_resource type="DynamicFont" id=55]
-size = 45
+size = 60
 outline_size = 2
 outline_color = Color( 0.282353, 0.666667, 0.8, 1 )
 font_data = ExtResource( 6 )
@@ -157,6 +158,12 @@ script = ExtResource( 2 )
 pause_mode = 2
 script = ExtResource( 7 )
 
+[node name="PulseCanvas" type="ColorRect" parent="UI"]
+material = ExtResource( 21 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
 [node name="Hud" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -203,11 +210,12 @@ texture = SubResource( 32 )
 
 [node name="LevelLabel" type="Label" parent="UI/Hud"]
 visible = false
+modulate = Color( 1, 1, 1, 0.627451 )
 material = ExtResource( 20 )
 margin_left = 5.0
-margin_top = 52.0
+margin_top = 40.0
 margin_right = 315.0
-margin_bottom = 127.0
+margin_bottom = 139.0
 rect_pivot_offset = Vector2( 155, 30 )
 custom_fonts/font = SubResource( 55 )
 text = "Level UP/DOWN

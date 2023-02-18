@@ -4,10 +4,11 @@
 code = "shader_type canvas_item;
 
 // what do you mean this is the simplest shader you've ever seen?
+const float speed = 12.0;
 
 void vertex()
 {
-	VERTEX.y += sin(TIME + VERTEX.x) * 2.0;
+	VERTEX.y += sin(TIME * speed + VERTEX.x) * 2.5;
 }"
 
 [resource]

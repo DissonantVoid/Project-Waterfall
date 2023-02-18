@@ -1,14 +1,17 @@
 extends CanvasLayer
 
+signal pulsed
+
 onready var _progress_bar : Control = $Hud/Progress
 onready var _pause_container : MarginContainer = $Pause
 onready var _levelup_label : Label = $Hud/LevelLabel
+onready var _paulse_canvas : ColorRect = $PulseCanvas
 
 const _point_tween_time : float = 0.8
 var _point_label_font : DynamicFont
 
 const _levelup_tween_time : float = 1.0
-const _levelup_show_time : float = 2.0
+const _levelup_show_time : float = 1.2
 const _levelup_color : Color = Color("96ffa8")
 const _leveldown_color : Color = Color("ad4545")
 var _levelup_active_tween : SceneTreeTween = null
@@ -56,20 +59,14 @@ func level_up(current_level : int):
 	_levelup_label.add_color_override("font_color", _levelup_color)
 	_levelup_label.show()
 	
-	if _levelup_active_tween != null && _levelup_active_tween.is_valid():
-		_levelup_active_tween.kill()
-	
-	_levelup_active_tween = _make_levelup_tween()
+	_make_levelup_tween(true)
 
 func level_down(current_level : int):
 	_levelup_label.text = "Level Down\n" + str(current_level)
 	_levelup_label.add_color_override("font_color", _leveldown_color)
 	_levelup_label.show()
 	
-	if _levelup_active_tween != null && _levelup_active_tween.is_valid():
-		_levelup_active_tween.kill()
-	
-	_levelup_active_tween = _make_levelup_tween()
+	_make_levelup_tween(false)
 
 func _on_back_to_menu_pressed():
 	SceneManager.change_scene("res://scenes/game/menu.tscn")
@@ -79,17 +76,37 @@ func _on_point_added(label : Label, value : float):
 	
 	_progress_bar.increment_value(value)
 
-func _make_levelup_tween() -> SceneTreeTween:
+func _make_levelup_tween(do_pulse : bool):
 	var tween : SceneTreeTween = get_tree().create_tween()
+	
+	if _levelup_active_tween != null && _levelup_active_tween.is_valid():
+		# shouldn't have +1 tweens running at same time
+		_levelup_active_tween.kill()
+		_levelup_label.rect_scale = Vector2.ONE
+		_levelup_label.rect_rotation = 0
+		_paulse_canvas.material.set_shader_param("start_radius", 0.0)
+		_paulse_canvas.material.set_shader_param("end_radius", 0.0)
+	
 	# popup
 	tween.tween_property(_levelup_label, "rect_scale", Vector2.ONE, _levelup_tween_time)\
 		.from(Vector2.ZERO).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	# pulse
+	if do_pulse:
+		tween.parallel()
+		tween.tween_property(_paulse_canvas.material, "shader_param/start_radius", 1.0, _levelup_tween_time)\
+			.from(0.0)
+		tween.parallel()
+		tween.tween_property(_paulse_canvas.material, "shader_param/end_radius", 1.2, _levelup_tween_time)\
+			.from(0.2)
+		emit_signal("pulsed")
+		
 	tween.tween_interval(_levelup_show_time)
+	
 	# pop.. down?.. disappear
 	tween.tween_property(_levelup_label, "rect_scale", Vector2.ZERO, _levelup_tween_time)\
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	tween.parallel()
-	tween.tween_property(_levelup_label, "rect_rotation", 360.0, _levelup_tween_time)\
+	tween.tween_property(_levelup_label, "rect_rotation", 360.0*2, _levelup_tween_time)\
 		.from(0.0)
 	
-	return tween
+	_levelup_active_tween = tween

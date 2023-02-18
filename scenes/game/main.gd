@@ -14,7 +14,10 @@ onready var _powerups_spawner : Node2D = $Spawners/PowerupsSpawner
 # TODO: maybe we should move this to another class, why is characters spawning this calss's responsibility?
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
-var _view_width : int = ProjectSettings.get_setting("display/window/size/width") * 2
+var _view_size : Vector2 = Vector2(
+	ProjectSettings.get_setting("display/window/size/width"),
+	ProjectSettings.get_setting("display/window/size/height")
+) * 2
 const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg, you'd also need to change the progress bar and.. just don't do it alright?
 const _points_to_win : int = 100
 const _points_to_levelup : int = _points_to_win / _levels_count
@@ -23,6 +26,7 @@ var _current_level : int = 0
 
 var _levels_rules : Array
 var _is_paused : bool = false
+const _pulse_force : float = 500.0
 
 # TODO: the game starts immidiatly, we need to give player
 #       time to process what's what first, a delay at the start before
@@ -48,6 +52,7 @@ func _ready():
 	_bucket.connect("hit_hazard",self,"_on_bucket_hit_hazard")
 	_bucket.connect("powerup_picked",self,"_on_bucket_powerup_picked")
 	_bucket.connect("powerup_finished",self,"_on_bucket_powerup_finished")
+	_ui.connect("pulsed", self, "_on_ui_pulsed")
 	_ui.setup(_points_to_win)
 	
 	_load_rules_from_file()
@@ -65,6 +70,9 @@ func _input(event : InputEvent):
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	
+	#if event is InputEventKey && event.pressed:
+	#	_increment_points(10)
 
 func _exit_tree():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -73,7 +81,7 @@ func _exit_tree():
 func _on_spawn_timeout():
 	var instance := _character_scene.instance()
 	_chars_container.add_child(instance)
-	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_width), -10)
+	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_size.x), -10)
 	
 	_spawn_timer.start()
 
@@ -95,6 +103,12 @@ func _on_bucket_powerup_picked():
 
 func _on_bucket_powerup_finished():
 	_powerups_spawner.bucket_powerup_finished()
+
+func _on_ui_pulsed():
+	# push character along with the pulse
+	for character in _chars_container.get_children():
+		var x_direction : float = character.global_position.x - _view_size.x/2
+		character.apply_central_impulse(Vector2(x_direction * _pulse_force, 0))
 
 func _on_abyss_body_entered(body : Node):
 	if body is Character:
