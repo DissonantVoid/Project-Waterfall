@@ -1,9 +1,12 @@
 extends CanvasLayer
 
 signal pulsed
+signal forced_unpause
 
 onready var _progress_bar : Control = $Hud/Progress
 onready var _pause_container : MarginContainer = $Pause
+onready var _unpause_label : Label = $Pause/MarginContainer/UnpauseLabel
+onready var _unpause_timer : Timer = $Pause/UnpauseTimer
 onready var _levelup_label : Label = $Hud/LevelLabel
 onready var _paulse_canvas : ColorRect = $PulseCanvas
 
@@ -16,6 +19,10 @@ const _levelup_color : Color = Color("96ffa8")
 const _leveldown_color : Color = Color("ad4545")
 var _levelup_active_tween : SceneTreeTween = null
 
+const _time_to_unpause : int = 30
+var _current_pause_time : int = 0
+var _unpause_label_text : String
+
 
 func _ready():
 	_progress_bar.rect_pivot_offset = _progress_bar.rect_size / 2
@@ -23,12 +30,20 @@ func _ready():
 	_point_label_font = DynamicFont.new()
 	_point_label_font.size = 18
 	_point_label_font.font_data = preload("res://resources/fonts/m5x7.ttf")
+	
+	_unpause_label_text = _unpause_label.text
 
 func setup(points_to_win : int):
 	_progress_bar.setup(0 ,points_to_win)
 
 func set_pause(should_pause : bool):
 	_pause_container.visible = should_pause
+	if should_pause:
+		_current_pause_time = _time_to_unpause
+		_unpause_label.text = _unpause_label_text % _current_pause_time
+		_unpause_timer.start()
+	else:
+		_unpause_timer.stop()
 
 func increment_points(value : float, bucket_position : Vector2):
 	# animate a score point moving from bucket to UI
@@ -75,6 +90,15 @@ func _on_point_added(label : Label, value : float):
 	label.queue_free()
 	
 	_progress_bar.increment_value(value)
+
+func _on_unpause_timer_timeout():
+	_current_pause_time -= 1
+	_unpause_label.text = _unpause_label_text % _current_pause_time
+	
+	if _current_pause_time == 0:
+		emit_signal("forced_unpause")
+	else:
+		_unpause_timer.start()
 
 func _make_levelup_tween(do_pulse : bool):
 	var tween : SceneTreeTween = get_tree().create_tween()

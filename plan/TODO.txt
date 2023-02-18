@@ -35,6 +35,7 @@ SOUNDS:
 [ ] powerup shield collected
 [ ] powerup slowtime collected
 [ ] powerup over
+[ ] unpause timer ticking
 
 ART:
 [X] mouse shape

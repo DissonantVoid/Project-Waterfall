@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -38,6 +38,9 @@ region = Rect2( 0, 32, 302, 16 )
 size = 60
 outline_size = 2
 outline_color = Color( 0.282353, 0.666667, 0.8, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=56]
 font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=10]
@@ -232,28 +235,45 @@ modulate = Color( 0, 0, 0, 0.470588 )
 margin_right = 320.0
 margin_bottom = 180.0
 
-[node name="Label" type="Label" parent="UI/Pause"]
+[node name="MarginContainer" type="VBoxContainer" parent="UI/Pause"]
+margin_top = 48.0
+margin_right = 320.0
+margin_bottom = 131.0
+size_flags_vertical = 6
+
+[node name="UnpauseLabel" type="Label" parent="UI/Pause/MarginContainer"]
+margin_right = 320.0
+margin_bottom = 13.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 56 )
+text = "The Game Will Unpause After: %ds"
+align = 1
+
+[node name="Label" type="Label" parent="UI/Pause/MarginContainer"]
 margin_left = 67.0
-margin_top = 57.0
+margin_top = 17.0
 margin_right = 253.0
-margin_bottom = 123.0
+margin_bottom = 83.0
 size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 10 )
 text = "PAUSED"
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Pause"]
+[node name="ButtonMargin" type="MarginContainer" parent="UI/Pause"]
 margin_right = 320.0
 margin_bottom = 180.0
 custom_constants/margin_bottom = 12
 
-[node name="Back" parent="UI/Pause/MarginContainer" instance=ExtResource( 14 )]
+[node name="Back" parent="UI/Pause/ButtonMargin" instance=ExtResource( 14 )]
 margin_left = 128.0
 margin_top = 136.0
 margin_right = 192.0
 margin_bottom = 168.0
 size_flags_vertical = 8
 _text = "TO MENU"
+
+[node name="UnpauseTimer" type="Timer" parent="UI/Pause"]
+one_shot = true
 
 [node name="GameCamera" type="Camera2D" parent="."]
 position = Vector2( 320, 180 )
@@ -301,9 +321,10 @@ position = Vector2( 320, 327 )
 scale = Vector2( 2, 2 )
 texture = SubResource( 42 )
 
-[node name="Rocks" type="Sprite" parent="Background"]
+[node name="RocksFront" type="Sprite" parent="Background"]
 position = Vector2( 320, 337 )
 scale = Vector2( 2, 2 )
+z_index = 99
 texture = ExtResource( 18 )
 flip_h = true
 
@@ -412,7 +433,8 @@ shape = SubResource( 4 )
 [node name="SpawnTimer" type="Timer" parent="Timers"]
 one_shot = true
 
-[connection signal="pressed" from="UI/Pause/MarginContainer/Back" to="UI" method="_on_back_to_menu_pressed"]
+[connection signal="pressed" from="UI/Pause/ButtonMargin/Back" to="UI" method="_on_back_to_menu_pressed"]
+[connection signal="timeout" from="UI/Pause/UnpauseTimer" to="UI" method="_on_unpause_timer_timeout"]
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]
 [connection signal="body_entered" from="Bucket/InsideArea" to="Bucket" method="_on_body_entered_inside_area"]
 [connection signal="body_exited" from="Bucket/InsideArea" to="Bucket" method="_on_body_exited_inside_area"]

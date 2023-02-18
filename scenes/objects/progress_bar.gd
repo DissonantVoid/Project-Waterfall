@@ -7,6 +7,7 @@ onready var _chars_container : Control = $CharactersContainer
 const _characters_sprite : StreamTexture = preload("res://resources/textures/characters.png")
 const _char_sprite_size : int = 16
 const _backflip_time : float = 0.8
+const _flash_time : float = 0.4
 
 var _min_value : float
 var _max_value : float
@@ -19,9 +20,6 @@ const _end_color : Color = Color("d54d2d")
 #       but it keeps going as if we had a level left
 
 func _ready():
-	_progress.material.set_shader_param("start_color", _start_color)
-	_progress.material.set_shader_param("end_color", _end_color)
-	
 	# add characters, in a random order
 	var characters_count : int = _characters_sprite.get_width() / _char_sprite_size
 	var random_regions : Array
@@ -74,9 +72,19 @@ func increment_value(increment : float):
 			move_tween.tween_property(character, "rect_position:y", character_pos.y, _backflip_time/2)
 			# NOTE: if this somehow gets called again before the move tween finishes
 			#       it will cause character position to start/end in a wrong position
+	
+	var tween : SceneTreeTween = get_tree().create_tween()
+	var progress_color : Color = _progress.modulate
+	_progress.modulate = Color.white
+	tween.tween_property(_progress, "modulate", progress_color, _flash_time)
 
 func decrement_value(decrement : float):
 	_set_value(_value + decrement)
+	
+	var tween : SceneTreeTween = get_tree().create_tween()
+	var progress_color : Color = _progress.modulate
+	_progress.modulate = Color.black
+	tween.tween_property(_progress, "modulate", progress_color, _flash_time)
 
 func get_progress_edge_position() -> Vector2:
 	return _progress.rect_global_position + Vector2(
@@ -93,3 +101,5 @@ func _set_value(new_value : float):
 	_value = clamp(new_value, _min_value, _max_value)
 	var normalized_value : float = range_lerp(_value, _min_value, _max_value, 0, 1)
 	_progress.material.set_shader_param("weight", normalized_value)
+	
+	_progress.modulate = lerp(_start_color, _end_color, normalized_value)

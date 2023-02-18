@@ -57,3 +57,5 @@ func _on_body_entered(body):
 		_speed *= 2.0
 		_held_character_sprite.texture = body.get_texture()
 		_is_holding_character = true
+	elif body is HazardFallingRock:
+		body.queue_free()

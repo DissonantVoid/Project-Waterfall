@@ -26,7 +26,7 @@ var _current_level : int = 0
 
 var _levels_rules : Array
 var _is_paused : bool = false
-const _pulse_force : float = 500.0
+const _pulse_force : float = 420.0
 
 # TODO: the game starts immidiatly, we need to give player
 #       time to process what's what first, a delay at the start before
@@ -53,6 +53,7 @@ func _ready():
 	_bucket.connect("powerup_picked",self,"_on_bucket_powerup_picked")
 	_bucket.connect("powerup_finished",self,"_on_bucket_powerup_finished")
 	_ui.connect("pulsed", self, "_on_ui_pulsed")
+	_ui.connect("forced_unpause", self, "_on_ui_forced_unpause")
 	_ui.setup(_points_to_win)
 	
 	_load_rules_from_file()
@@ -61,15 +62,7 @@ func _ready():
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
-		# TODO: test potential bugs, like pausing right after winning
-		_is_paused = !_is_paused
-		_ui.set_pause(_is_paused)
-		get_tree().paused = _is_paused
-		
-		if _is_paused:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		_set_pause(!_is_paused)
 	
 	#if event is InputEventKey && event.pressed:
 	#	_increment_points(10)
@@ -109,12 +102,28 @@ func _on_ui_pulsed():
 	for character in _chars_container.get_children():
 		var x_direction : float = character.global_position.x - _view_size.x/2
 		character.apply_central_impulse(Vector2(x_direction * _pulse_force, 0))
+	
+	_camera.shake(_camera.ShakeLevel.med)
+
+func _on_ui_forced_unpause():
+	_set_pause(false)
 
 func _on_abyss_body_entered(body : Node):
 	if body is Character:
 		body.queue_free()
 		_increment_points(_levels_rules[_current_level]["points_per_miss"])
 		AudioManager.play_sound("splash", true)
+
+func _set_pause(should_pause : bool):
+	# TODO: test potential bugs, like pausing right after winning
+	_is_paused = should_pause
+	_ui.set_pause(_is_paused)
+	get_tree().paused = _is_paused
+	
+	if _is_paused:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
