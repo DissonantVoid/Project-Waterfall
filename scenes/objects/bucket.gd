@@ -85,8 +85,8 @@ func _powerup_request(request_string : String):
 	# for when a powerup can't do something on its own, and
 	# needs the bucket class to do it, like double its size etc..
 	match request_string:
-		"bucket_sprite":
-			return _front_sprite
+		"global_position":
+			return global_position
 		"shrink":
 			# is this gonna cause issues in the future?
 			# looks very fragile

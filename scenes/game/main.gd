@@ -87,6 +87,10 @@ func _on_bucket_character_saved():
 func _on_bucket_hit_hazard():
 	_increment_points(_levels_rules[_current_level]["hazard_hit_points"])
 	_camera.shake(_camera.ShakeLevel.med)
+	
+	# TODO: remove this, instead have hazards play their own sfx
+	#       when destroyed, this allows for more freedom when hazards
+	#       hit each other, or hit shield powerup etc..
 	AudioManager.play_sound("collide", true)
 
 func _on_bucket_powerup_picked():
