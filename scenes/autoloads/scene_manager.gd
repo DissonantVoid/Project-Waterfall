@@ -33,6 +33,7 @@ func change_scene(scene_name : String):
 	tween.parallel()
 	tween.tween_property(_screen_capture.material, "shader_param/offset", 0.5, _tween_time)\
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	AudioManager.play_sound("whoosh", false)
 	yield(tween,"finished")
 	_screen_capture.texture = null
 	_screen_capture.hide()

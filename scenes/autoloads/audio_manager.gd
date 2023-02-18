@@ -12,8 +12,7 @@ var _active_loops : Dictionary
 # TODO: add checks to make sure that we don't call play_sound with a
 #       sound that loops, or play_sound_loop with a sound that doesn't loop
 func play_sound(sound_name : String, random_pitch : bool):
-	# TODO: change the check from .wav to .ogg after changing sfx
-	var full_path : String = _sfx_folder + sound_name + ".wav"
+	var full_path : String = _sfx_folder + sound_name + ".ogg"
 	assert(_directory.file_exists(full_path), "audio file doesn't exist")
 	
 	var audio_player : AudioStreamPlayer =\
@@ -23,12 +22,12 @@ func play_sound(sound_name : String, random_pitch : bool):
 		audio_player.pitch_scale = Utility.rng.randf_range(0.8, 1.2)
 
 func play_sound_loop(sound_name : String):
-	var full_path : String = _sfx_folder + sound_name + ".wav"
+	var full_path : String = _sfx_folder + sound_name + ".ogg"
 	assert(_directory.file_exists(full_path), "audio file doesn't exist")
 	if _active_loops.has(sound_name): return
 	
 	var audio_player : AudioStreamPlayer =\
-		_create_audio_player(sound_name + ".wav")
+		_create_audio_player(sound_name + ".ogg")
 	
 	_active_loops[sound_name] = audio_player
 

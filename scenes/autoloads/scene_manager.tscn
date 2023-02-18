@@ -21,6 +21,7 @@ shader = SubResource( 1 )
 shader_param/offset = 0.0
 
 [node name="SceneManager" type="CanvasLayer"]
+pause_mode = 2
 layer = 99
 script = ExtResource( 1 )
 
