@@ -27,6 +27,7 @@ var _current_level : int = 0
 var _levels_rules : Array
 var _is_paused : bool = false
 const _pulse_force : float = 420.0
+var _slowed : bool = false
 
 # TODO: the game starts immidiatly, we need to give player
 #       time to process what's what first, a delay at the start before
@@ -59,6 +60,14 @@ func _ready():
 	_load_rules_from_file()
 	_apply_rules()
 	_spawn_timer.start()
+
+func _process(delta : float):
+	if Utility._is_slow and not _slowed:
+		_spawn_timer.wait_time /= Utility._slowing_factor
+		_slowed = true
+	if not Utility._is_slow and _slowed:
+		_spawn_timer.wait_time *= Utility._slowing_factor
+		_slowed = false
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):

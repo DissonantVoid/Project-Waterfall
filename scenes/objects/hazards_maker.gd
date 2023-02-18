@@ -11,6 +11,7 @@ var _falling_rock_min_speed : float
 var _falling_rock_max_speed : float
 var _bird_min_speed : float
 var _bird_max_speed : float
+var _slowed : bool = false
 
 func _ready():
 	_spawn_timer.start()
@@ -22,6 +23,14 @@ func update_rules(time_between_spawn : float, min_rock_speed : float,
 	_falling_rock_max_speed = max_rock_speed
 	_bird_min_speed = min_bird_speed
 	_bird_max_speed = max_bird_speed
+
+func _process(delta : float):
+	if Utility._is_slow and not _slowed:
+		_spawn_timer.wait_time /= Utility._slowing_factor
+		_slowed = true
+	if not Utility._is_slow and _slowed:
+		_spawn_timer.wait_time *= Utility._slowing_factor
+		_slowed = false
 
 func _on_spawn_timer_timeout():
 	_spawn_hazard()

@@ -25,17 +25,15 @@ func _process(delta):
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 	
-	Engine.time_scale = 0.1
+	#Engine.time_scale = 0.1
+	Utility._set_slowing(true)
 	_timer.start()
 
 # override
 func powerup_cleanup():
-	Engine.time_scale = 1.0
+	#Engine.time_scale = 1.0
+	Utility._set_slowing(false)
 	queue_free()
 
 func _on_life_timer_timeout():
 	emit_signal("finished", self)
-
-func _exit_tree():
-	# in case we quit to menu
-	Engine.time_scale = 1.0

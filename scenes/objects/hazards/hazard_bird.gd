@@ -12,6 +12,7 @@ var _direction : Vector2
 var _x_edges : Vector2
 var _is_moving : bool = false
 var _is_holding_character : bool = false
+var _slowed : bool = false
 
 
 func setup(view_size : Vector2, min_speed : float, max_speed : float):
@@ -47,6 +48,12 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 
 func _process(delta : float):
 	if _is_moving:
+		if Utility._is_slow and not _slowed:
+			_speed *= Utility._slowing_factor
+			_slowed = true
+		if not Utility._is_slow and _slowed:
+			_speed /= Utility._slowing_factor
+			_slowed = false
 		global_position += _direction * _speed * delta
 		if global_position.x < _x_edges[0] || global_position.x > _x_edges[1]:
 			queue_free()

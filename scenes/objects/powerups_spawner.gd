@@ -7,12 +7,21 @@ const _powerup_stone_scene : PackedScene = preload("res://scenes/objects/powerup
 
 var _min_stone_speed : float
 var _max_stone_speed : float
+var _slowed : bool = false
 
 # NOTE: there can only be 1 powerup at any given time
 
 
 func _ready():
 	_spawn_timer.start()
+	
+func _process(delta : float):
+	if Utility._is_slow and not _slowed:
+		_spawn_timer.wait_time /= Utility._slowing_factor
+		_slowed = true
+	if not Utility._is_slow and _slowed:
+		_spawn_timer.wait_time *= Utility._slowing_factor
+		_slowed = false
 
 func update_rules(time_between_spawn : float, min_stone_speed : float, max_stone_speed : float):
 	_spawn_timer.wait_time = time_between_spawn
