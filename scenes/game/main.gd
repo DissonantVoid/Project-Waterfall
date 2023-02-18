@@ -53,9 +53,6 @@ func _ready():
 	_load_rules_from_file()
 	_apply_rules()
 	_spawn_timer.start()
-	
-	# TEMP
-	print("evianinfinite03 stop spying on my console")
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
@@ -118,8 +115,7 @@ func _increment_points(value : float):
 				# do some particles n stuff first
 				SceneManager.change_scene("res://scenes/game/credits.tscn")
 			else:
-				prints("LEVEL UP", _current_level)
-				_ui.level_up()
+				_ui.level_up(_current_level)
 				_apply_rules()
 				
 	elif sign(value) == -1:
@@ -127,8 +123,7 @@ func _increment_points(value : float):
 		# level down
 		if int(_current_progress) / _points_to_levelup < _current_level:
 			_current_level -= 1
-			prints("LEVEL DOWN", _current_level)
-			_ui.level_down()
+			_ui.level_down(_current_level)
 			_apply_rules()
 
 func _apply_rules():

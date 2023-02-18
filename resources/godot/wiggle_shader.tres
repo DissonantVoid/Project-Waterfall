@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=56]
+code = "shader_type canvas_item;
+
+// what do you mean this is the simplest shader you've ever seen?
+
+void vertex()
+{
+	VERTEX.y += sin(TIME + VERTEX.x) * 2.0;
+}"
+
+[resource]
+shader = SubResource( 56 )

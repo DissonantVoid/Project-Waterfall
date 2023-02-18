@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://scenes/objects/powerups_spawner.gd" type="Script" id=17]
 [ext_resource path="res://resources/textures/bg_rocks.png" type="Texture" id=18]
 [ext_resource path="res://resources/textures/bg_rocks_back.png" type="Texture" id=19]
+[ext_resource path="res://resources/godot/wiggle_shader.tres" type="Material" id=20]
 
 [sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 12 )
@@ -31,6 +32,12 @@ region = Rect2( 0, 0, 281, 16 )
 [sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 12 )
 region = Rect2( 0, 32, 302, 16 )
+
+[sub_resource type="DynamicFont" id=55]
+size = 45
+outline_size = 2
+outline_color = Color( 0.282353, 0.666667, 0.8, 1 )
+font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 82
@@ -193,6 +200,19 @@ texture = SubResource( 34 )
 margin_right = 302.0
 margin_bottom = 16.0
 texture = SubResource( 32 )
+
+[node name="LevelLabel" type="Label" parent="UI/Hud"]
+visible = false
+material = ExtResource( 20 )
+margin_left = 5.0
+margin_top = 52.0
+margin_right = 315.0
+margin_bottom = 127.0
+rect_pivot_offset = Vector2( 155, 30 )
+custom_fonts/font = SubResource( 55 )
+text = "Level UP/DOWN
+(X)"
+align = 1
 
 [node name="Pause" type="MarginContainer" parent="UI"]
 visible = false

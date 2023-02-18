@@ -16,6 +16,7 @@ SOUNDS:
 [ ] character hit bucket
 [ ] character fell
 [ ] character collected
+[ ] character taken by bird
 [ ] button hover
 [ ] button click
 [ ] level up
@@ -45,7 +46,7 @@ ART:
 [..] credits art
 [X] button (normal)
 [X] button (hover)
-[ ] end animation background (after winning)
+[ ] end animation (after winning)
 [X] clouds
 [ ] falling rocks
 [ ] birds
