@@ -8,6 +8,16 @@ extends "res://scenes/objects/powerups/powerup.gd"
 #       I think it's something to do with _request_callback.call_func("global_position")
 #       returning a delayed position?
 
+onready var _sprite : Sprite = $Sprite
+
+const _initial_expand_time : float = 0.6
+
+
+func _ready():
+	var tween : SceneTreeTween = get_tree().create_tween()
+	tween.tween_property(_sprite, "scale", Vector2.ONE, _initial_expand_time)\
+		.from(Vector2.ZERO)
+
 func _physics_process(delta : float):
 	global_position = _request_callback.call_func("global_position")
 

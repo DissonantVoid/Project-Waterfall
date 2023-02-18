@@ -4,9 +4,8 @@ onready var _sprite : Sprite = $Sprite
 onready var _collider : CollisionPolygon2D = $CharactersDetection/CollisionPolygon2D
 
 const _magnet_offset : Vector2 = Vector2(0, -30)
-var _bucket_sprite : Sprite
 var _characters_in_range : Dictionary # dicts are more efficient here
-const _pull_force : float = 100_000.0
+const _pull_force : float = 580_000.0
 var _furthest_collider_point_distance : float
 
 
@@ -20,7 +19,7 @@ func _ready():
 			_furthest_collider_point_distance = distance_to_point
 
 func _process(delta):
-	global_position = _bucket_sprite.global_position + _magnet_offset
+	global_position = _request_callback.call_func("global_position") + _magnet_offset
 	var average_characters_position : Vector2 = Vector2.ZERO
 	
 	# pull characters
@@ -53,8 +52,6 @@ func _draw():
 # override
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
-	
-	_bucket_sprite = request_callback.call_func("bucket_sprite")
 
 # override
 func powerup_cleanup():
@@ -64,6 +61,7 @@ func _on_body_entered(body):
 	if body is Character:
 		var id : int = body.get_instance_id()
 		body.connect("body_exited", self, "_on_character_freed", [id])
+		body.linear_velocity = Vector2.ZERO
 		_characters_in_range[id] = body
 
 func _on_body_exited(body):
