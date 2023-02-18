@@ -32,6 +32,7 @@ SOUNDS:
 [ ] powerup magnet collected
 [ ] powerup shrink collected
 [ ] powerup shield collected
+[ ] powerup slowtime collected
 [ ] powerup over
 
 ART:
@@ -54,6 +55,7 @@ ART:
 [ ] powerup stones
 [X] powerup magnet
 [ ] powerup shield
+[ ] powerup clock
 [ ] falling water particles
 
 MUSIC:

@@ -13,4 +13,4 @@ texture = ExtResource( 2 )
 wait_time = 2.0
 autostart = true
 
-[connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]
+[connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]

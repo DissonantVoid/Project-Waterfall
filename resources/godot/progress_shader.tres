@@ -7,14 +7,22 @@ uniform float weight : hint_range(0.0, 1.0) = 0;
 uniform vec4 start_color : hint_color;
 uniform vec4 end_color : hint_color;
 
+float map(float value, float min_, float max_, float new_min, float new_max)
+{
+	return (value - min_) * (new_max - new_min) / (max_ - min_) + new_min;
+}
+
 void fragment()
 {
+	// TODO: this is the only workaround I can think of
+	//       when using weight instead of the image filling at 1
+	//       it fills at 0.93. no idea why. tried marking the value as highp
+	//       but that does nothing
+	float final_weight = map(weight, 0, 1, 0, 0.93);
+	
 	COLOR = texture(TEXTURE, UV);
-	COLOR.rgb = mix(start_color.rgb, end_color.rgb, weight);
-	if (UV.x > weight)
-	{
-		COLOR.a = 0.0;
-	}
+	COLOR.rgb = mix(start_color.rgb, end_color.rgb, final_weight);
+	COLOR.a *= step(UV.x, final_weight);
 }"
 
 [resource]

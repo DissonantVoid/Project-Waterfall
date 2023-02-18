@@ -1,6 +1,7 @@
 extends Control
 
 onready var _progress : TextureRect = $Progress
+# NOTE: adjust the CharactersContainer to change where characters start and end
 onready var _chars_container : Control = $CharactersContainer
 
 const _characters_sprite : StreamTexture = preload("res://resources/textures/characters.png")
