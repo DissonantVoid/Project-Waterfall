@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var _background : AnimatedSprite = $Background
+onready var _waterfall_bg : AnimatedSprite = $Background/Waterfall
 onready var _ui : CanvasLayer = $UI
 onready var _camera : Camera2D = $GameCamera
 onready var _spawn_timer : Timer = $Timers/SpawnTimer
@@ -35,7 +35,7 @@ func _ready():
 	# have to do this manually, otherwise everytime I commit a change
 	# the background animation will be in a different frame leading
 	# to a commit history full of frame=2, frame=5, frame=12.....
-	_background.playing = true
+	_waterfall_bg.playing = true
 	
 	# reconfigure children pause mode, since we are root, we can't change
 	# our pause mode without affecting the rest of the tree, we need to
@@ -53,6 +53,9 @@ func _ready():
 	_load_rules_from_file()
 	_apply_rules()
 	_spawn_timer.start()
+	
+	# TEMP
+	print("evianinfinite03 stop spying on my console")
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
@@ -74,7 +77,6 @@ func _on_spawn_timeout():
 	var instance := _character_scene.instance()
 	_chars_container.add_child(instance)
 	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_width), -10)
-	AudioManager.play_sound("falling", true)
 	
 	_spawn_timer.start()
 

@@ -30,26 +30,30 @@ SOUNDS:
 [ ] powerup spawned
 [ ] powerup magnet collected
 [ ] powerup shrink collected
+[ ] powerup shield collected
 [ ] powerup over
 
 ART:
 [X] mouse shape
-[ ] start animation (in boat)
+[..] start animation (in boat)
 [X] bucket
 [X] progress bar
 [X] background
 [ ] menu background
-[ ] credits art
+[..] credits art
 [X] button (normal)
 [X] button (hover)
 [ ] end animation background (after winning)
 [X] clouds
 [ ] falling rocks
-[ ] birds, warning sign
+[ ] birds
+[X] warning sign
 [X] game logo
-[ ] game icon (as in desktop icon)
+[X] game icon (as in desktop icon)
 [ ] powerup stones
 [X] powerup magnet
+[ ] powerup shield
+[ ] falling water particles
 
 MUSIC:
 [ ] menu
