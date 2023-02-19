@@ -14,9 +14,6 @@ onready var _timer : Timer = $LifeTimer
 
 const _clock_offset : Vector2 = Vector2(0, +30)
 
-# TODO: slowing down the entire game has some issues, like characters taking
-#       longer inside the bucket to count as a score, and pause button
-#       getting affected as well
 
 func _process(delta):
 	global_position = _request_callback.call_func("global_position") + _clock_offset
@@ -25,14 +22,12 @@ func _process(delta):
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 	
-	#Engine.time_scale = 0.1
-	Utility._set_slowing(true)
+	request_callback.call_func("modify_time", {"factor":0.2})
 	_timer.start()
 
 # override
 func powerup_cleanup():
-	#Engine.time_scale = 1.0
-	Utility._set_slowing(false)
+	_request_callback.call_func("modify_time", {"factor":1.0})
 	queue_free()
 
 func _on_life_timer_timeout():

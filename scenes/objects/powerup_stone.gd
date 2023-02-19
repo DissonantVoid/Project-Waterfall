@@ -10,7 +10,7 @@ const _powerups : Array = [
 	{"sprite_region":Rect2(Vector2.ZERO, Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_magnet.tscn"},
 	{"sprite_region":Rect2(Vector2(16, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shrink.tscn"},
 	{"sprite_region":Rect2(Vector2(0, 16), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shield.tscn"},
-	{"sprite_region":Rect2(Vector2(32, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_clock.tscn"}, #TODO create a new icon and set the coordinates accordingly
+	{"sprite_region":Rect2(Vector2(32, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_clock.tscn"},
 ]
 var _self_powerup_data : Dictionary
 
@@ -20,6 +20,7 @@ var _speed : float
 
 func _ready():
 	_self_powerup_data = _powerups[Utility.rng.randi_range(0, _powerups.size()-1)]
+	
 	_sprite.texture.region = _self_powerup_data["sprite_region"]
 	
 	# if it's the random stone.. well.. pick a random powerup

@@ -5,6 +5,7 @@ signal character_saved
 signal hit_hazard
 signal powerup_picked
 signal powerup_finished
+signal time_factor_changed(factor)
 
 onready var _front_sprite : Sprite = $Front
 
@@ -81,7 +82,7 @@ func _on_powerup_finished(powerup : Node2D):
 	powerup.powerup_cleanup()
 	emit_signal("powerup_finished")
 
-func _powerup_request(request_string : String):
+func _powerup_request(request_string : String, args : Dictionary = {}):
 	# for when a powerup can't do something on its own, and
 	# needs the bucket class to do it, like double its size etc..
 	match request_string:
@@ -91,6 +92,8 @@ func _powerup_request(request_string : String):
 			# is this gonna cause issues in the future?
 			# looks very fragile
 			var tween : SceneTreeTween = get_tree().create_tween()
-			tween.tween_property(self, "scale", Vector2(0.8, 0.8), 0.4)
+			tween.tween_property(self, "scale", Vector2.ONE * args["factor"], 0.4)
 		"unshrink":
 			scale = Vector2.ONE
+		"modify_time":
+			emit_signal("time_factor_changed", args["factor"])

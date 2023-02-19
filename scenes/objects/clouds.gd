@@ -7,6 +7,7 @@ const _half_cloud_size : Vector2 = Vector2(72, 32)
 const _texture : StreamTexture = preload("res://resources/textures/clouds.png")
 var _cloud_sprite_count : int # the number of clouds in the sprite sheet, calculated automatically
 
+var _spawn_time : float
 var _spawn_bounds : Dictionary = {
 	"x": Vector2(
 		-_half_cloud_size.x,
@@ -25,10 +26,12 @@ func _ready():
 	_spawn_timer.start()
 
 func update_rules(time_between_clouds : float):
-	_spawn_timer.wait_time = time_between_clouds
+	_spawn_time = time_between_clouds
+	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 
 func _on_spawn_timer_timeout():
 	_spawn_cloud()
+	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 	_spawn_timer.start()
 
 func _spawn_cloud():
@@ -56,7 +59,7 @@ func _spawn_cloud():
 func _process(delta : float):
 	for sprite in _sprites_container.get_children():
 		var x_direction : int = sprite.get_meta("x_direction")
-		sprite.global_position.x += _float_speed * x_direction * delta
+		sprite.global_position.x += _float_speed * LevelData.time_factor * x_direction * delta
 		
 		# remove if out of bounds in the x axis
 		if ( (x_direction == 1 && sprite.global_position.x > _spawn_bounds["x"][1]+_half_cloud_size.x) ||

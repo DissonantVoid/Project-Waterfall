@@ -6,7 +6,7 @@ onready var _timer : Timer = $ShrinkTimer
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 	
-	request_callback.call_func("shrink")
+	request_callback.call_func("shrink", {"factor":0.8})
 	_timer.start()
 
 # override

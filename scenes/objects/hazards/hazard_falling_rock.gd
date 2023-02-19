@@ -5,7 +5,6 @@ onready var _sprite : Sprite = $Sprite
 
 var _fall_speed : float
 var _bottom_y : float
-var _slowed : bool = false
 
 
 func setup(view_size : Vector2, min_speed : float, max_speed : float):
@@ -17,14 +16,8 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 	_fall_speed = Utility.rng.randf_range(min_speed, max_speed)
 
 func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_fall_speed *= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_fall_speed /= Utility._slowing_factor
-		_slowed = false
-	rotation_degrees += _fall_speed * delta
-	move_and_collide(Vector2(0, _fall_speed) * delta)
+	rotation_degrees += _fall_speed * delta * LevelData.time_factor
+	move_and_collide(Vector2(0, _fall_speed) * delta * LevelData.time_factor)
 	
 	if position.y > _bottom_y:
 		queue_free()

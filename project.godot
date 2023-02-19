@@ -53,6 +53,7 @@ config/icon="res://icon.png"
 SceneManager="*res://scenes/autoloads/scene_manager.tscn"
 Utility="*res://scenes/autoloads/utility.gd"
 AudioManager="*res://scenes/autoloads/audio_manager.tscn"
+LevelData="*res://scenes/autoloads/level_data.gd"
 
 [display]
 

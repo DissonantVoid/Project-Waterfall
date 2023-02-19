@@ -1,23 +1,16 @@
 extends Node2D
 
 onready var _waterfall_bg : AnimatedSprite = $Background/Waterfall
+onready var _waterfall_particles : Particles2D = $Background/WaterParticles
 onready var _ui : CanvasLayer = $UI
 onready var _camera : Camera2D = $GameCamera
-onready var _spawn_timer : Timer = $Timers/SpawnTimer
-onready var _chars_container : Node2D = $Characters
 onready var _bucket : Node2D = $Bucket
 
+onready var _characters_spawner : Node2D = $Spawners/CharactersSpawner
 onready var _hazards_maker : Node2D = $Spawners/HazardsMaker
 onready var _clouds : Node2D = $Spawners/Clouds
 onready var _powerups_spawner : Node2D = $Spawners/PowerupsSpawner
 
-# TODO: maybe we should move this to another class, why is characters spawning this calss's responsibility?
-const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
-
-var _view_size : Vector2 = Vector2(
-	ProjectSettings.get_setting("display/window/size/width"),
-	ProjectSettings.get_setting("display/window/size/height")
-) * 2
 const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg, you'd also need to change the progress bar and.. just don't do it alright?
 const _points_to_win : int = 100
 const _points_to_levelup : int = _points_to_win / _levels_count
@@ -26,8 +19,6 @@ var _current_level : int = 0
 
 var _levels_rules : Array
 var _is_paused : bool = false
-const _pulse_force : float = 420.0
-var _slowed : bool = false
 
 # TODO: the game starts immidiatly, we need to give player
 #       time to process what's what first, a delay at the start before
@@ -49,25 +40,19 @@ func _ready():
 		if child.pause_mode == Node.PAUSE_MODE_INHERIT:
 			child.pause_mode = Node.PAUSE_MODE_STOP
 	
+	LevelData.connect("time_factor_changed", self, "_on_level_time_factor_changed")
+	
 	_bucket.connect("character_saved",self,"_on_bucket_character_saved")
 	_bucket.connect("hit_hazard",self,"_on_bucket_hit_hazard")
 	_bucket.connect("powerup_picked",self,"_on_bucket_powerup_picked")
 	_bucket.connect("powerup_finished",self,"_on_bucket_powerup_finished")
+	_bucket.connect("time_factor_changed",self,"_on_bucket_time_factor_changed")
 	_ui.connect("pulsed", self, "_on_ui_pulsed")
 	_ui.connect("forced_unpause", self, "_on_ui_forced_unpause")
 	_ui.setup(_points_to_win)
 	
 	_load_rules_from_file()
 	_apply_rules()
-	_spawn_timer.start()
-
-func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_spawn_timer.wait_time /= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_spawn_timer.wait_time *= Utility._slowing_factor
-		_slowed = false
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
@@ -79,13 +64,11 @@ func _input(event : InputEvent):
 func _exit_tree():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().paused = false
+	LevelData.reset()
 
-func _on_spawn_timeout():
-	var instance := _character_scene.instance()
-	_chars_container.add_child(instance)
-	instance.global_position = Vector2(Utility.rng.randf_range(0, _view_size.x), -10)
-	
-	_spawn_timer.start()
+func _on_level_time_factor_changed():
+	_waterfall_particles.speed_scale = LevelData.time_factor
+	_waterfall_particles.speed_scale = LevelData.time_factor
 
 func _on_bucket_character_saved():
 	_increment_points(_levels_rules[_current_level]["points_per_catch"])
@@ -106,12 +89,11 @@ func _on_bucket_powerup_picked():
 func _on_bucket_powerup_finished():
 	_powerups_spawner.bucket_powerup_finished()
 
+func _on_bucket_time_factor_changed(factor : float):
+	LevelData.time_factor = factor
+
 func _on_ui_pulsed():
-	# push character along with the pulse
-	for character in _chars_container.get_children():
-		var x_direction : float = character.global_position.x - _view_size.x/2
-		character.apply_central_impulse(Vector2(x_direction * _pulse_force, 0))
-	
+	_characters_spawner.do_pulse()
 	_camera.shake(_camera.ShakeLevel.med)
 
 func _on_ui_forced_unpause():
@@ -160,7 +142,7 @@ func _increment_points(value : float):
 
 func _apply_rules():
 	var curr_level_data : Dictionary = _levels_rules[_current_level]
-	_spawn_timer.wait_time = curr_level_data["time_between_spawn"]
+	_characters_spawner.update_rules(curr_level_data["time_between_spawn"])
 	_clouds.update_rules(curr_level_data["time_between_clouds"])
 	_hazards_maker.update_rules(
 		curr_level_data["time_between_hazards"],
@@ -199,9 +181,3 @@ func _load_rules_from_file():
 		level_dict["powerup_min_speed"]      = config_file.get_value(level, "powerup_min_speed")
 		level_dict["powerup_max_speed"]      = config_file.get_value(level, "powerup_max_speed")
 		_levels_rules.append(level_dict)
-	
-	# for debugging:
-	#for k in range(5):
-	#	prints("level----")
-	#	for j in _levels_rules[k]:
-	#		prints("%s : %d" % [j, _levels_rules[k][j]]) 

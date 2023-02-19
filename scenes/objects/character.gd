@@ -12,7 +12,6 @@ var _max_speed : float = _max_speed_normal
 
 const _char_sprite_size : int = 16
 var _curr_character_idx : int
-var _slowed : bool = false
 
 # in the same order as the sprite sheet
 const _sounds_per_character : Array = [
@@ -49,22 +48,11 @@ func _ready():
 
 func _physics_process(delta : float):
 	# speed limit
-	if abs(linear_velocity.x) > _max_speed:
-		linear_velocity.x = _max_speed * sign(linear_velocity.x)
-	if abs(linear_velocity.y) > _max_speed:
-		linear_velocity.y = _max_speed * sign(linear_velocity.y)
-	
-	if Utility._is_slow and not _slowed:
-		linear_velocity.x *= Utility._slowing_factor
-		linear_velocity.y *= Utility._slowing_factor
-		_max_speed *= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		linear_velocity.x /= Utility._slowing_factor
-		linear_velocity.y /= Utility._slowing_factor
-		_max_speed /= Utility._slowing_factor
-		_slowed = false
-
+	var max_speed : float = _max_speed * LevelData.time_factor
+	if abs(linear_velocity.x) > max_speed:
+		linear_velocity.x = max_speed * sign(linear_velocity.x)
+	if abs(linear_velocity.y) > max_speed:
+		linear_velocity.y = max_speed * sign(linear_velocity.y)
 
 func bucket_interacted(is_inside : bool):
 	if is_inside:

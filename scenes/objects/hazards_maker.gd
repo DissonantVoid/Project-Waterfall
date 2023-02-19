@@ -3,6 +3,7 @@ extends Node2D
 onready var _spawn_timer : Timer = $SpawnTimer
 onready var _hazards_container : Node2D = $HazardsContainer
 
+var _spawn_time : float
 const _hazards : Dictionary = {
 	"falling_rock": preload("res://scenes/objects/hazards/hazard_falling_rock.tscn"),
 	"bird": preload("res://scenes/objects/hazards/hazard_bird.tscn")
@@ -11,29 +12,23 @@ var _falling_rock_min_speed : float
 var _falling_rock_max_speed : float
 var _bird_min_speed : float
 var _bird_max_speed : float
-var _slowed : bool = false
+
 
 func _ready():
 	_spawn_timer.start()
 
 func update_rules(time_between_spawn : float, min_rock_speed : float,
 				max_rock_speed : float, min_bird_speed : float, max_bird_speed : float):
-	_spawn_timer.wait_time = time_between_spawn
+	_spawn_time = time_between_spawn
+	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 	_falling_rock_min_speed = min_rock_speed
 	_falling_rock_max_speed = max_rock_speed
 	_bird_min_speed = min_bird_speed
 	_bird_max_speed = max_bird_speed
 
-func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_spawn_timer.wait_time /= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_spawn_timer.wait_time *= Utility._slowing_factor
-		_slowed = false
-
 func _on_spawn_timer_timeout():
 	_spawn_hazard()
+	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 	_spawn_timer.start()
 
 func _spawn_hazard():
