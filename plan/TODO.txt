@@ -3,13 +3,13 @@ GAME DESIGN:
 [ ] end screen
 [ ] credits
 [X] win condition
+[ ] lose condition
 [X] progress bar
-[ ] powerups
+[..] powerups
 [X] global audio manager
 [X] hazards
 [ ] difficulty balancing
 [ ] introduction animation
-[ ] tutorial before the game starts
 
 SOUNDS:
 [ ] character spawn
@@ -17,8 +17,8 @@ SOUNDS:
 [ ] character fell
 [ ] character collected
 [ ] character taken by bird
-[ ] button hover
-[ ] button click
+[X] button hover
+[X] button click
 [ ] level up
 [ ] level down
 [ ] scene changed

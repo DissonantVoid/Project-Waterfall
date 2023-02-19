@@ -24,7 +24,7 @@ func _process(delta : float):
 		timer -= delta
 		entry["time_left"] = timer
 		if timer <= 0:
-			entry["character"].queue_free()
+			entry["character"].free_self(true)
 			_characters_in_bucket.erase(entry)
 			
 			_update_front_spr_visibility()

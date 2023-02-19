@@ -101,7 +101,7 @@ func _on_ui_forced_unpause():
 
 func _on_abyss_body_entered(body : Node):
 	if body is Character:
-		body.queue_free()
+		body.free_self(false)
 		_increment_points(_levels_rules[_current_level]["points_per_miss"])
 		AudioManager.play_sound("splash", true)
 

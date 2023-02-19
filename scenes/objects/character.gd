@@ -15,9 +15,10 @@ var _curr_character_idx : int
 
 # in the same order as the sprite sheet
 const _sounds_per_character : Array = [
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
+	{"spawn":"characters/void_spawn", "saved":"characters/void_saved", "fall":"characters/void_fall"},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/vgamer_spawn", "saved":"", "fall":"characters/vgamer_fall"},
+	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
@@ -38,6 +39,11 @@ const _sounds_per_character : Array = [
 
 func _ready():
 	var characters_count : int = _sprite.texture.atlas.get_width() / _char_sprite_size
+	
+	# make sure _sounds_per_character size matches characters count
+	# just in case we forget to update this
+	assert(_sounds_per_character.size() == characters_count)
+	
 	_curr_character_idx = Utility.rng.randi_range(0, characters_count-1)
 	_sprite.texture.region.position.x = _curr_character_idx * _char_sprite_size
 	
@@ -53,6 +59,18 @@ func _physics_process(delta : float):
 		linear_velocity.x = max_speed * sign(linear_velocity.x)
 	if abs(linear_velocity.y) > max_speed:
 		linear_velocity.y = max_speed * sign(linear_velocity.y)
+
+func free_self(was_saved : bool):
+	# NOTE: call this if you want to allow character to make a sound before
+	#       dying/saved
+	# TODO: default saved and fall sounds needed
+	queue_free()
+	return
+	
+	var sound : String = "saved" if was_saved else "fall"
+	AudioManager.play_sound(
+		_sounds_per_character[_curr_character_idx]["sound"], true
+	)
 
 func bucket_interacted(is_inside : bool):
 	if is_inside:
