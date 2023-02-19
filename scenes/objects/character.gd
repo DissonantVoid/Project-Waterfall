@@ -53,18 +53,7 @@ func _physics_process(delta : float):
 		linear_velocity.x = _max_speed * sign(linear_velocity.x)
 	if abs(linear_velocity.y) > _max_speed:
 		linear_velocity.y = _max_speed * sign(linear_velocity.y)
-	
-	if Utility._is_slow and not _slowed:
-		linear_velocity.x *= Utility._slowing_factor
-		linear_velocity.y *= Utility._slowing_factor
-		_max_speed *= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		linear_velocity.x /= Utility._slowing_factor
-		linear_velocity.y /= Utility._slowing_factor
-		_max_speed /= Utility._slowing_factor
-		_slowed = false
-
+	_check_slowing()
 
 func bucket_interacted(is_inside : bool):
 	if is_inside:
@@ -81,3 +70,15 @@ func set_material(material : Material):
 
 func get_texture() -> Texture:
 	return _sprite.texture
+
+func _check_slowing():
+	if TimeManipulator._is_slow and not _slowed:
+		linear_velocity.x *= TimeManipulator._slowing_factor
+		linear_velocity.y *= TimeManipulator._slowing_factor
+		_max_speed *= TimeManipulator._slowing_factor
+		_slowed = true
+	if not TimeManipulator._is_slow and _slowed:
+		linear_velocity.x /= TimeManipulator._slowing_factor
+		linear_velocity.y /= TimeManipulator._slowing_factor
+		_max_speed /= TimeManipulator._slowing_factor
+		_slowed = false

@@ -48,12 +48,7 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 
 func _process(delta : float):
 	if _is_moving:
-		if Utility._is_slow and not _slowed:
-			_speed *= Utility._slowing_factor
-			_slowed = true
-		if not Utility._is_slow and _slowed:
-			_speed /= Utility._slowing_factor
-			_slowed = false
+		_check_slowing()
 		global_position += _direction * _speed * delta
 		if global_position.x < _x_edges[0] || global_position.x > _x_edges[1]:
 			queue_free()
@@ -66,3 +61,11 @@ func _on_body_entered(body):
 		_is_holding_character = true
 	elif body is HazardFallingRock:
 		body.queue_free()
+
+func _check_slowing():
+	if TimeManipulator._is_slow and not _slowed:
+		_speed *= TimeManipulator._slowing_factor
+		_slowed = true
+	if not TimeManipulator._is_slow and _slowed:
+		_speed /= TimeManipulator._slowing_factor
+		_slowed = false

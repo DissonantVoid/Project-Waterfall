@@ -16,12 +16,7 @@ func _ready():
 	_spawn_timer.start()
 	
 func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_spawn_timer.wait_time /= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_spawn_timer.wait_time *= Utility._slowing_factor
-		_slowed = false
+	_check_slowing()
 
 func update_rules(time_between_spawn : float, min_stone_speed : float, max_stone_speed : float):
 	_spawn_timer.wait_time = time_between_spawn
@@ -31,6 +26,14 @@ func update_rules(time_between_spawn : float, min_stone_speed : float, max_stone
 func bucket_powerup_finished():
 	# bucket used the powerup untill it ran out, now we can spawn another
 	_spawn_timer.start()
+
+func _check_slowing():
+	if TimeManipulator._is_slow and not _slowed:
+		_spawn_timer.wait_time /= TimeManipulator._slowing_factor
+		_slowed = true
+	if not TimeManipulator._is_slow and _slowed:
+		_spawn_timer.wait_time *= TimeManipulator._slowing_factor
+		_slowed = false
 
 func _on_spawn_timer_timeout():
 	var instance := _powerup_stone_scene.instance()

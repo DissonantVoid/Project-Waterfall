@@ -25,12 +25,7 @@ func update_rules(time_between_spawn : float, min_rock_speed : float,
 	_bird_max_speed = max_bird_speed
 
 func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_spawn_timer.wait_time /= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_spawn_timer.wait_time *= Utility._slowing_factor
-		_slowed = false
+	_check_slowing()
 
 func _on_spawn_timer_timeout():
 	_spawn_hazard()
@@ -55,3 +50,11 @@ func _spawn_hazard():
 				_bird_min_speed,
 				_bird_max_speed
 			)
+
+func _check_slowing():
+	if TimeManipulator._is_slow and not _slowed:
+		_spawn_timer.wait_time /= TimeManipulator._slowing_factor
+		_slowed = true
+	if not TimeManipulator._is_slow and _slowed:
+		_spawn_timer.wait_time *= TimeManipulator._slowing_factor
+		_slowed = false

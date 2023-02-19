@@ -62,12 +62,7 @@ func _ready():
 	_spawn_timer.start()
 
 func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_spawn_timer.wait_time /= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_spawn_timer.wait_time *= Utility._slowing_factor
-		_slowed = false
+	_check_slowing()
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
@@ -122,6 +117,14 @@ func _on_abyss_body_entered(body : Node):
 		body.queue_free()
 		_increment_points(_levels_rules[_current_level]["points_per_miss"])
 		AudioManager.play_sound("splash", true)
+
+func _check_slowing():
+	if TimeManipulator._is_slow and not _slowed:
+		_spawn_timer.wait_time /= TimeManipulator._slowing_factor
+		_slowed = true
+	if not TimeManipulator._is_slow and _slowed:
+		_spawn_timer.wait_time *= TimeManipulator._slowing_factor
+		_slowed = false
 
 func _set_pause(should_pause : bool):
 	# TODO: test potential bugs, like pausing right after winning

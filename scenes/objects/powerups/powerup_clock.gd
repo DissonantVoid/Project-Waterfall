@@ -26,13 +26,13 @@ func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 	
 	#Engine.time_scale = 0.1
-	Utility._set_slowing(true)
+	TimeManipulator._set_slowing(true)
 	_timer.start()
 
 # override
 func powerup_cleanup():
 	#Engine.time_scale = 1.0
-	Utility._set_slowing(false)
+	TimeManipulator._set_slowing(false)
 	queue_free()
 
 func _on_life_timer_timeout():

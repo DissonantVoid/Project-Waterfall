@@ -17,14 +17,17 @@ func setup(view_size : Vector2, min_speed : float, max_speed : float):
 	_fall_speed = Utility.rng.randf_range(min_speed, max_speed)
 
 func _process(delta : float):
-	if Utility._is_slow and not _slowed:
-		_fall_speed *= Utility._slowing_factor
-		_slowed = true
-	if not Utility._is_slow and _slowed:
-		_fall_speed /= Utility._slowing_factor
-		_slowed = false
+	_check_slowing()
 	rotation_degrees += _fall_speed * delta
 	move_and_collide(Vector2(0, _fall_speed) * delta)
 	
 	if position.y > _bottom_y:
 		queue_free()
+
+func _check_slowing():
+	if TimeManipulator._is_slow and not _slowed:
+		_fall_speed *= TimeManipulator._slowing_factor
+		_slowed = true
+	if not TimeManipulator._is_slow and _slowed:
+		_fall_speed /= TimeManipulator._slowing_factor
+		_slowed = false
