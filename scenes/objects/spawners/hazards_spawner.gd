@@ -8,6 +8,7 @@ const _hazards : Dictionary = {
 	"falling_rock": preload("res://scenes/objects/hazards/hazard_falling_rock.tscn"),
 	"bird": preload("res://scenes/objects/hazards/hazard_bird.tscn")
 }
+
 var _falling_rock_min_speed : float
 var _falling_rock_max_speed : float
 var _bird_min_speed : float
@@ -26,6 +27,10 @@ func update_rules(time_between_spawn : float, min_rock_speed : float,
 	_bird_min_speed = min_bird_speed
 	_bird_max_speed = max_bird_speed
 
+func destroy_all():
+	for hazard in _hazards_container.get_children():
+		hazard.queue_free()
+
 func _on_spawn_timer_timeout():
 	_spawn_hazard()
 	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
@@ -39,14 +44,12 @@ func _spawn_hazard():
 	# type dependent setup
 	match rnd_key:
 		"falling_rock":
-			instance.setup(Vector2(
-				ProjectSettings.get_setting("display/window/size/width"), ProjectSettings.get_setting("display/window/size/height")) * 2,
+			instance.setup(
 				_falling_rock_min_speed,
 				_falling_rock_max_speed
 			)
 		"bird":
-			instance.setup(Vector2(
-				ProjectSettings.get_setting("display/window/size/width"), ProjectSettings.get_setting("display/window/size/height")) * 2,
+			instance.setup(
 				_bird_min_speed,
 				_bird_max_speed
 			)

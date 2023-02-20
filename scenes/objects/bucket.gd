@@ -6,8 +6,10 @@ signal hit_hazard
 signal powerup_picked
 signal powerup_finished
 signal time_factor_changed(factor)
+signal destroyed
 
 onready var _front_sprite : Sprite = $Front
+onready var _health_bar : ProgressBar = $HealthBar
 
 const _front_spr_fade_time : float = 0.3
 const _hold_time : float = 0.48 # a character is saved after staying in bucket for this time
@@ -15,6 +17,12 @@ const _max_rotation : float = 45.0
 var _prev_position : Vector2
 var _characters_in_bucket : Array = [] # [{character, timeLeftToScore},..]
 
+const _max_health : int = 3
+var _current_health : int = _max_health
+
+
+func _ready():
+	_health_bar.max_value = _max_health
 
 func _process(delta : float):
 	# check bodies in bucket
@@ -64,10 +72,26 @@ func _update_front_spr_visibility():
 		var tween : SceneTreeTween = get_tree().create_tween()
 		tween.tween_property(_front_sprite, "modulate", color, _front_spr_fade_time)
 
+func _change_health(by_value : int):
+	if clamp(_current_health + by_value, 0, _max_health) == _current_health:
+		return
+	
+	_current_health += by_value
+	_health_bar.value = _current_health
+	
+	# change sprite
+
 func _on_detection_body_or_area_entered(object):
 	if object is HazardFallingRock || object is HazardBird:
 		object.queue_free()
-		emit_signal("hit_hazard")
+		_change_health(-1)
+		
+		if _current_health == 0:
+			# DIE!!!
+			emit_signal("destroyed")
+		else:
+			emit_signal("hit_hazard")
+		
 	elif object is PowerUpStone:
 		var powerup_scene : String = object.pickup()
 		var powerup_instance = load(powerup_scene).instance()
@@ -77,6 +101,10 @@ func _on_detection_body_or_area_entered(object):
 		get_tree().current_scene.add_child(powerup_instance)
 		powerup_instance.powerup_start(funcref(self, "_powerup_request"))
 		emit_signal("powerup_picked")
+	
+	elif object is Health:
+		object.queue_free()
+		_change_health(+1)
 
 func _on_powerup_finished(powerup : Node2D):
 	powerup.powerup_cleanup()
@@ -97,3 +125,5 @@ func _powerup_request(request_string : String, args : Dictionary = {}):
 			scale = Vector2.ONE
 		"modify_time":
 			emit_signal("time_factor_changed", args["factor"])
+		"heal_full":
+			_change_health(_max_health)

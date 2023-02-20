@@ -36,6 +36,7 @@ SOUNDS:
 [ ] powerup slowtime collected
 [ ] powerup over
 [ ] unpause timer ticking
+[ ] bucket destroyed
 
 ART:
 [X] mouse shape
@@ -54,11 +55,12 @@ ART:
 [X] warning sign
 [X] game logo
 [X] game icon (as in desktop icon)
-[ ] powerup stones
+[..]powerup stones (health and random needed)
 [X] powerup magnet
 [ ] powerup shield
 [ ] powerup clock
 [ ] falling water particles
+[ ] health pickup
 
 MUSIC:
 [ ] menu

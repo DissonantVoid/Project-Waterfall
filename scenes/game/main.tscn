@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://resources/textures/bucketFront.png" type="Texture" id=1]
 [ext_resource path="res://scenes/game/main.gd" type="Script" id=2]
@@ -7,8 +7,8 @@
 [ext_resource path="res://resources/textures/bucketBack.png" type="Texture" id=5]
 [ext_resource path="res://resources/fonts/m5x7.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://scenes/objects/ui/ui.gd" type="Script" id=7]
-[ext_resource path="res://scenes/objects/clouds.gd" type="Script" id=8]
-[ext_resource path="res://scenes/objects/hazards_maker.gd" type="Script" id=9]
+[ext_resource path="res://scenes/objects/spawners/weather_controller.gd" type="Script" id=8]
+[ext_resource path="res://scenes/objects/spawners/hazards_spawner.gd" type="Script" id=9]
 [ext_resource path="res://scenes/objects/game_camera.gd" type="Script" id=10]
 [ext_resource path="res://scenes/objects/progress_bar.gd" type="Script" id=11]
 [ext_resource path="res://resources/textures/progress_bar.png" type="Texture" id=12]
@@ -16,12 +16,13 @@
 [ext_resource path="res://scenes/objects/ui/button.tscn" type="PackedScene" id=14]
 [ext_resource path="res://resources/textures/bg_foam.png" type="Texture" id=15]
 [ext_resource path="res://resources/godot/scroll_shader.tres" type="Material" id=16]
-[ext_resource path="res://scenes/objects/powerups_spawner.gd" type="Script" id=17]
+[ext_resource path="res://scenes/objects/spawners/powerups_spawner.gd" type="Script" id=17]
 [ext_resource path="res://resources/textures/bg_rocks.png" type="Texture" id=18]
 [ext_resource path="res://resources/textures/bg_rocks_back.png" type="Texture" id=19]
 [ext_resource path="res://resources/godot/wiggle_shader.tres" type="Material" id=20]
 [ext_resource path="res://resources/godot/pulse_shader.tres" type="Material" id=21]
 [ext_resource path="res://scenes/game/characters_spawner.gd" type="Script" id=22]
+[ext_resource path="res://scenes/objects/spawners/health_spawner.gd" type="Script" id=23]
 
 [sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 12 )
@@ -374,6 +375,15 @@ polygon = PoolVector2Array( -28, -17, -28, 25, 28, 25, 28, -17, 16, -17, 13, -17
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bucket/DetectionArea"]
 shape = SubResource( 12 )
 
+[node name="HealthBar" type="ProgressBar" parent="Bucket"]
+margin_left = -31.0
+margin_top = 24.0
+margin_right = 11.0
+margin_bottom = 38.0
+rect_rotation = -90.0
+rounded = true
+percent_visible = false
+
 [node name="Spawners" type="Node2D" parent="."]
 
 [node name="CharactersSpawner" type="Node2D" parent="Spawners"]
@@ -384,20 +394,20 @@ script = ExtResource( 22 )
 [node name="SpawnTimer" type="Timer" parent="Spawners/CharactersSpawner"]
 one_shot = true
 
-[node name="HazardsMaker" type="Node2D" parent="Spawners"]
+[node name="HazardsSpawner" type="Node2D" parent="Spawners"]
 script = ExtResource( 9 )
 
-[node name="HazardsContainer" type="Node2D" parent="Spawners/HazardsMaker"]
+[node name="HazardsContainer" type="Node2D" parent="Spawners/HazardsSpawner"]
 
-[node name="SpawnTimer" type="Timer" parent="Spawners/HazardsMaker"]
+[node name="SpawnTimer" type="Timer" parent="Spawners/HazardsSpawner"]
 one_shot = true
 
-[node name="Clouds" type="Node2D" parent="Spawners"]
+[node name="WeatherControler" type="Node2D" parent="Spawners"]
 script = ExtResource( 8 )
 
-[node name="SpritesContainer" type="Node2D" parent="Spawners/Clouds"]
+[node name="SpritesContainer" type="Node2D" parent="Spawners/WeatherControler"]
 
-[node name="SpawnTimer" type="Timer" parent="Spawners/Clouds"]
+[node name="SpawnTimer" type="Timer" parent="Spawners/WeatherControler"]
 one_shot = true
 
 [node name="PowerupsSpawner" type="Node2D" parent="Spawners"]
@@ -406,6 +416,14 @@ script = ExtResource( 17 )
 [node name="StonesContainer" type="Node2D" parent="Spawners/PowerupsSpawner"]
 
 [node name="SpawnTimer" type="Timer" parent="Spawners/PowerupsSpawner"]
+one_shot = true
+
+[node name="HealthSpawner" type="Node2D" parent="Spawners"]
+script = ExtResource( 23 )
+
+[node name="ItemsContainer" type="Node2D" parent="Spawners/HealthSpawner"]
+
+[node name="SpawnTimer" type="Timer" parent="Spawners/HealthSpawner"]
 one_shot = true
 
 [node name="Walls" type="Node2D" parent="."]
@@ -430,7 +448,6 @@ shape = SubResource( 3 )
 
 [node name="Abyss" type="Area2D" parent="."]
 position = Vector2( 320, 435 )
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Abyss"]
 shape = SubResource( 4 )
@@ -443,7 +460,9 @@ shape = SubResource( 4 )
 [connection signal="area_entered" from="Bucket/DetectionArea" to="Bucket" method="_on_detection_body_or_area_entered"]
 [connection signal="body_entered" from="Bucket/DetectionArea" to="Bucket" method="_on_detection_body_or_area_entered"]
 [connection signal="timeout" from="Spawners/CharactersSpawner/SpawnTimer" to="Spawners/CharactersSpawner" method="_on_spawn_timeout"]
-[connection signal="timeout" from="Spawners/HazardsMaker/SpawnTimer" to="Spawners/HazardsMaker" method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Spawners/Clouds/SpawnTimer" to="Spawners/Clouds" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Spawners/HazardsSpawner/SpawnTimer" to="Spawners/HazardsSpawner" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="Spawners/WeatherControler/SpawnTimer" to="Spawners/WeatherControler" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="Spawners/PowerupsSpawner/SpawnTimer" to="Spawners/PowerupsSpawner" method="_on_spawn_timer_timeout"]
-[connection signal="body_entered" from="Abyss" to="." method="_on_abyss_body_entered"]
+[connection signal="timeout" from="Spawners/HealthSpawner/SpawnTimer" to="Spawners/HealthSpawner" method="_on_spawn_timer_timeout"]
+[connection signal="area_entered" from="Abyss" to="." method="_on_abyss_body_or_area_entered"]
+[connection signal="body_entered" from="Abyss" to="." method="_on_abyss_body_or_area_entered"]

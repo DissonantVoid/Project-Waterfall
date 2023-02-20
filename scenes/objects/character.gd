@@ -21,7 +21,7 @@ const _sounds_per_character : Array = [
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
+	{"spawn":"characters/addin_spawn", "saved":"characters/addin_saved", "fall":"characters/addin_fall"},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},

@@ -6,16 +6,17 @@ signal destroyed(was_picked)
 onready var _sprite : Sprite = $Sprite
 
 const _powerups : Array = [
-	{"sprite_region":Rect2(Vector2(16, 16), Vector2(16, 16)), "powerup_scene":"<random>"}, # this has to be first, don't change
-	{"sprite_region":Rect2(Vector2.ZERO, Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_magnet.tscn"},
-	{"sprite_region":Rect2(Vector2(16, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shrink.tscn"},
-	{"sprite_region":Rect2(Vector2(0, 16), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shield.tscn"},
+	{"sprite_region":Rect2(Vector2(80, 0), Vector2(16, 16)), "powerup_scene":"<random>"}, # this has to be first, don't change
+	{"sprite_region":Rect2(Vector2(0, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_full_health.tscn"},
+	{"sprite_region":Rect2(Vector2(64, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_magnet.tscn"},
+	{"sprite_region":Rect2(Vector2(48, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shrink.tscn"},
+	{"sprite_region":Rect2(Vector2(16, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shield.tscn"},
 	{"sprite_region":Rect2(Vector2(32, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_clock.tscn"},
 ]
-var _self_powerup_data : Dictionary
 
-var _y_bound : float
+var _self_powerup_data : Dictionary
 var _speed : float
+var _picked_up : bool = false # we can do better than this
 
 
 func _ready():
@@ -31,20 +32,21 @@ func _ready():
 
 func _process(delta : float):
 	position.y += _speed * delta
-	if position.y > _y_bound:
-		emit_signal("destroyed", false)
-		queue_free()
 
-func setup(view_size : Vector2, min_speed : float, max_speed : float):
+func _exit_tree():
+	if _picked_up == false:
+		emit_signal("destroyed", false)
+
+func setup(min_speed : float, max_speed : float):
 	global_position = Vector2(
-		Utility.rng.randi_range(0, view_size.x),
+		Utility.rng.randi_range(0, LevelData.view_size.x),
 		-_sprite.texture.get_height()
 	)
-	_y_bound = view_size.y
 	_speed = Utility.rng.randf_range(min_speed, max_speed)
 
 func pickup() -> String:
 	emit_signal("destroyed", true)
+	_picked_up = true
 	queue_free()
 	
 	return _self_powerup_data["powerup_scene"]

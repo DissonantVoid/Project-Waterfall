@@ -12,31 +12,32 @@ var _direction : Vector2
 var _x_edges : Vector2
 var _is_moving : bool = false
 var _is_holding_character : bool = false
+const _speed_with_held_character : float = 390.0
 
 
-func setup(view_size : Vector2, min_speed : float, max_speed : float):
-	var y_25_percent : float = lerp(0, view_size.y, 0.25)
+func setup(min_speed : float, max_speed : float):
+	var y_25_percent : float = lerp(0, LevelData.view_size.y, 0.25)
 	var end_position : Vector2
-	global_position.y = Utility.rng.randi_range(0, view_size.y - y_25_percent)
+	global_position.y = Utility.rng.randi_range(0, LevelData.view_size.y - y_25_percent)
 	if Utility.rng.randi_range(0,1) == 0:
 		end_position.x = 0
-		global_position.x = view_size.x
+		global_position.x = LevelData.view_size.x
 	else:
-		end_position.x = view_size.x
+		end_position.x = LevelData.view_size.x
 		global_position.x = 0
 		_sprite.flip_h = true
 	
-	end_position.y = Utility.rng.randi_range(0, view_size.y - y_25_percent)
+	end_position.y = Utility.rng.randi_range(0, LevelData.view_size.y - y_25_percent)
 	
 	_direction = (end_position - global_position).normalized()
 	_speed = Utility.rng.randf_range(min_speed, max_speed)
-	_x_edges = Vector2(0, view_size.x)
+	_x_edges = Vector2(0, LevelData.view_size.x)
 	
 	# warn before showing the bird
 	# TODO: feels hacky, maybe hazards_maker.gd should do this for rocks and birds
 	_sprite.hide()
 	_warning_sprite.show()
-	_warning_sprite.global_position.x = clamp(_warning_sprite.global_position.x, 32, view_size.x-32)
+	_warning_sprite.global_position.x = clamp(_warning_sprite.global_position.x, 32, LevelData.view_size.x-32)
 	_collider.disabled = true
 	yield(get_tree().create_timer(_warning_time), "timeout")
 	
@@ -54,7 +55,7 @@ func _process(delta : float):
 func _on_body_entered(body):
 	if body is Character && _is_holding_character == false:
 		body.queue_free()
-		_speed *= 2.0
+		_speed = _speed_with_held_character
 		_held_character_sprite.texture = body.get_texture()
 		_is_holding_character = true
 	elif body is HazardFallingRock:

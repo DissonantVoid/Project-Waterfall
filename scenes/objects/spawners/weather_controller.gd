@@ -8,22 +8,22 @@ const _texture : StreamTexture = preload("res://resources/textures/clouds.png")
 var _cloud_sprite_count : int # the number of clouds in the sprite sheet, calculated automatically
 
 var _spawn_time : float
-var _spawn_bounds : Dictionary = {
-	"x": Vector2(
-		-_half_cloud_size.x,
-		ProjectSettings.get_setting("display/window/size/width") * 2 +_half_cloud_size.x
-		),
-	"y": Vector2(
-		_half_cloud_size.y,
-		ProjectSettings.get_setting("display/window/size/height") * 2 -_half_cloud_size.y
-		)
-}
+var _spawn_bounds : Dictionary
 const _float_speed : float = 40.0
 
 
 func _ready():
 	_cloud_sprite_count = _texture.get_width() / _half_cloud_size.x*2
 	_spawn_timer.start()
+	
+	_spawn_bounds["x"] = Vector2(
+		-_half_cloud_size.x,
+		LevelData.view_size.x +_half_cloud_size.x
+	)
+	_spawn_bounds["y"] = Vector2(
+		_half_cloud_size.y,
+		LevelData.view_size.y -_half_cloud_size.y
+	)
 
 func update_rules(time_between_clouds : float):
 	_spawn_time = time_between_clouds

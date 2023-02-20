@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/addin_spawn.ogg-04c6e7a07b92dd322ad22c2f7e1ca84a.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/characters/addin_spawn.ogg"
+dest_files=[ "res://.import/addin_spawn.ogg-04c6e7a07b92dd322ad22c2f7e1ca84a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

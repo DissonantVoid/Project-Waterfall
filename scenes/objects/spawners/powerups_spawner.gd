@@ -27,8 +27,7 @@ func _on_spawn_timer_timeout():
 	var instance := _powerup_stone_scene.instance()
 	instance.connect("destroyed", self, "_on_powerup_stone_destroyed")
 	_stones_container.add_child(instance)
-	instance.setup(Vector2(
-		ProjectSettings.get_setting("display/window/size/width"), ProjectSettings.get_setting("display/window/size/height")) * 2,
+	instance.setup(
 		_min_stone_speed,
 		_max_stone_speed
 	)
