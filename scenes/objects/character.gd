@@ -2,12 +2,14 @@ class_name Character
 extends RigidBody2D
 
 onready var _sprite : Sprite = $Sprite
+onready var _parachute_sprite : Sprite = $Parachute
 
 const _shine_shader : ShaderMaterial = preload("res://resources/godot/shine_shader.tres")
 const _collision_layers_out_of_bucket : int = 0b11
 const _collision_layers_in_bucket : int = 0b101
 const _max_speed_normal : float = 222.0
 const _max_speed_in_bucket : float = 1300.0
+const _parachute_slowdown_factor : float = 0.2
 var _max_speed : float = _max_speed_normal
 
 const _char_sprite_size : int = 16
@@ -52,6 +54,12 @@ func _ready():
 		_sounds_per_character[_curr_character_idx]["spawn"], true
 	)
 
+func setup(_parachute_chance : int):
+	global_position = Vector2(Utility.rng.randf_range(0, LevelData.view_size.x), -10)
+	if Utility.rng.randf_range(0, 100) <= _parachute_chance:
+		_parachute_sprite.show()
+		_max_speed *= _parachute_slowdown_factor
+
 func _physics_process(delta : float):
 	# speed limit
 	var max_speed : float = _max_speed * LevelData.time_factor
@@ -59,6 +67,9 @@ func _physics_process(delta : float):
 		linear_velocity.x = max_speed * sign(linear_velocity.x)
 	if abs(linear_velocity.y) > max_speed:
 		linear_velocity.y = max_speed * sign(linear_velocity.y)
+	
+	if _parachute_sprite.visible:
+		_parachute_sprite.rotation_degrees = -rotation_degrees
 
 func free_self(was_saved : bool):
 	# NOTE: call this if you want to allow character to make a sound before

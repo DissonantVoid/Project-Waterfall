@@ -61,6 +61,8 @@ ART:
 [ ] powerup clock
 [ ] falling water particles
 [ ] health pickup
+[ ] health bar (3 parts)
+[ ] parachute
 
 MUSIC:
 [ ] menu

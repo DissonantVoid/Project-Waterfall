@@ -15,6 +15,10 @@ var _is_holding_character : bool = false
 const _speed_with_held_character : float = 390.0
 
 
+func _ready():
+	_sprite.speed_scale = LevelData.time_factor
+	LevelData.connect("time_factor_changed", self, "_on_time_factor_changed")
+
 func setup(min_speed : float, max_speed : float):
 	var y_25_percent : float = lerp(0, LevelData.view_size.y, 0.25)
 	var end_position : Vector2
@@ -51,6 +55,9 @@ func _process(delta : float):
 		global_position += _direction * _speed * delta * LevelData.time_factor
 		if global_position.x < _x_edges[0] || global_position.x > _x_edges[1]:
 			queue_free()
+
+func _on_time_factor_changed():
+	_sprite.speed_scale = LevelData.time_factor
 
 func _on_body_entered(body):
 	if body is Character && _is_holding_character == false:
