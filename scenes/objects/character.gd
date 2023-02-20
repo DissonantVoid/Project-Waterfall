@@ -15,6 +15,7 @@ var _max_speed : float = _max_speed_normal
 const _char_sprite_size : int = 16
 var _curr_character_idx : int
 
+
 # in the same order as the sprite sheet
 const _sounds_per_character : Array = [
 	{"spawn":"characters/void_spawn", "saved":"characters/void_saved", "fall":"characters/void_fall"},
@@ -56,7 +57,7 @@ func _ready():
 
 func setup(_parachute_chance : int):
 	global_position = Vector2(Utility.rng.randf_range(0, LevelData.view_size.x), -10)
-	if Utility.rng.randf_range(0, 100) <= _parachute_chance:
+	if Utility.rng.randf_range(0, 100) < _parachute_chance:
 		_parachute_sprite.show()
 		_max_speed *= _parachute_slowdown_factor
 

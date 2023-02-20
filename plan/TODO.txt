@@ -12,16 +12,15 @@ GAME DESIGN:
 [ ] introduction animation
 
 SOUNDS:
-[ ] character spawn
-[ ] character hit bucket
-[ ] character fell
-[ ] character collected
-[ ] character taken by bird
+[X] character spawn (default)
+[ ] character fell (default)
+[ ] character collected (default)
+[ ] character taken by bird (default)
 [X] button hover
 [X] button click
 [ ] level up
 [ ] level down
-[ ] scene changed
+[X] scene changed
 [ ] rock destroyed
 [ ] bird destroyed :'(
 [ ] ambiant waterfall loop
@@ -40,11 +39,12 @@ SOUNDS:
 
 ART:
 [X] mouse shape
-[..] start animation (in boat)
+[..] start animation
 [X] bucket
 [X] progress bar
 [X] background
 [ ] menu background
+[ ] stats scene background
 [..] credits art
 [X] button (normal)
 [X] button (hover)
@@ -55,10 +55,11 @@ ART:
 [X] warning sign
 [X] game logo
 [X] game icon (as in desktop icon)
-[..]powerup stones (health and random needed)
+[..] powerup stones
+[ ] powerup aura (good and bad)
 [X] powerup magnet
 [ ] powerup shield
-[ ] powerup clock
+[X] powerup clock
 [ ] falling water particles
 [ ] health pickup
 [ ] health bar (3 parts)

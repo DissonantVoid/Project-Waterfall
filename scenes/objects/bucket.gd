@@ -40,7 +40,6 @@ func _process(delta : float):
 
 func _physics_process(delta : float):
 	# follow mouse
-	var velocity : Vector2 = global_position - _prev_position
 	var lerp_value : Vector2 = lerp(global_position, get_global_mouse_position(), 0.25) # TODO: frame dependent lerp
 	global_position = lerp_value
 	
@@ -127,3 +126,5 @@ func _powerup_request(request_string : String, args : Dictionary = {}):
 			emit_signal("time_factor_changed", args["factor"])
 		"heal_full":
 			_change_health(_max_health)
+		_:
+			assert(false, "request string doesn't exist")

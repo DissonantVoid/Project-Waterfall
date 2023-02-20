@@ -2,10 +2,12 @@ extends "res://scenes/objects/powerups/powerup.gd"
 
 onready var _sprite : Sprite = $Sprite
 onready var _collider : CollisionPolygon2D = $CharactersDetection/CollisionPolygon2D
+onready var _life_timer : Timer = $LifeTimer
 
-const _magnet_offset : Vector2 = Vector2(0, -30)
+const _magnet_offset : Vector2 = Vector2(0, -20)
 var _characters_in_range : Dictionary # dicts are more efficient here
-const _pull_force : float = 580_000.0
+const _min_pull_force : float = 200.0
+const _max_pull_force : float = 800.0
 var _furthest_collider_point_distance : float
 
 
@@ -24,14 +26,20 @@ func _process(delta):
 	
 	# pull characters
 	for character in _characters_in_range.values():
-		var direction : Vector2 = (character.global_position - global_position).normalized()
-		average_characters_position += to_local(character.global_position)
+		var direction : Vector2 =\
+			(character["body"].global_position - global_position).normalized()
+		average_characters_position += to_local(character["body"].global_position)
 		var force : float = range_lerp(
-			global_position.distance_to(character.global_position),
+			global_position.distance_to(character["body"].global_position),
 			0, _furthest_collider_point_distance,
-			0, _pull_force
+			_min_pull_force, _max_pull_force
 		)
-		character.apply_central_impulse(-direction * force * delta)
+		
+		# pull towards bucket, use velocity to predict next bucket position
+		# we manually move the character instead of using physics forces, bacuse...
+		# well you try to do that
+		character["last_pos"] = character["body"].global_position
+		character["body"].global_position += -direction * force * delta
 	
 	# rotate magnet to face average position
 	var new_rotation : float
@@ -47,7 +55,7 @@ func _process(delta):
 
 func _draw():
 	for character in _characters_in_range.values():
-		draw_line(to_local(global_position), to_local(character.global_position), Color.red, 2)
+		draw_line(to_local(global_position), to_local(character["body"].global_position), Color.red, 2)
 
 # override
 func powerup_start(request_callback : FuncRef):
@@ -61,14 +69,22 @@ func _on_body_entered(body):
 	if body is Character:
 		var id : int = body.get_instance_id()
 		body.connect("body_exited", self, "_on_character_freed", [id])
+		_characters_in_range[id] = {"body":body, "last_pos":Vector2.ZERO}
+		
+		# stop character velocity, helps with calculations
 		body.linear_velocity = Vector2.ZERO
-		_characters_in_range[id] = body
 
 func _on_body_exited(body):
 	if body is Character:
 		var id : int = body.get_instance_id()
 		if _characters_in_range.has(id):
 			body.disconnect("body_exited", self, "_on_character_freed")
+			
+			# keep momentum
+			var character : Dictionary = _characters_in_range[id]
+			character["body"].linear_velocity =\
+				(character["body"].global_position - character["last_pos"]) * 10
+			
 			_characters_in_range.erase(id)
 
 func _on_character_freed(id : int):

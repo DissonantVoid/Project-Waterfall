@@ -2,6 +2,7 @@ extends "res://scenes/objects/powerups/powerup.gd"
 
 onready var _timer : Timer = $ShrinkTimer
 
+
 # override
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
