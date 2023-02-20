@@ -78,7 +78,7 @@ func _on_level_time_factor_changed():
 	_waterfall_particles.speed_scale = LevelData.time_factor
 
 func _on_bucket_character_saved():
-	_increment_points(_levels_rules[_current_level]["points_per_catch"])
+	_increment_points(_levels_rules[_current_level]["points_per_save"])
 	AudioManager.play_sound("score", true)
 
 func _on_bucket_hit_hazard():
@@ -156,6 +156,9 @@ func _increment_points(value : float):
 			_apply_rules()
 
 func _apply_rules():
+	# TODO: remove "update_rules" functions, instead use LevelData to update rules
+	#       with a signal that spawners can listen for
+	
 	# see "res://resources/files/level_rules.cfg"
 	var curr_level_data : Dictionary = _levels_rules[_current_level]
 	_characters_spawner.update_rules(
@@ -169,8 +172,10 @@ func _apply_rules():
 		curr_level_data["time_between_hazards"],
 		curr_level_data["falling_rock_min_speed"],
 		curr_level_data["falling_rock_max_speed"],
+		curr_level_data["multiple_rocks_chance"],
 		curr_level_data["bird_min_speed"],
-		curr_level_data["bird_max_speed"]
+		curr_level_data["bird_max_speed"],
+		curr_level_data["multiple_birds_chance"]
 	)
 	_powerups_spawner.update_rules(
 		curr_level_data["time_between_powerups"],
@@ -194,15 +199,17 @@ func _load_rules_from_file():
 		var level_dict : Dictionary = {}
 		level_dict["time_between_characters"]    = config_file.get_value(level, "time_between_characters")
 		level_dict["characters_parachute_chance"]= config_file.get_value(level, "characters_parachute_chance")
-		level_dict["points_per_catch"]           = config_file.get_value(level, "points_per_catch")
+		level_dict["points_per_save"]            = config_file.get_value(level, "points_per_save")
 		level_dict["points_per_miss"]            = config_file.get_value(level, "points_per_miss")
 		level_dict["time_between_clouds"]        = config_file.get_value(level, "time_between_clouds")
 		level_dict["time_between_hazards"]       = config_file.get_value(level, "time_between_hazards")
 		level_dict["hazard_hit_points"]          = config_file.get_value(level, "hazard_hit_points")
 		level_dict["falling_rock_min_speed"]     = config_file.get_value(level, "falling_rock_min_speed")
 		level_dict["falling_rock_max_speed"]     = config_file.get_value(level, "falling_rock_max_speed")
+		level_dict["multiple_rocks_chance"]      = config_file.get_value(level, "multiple_rocks_chance")
 		level_dict["bird_min_speed"]             = config_file.get_value(level, "bird_min_speed")
 		level_dict["bird_max_speed"]             = config_file.get_value(level, "bird_max_speed")
+		level_dict["multiple_birds_chance"]      = config_file.get_value(level, "multiple_birds_chance")
 		level_dict["time_between_powerups"]      = config_file.get_value(level, "time_between_powerups")
 		level_dict["powerup_min_speed"]          = config_file.get_value(level, "powerup_min_speed")
 		level_dict["powerup_max_speed"]          = config_file.get_value(level, "powerup_max_speed")
