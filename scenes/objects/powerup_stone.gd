@@ -7,12 +7,12 @@ onready var _sprite : Sprite = $Sprite
 onready var _aura : Sprite = $Aura
 
 const _powerups : Array = [
-	{"sprite_region":Rect2(Vector2(80, 0), Vector2(16, 16)), "powerup_scene":"<random>"}, # this has to be first, don't change
-	{"sprite_region":Rect2(Vector2(0, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_full_health.tscn", "is_good_aura":true},
-	{"sprite_region":Rect2(Vector2(64, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_magnet.tscn", "is_good_aura":true},
-	{"sprite_region":Rect2(Vector2(48, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shrink.tscn", "is_good_aura":false},
-	{"sprite_region":Rect2(Vector2(16, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_shield.tscn", "is_good_aura":true},
-	{"sprite_region":Rect2(Vector2(32, 0), Vector2(16, 16)), "powerup_scene":"res://scenes/objects/powerups/powerup_clock.tscn", "is_good_aura":true},
+	{"sprite_region":Rect2(Vector2(80, 0), Vector2(16, 16)), "scene_path":"<random>"}, # this has to be first, don't change
+	{"sprite_region":Rect2(Vector2(0, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_full_health.tscn", "is_good_aura":true},
+	{"sprite_region":Rect2(Vector2(64, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_magnet.tscn", "is_good_aura":true},
+	{"sprite_region":Rect2(Vector2(48, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_shrink.tscn", "is_good_aura":false},
+	{"sprite_region":Rect2(Vector2(16, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_shield.tscn", "is_good_aura":true},
+	{"sprite_region":Rect2(Vector2(32, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_clock.tscn", "is_good_aura":true},
 ]
 var _self_powerup_data : Dictionary
 
@@ -24,14 +24,12 @@ func _ready():
 	_self_powerup_data = _powerups[Utility.rng.randi_range(0, _powerups.size()-1)]
 	
 	# if it's the random stone.. well.. pick a random powerup
-	if _self_powerup_data["powerup_scene"] == "<random>":
+	if _self_powerup_data["scene_path"] == "<random>":
 		var random_idx : int = Utility.rng.randi_range(1, _powerups.size()-1)
-		_self_powerup_data["powerup_scene"] = _powerups[random_idx]["powerup_scene"]
+		# don't foget to duplicate, otherwise we'll edit _powerups content directly
+		_self_powerup_data = _self_powerup_data.duplicate(true)
+		_self_powerup_data["scene_path"] = _powerups[random_idx]["scene_path"]
 	else:
-		# TODO: sometimes the game will crash here, inspecting "_self_powerup_data"
-		#       shows similar data to _powerups[0] which is impossible!
-		#       it seems like somehow even if the if statement happens
-		#       this else will be called anyway????
 		_aura.show()
 		if _self_powerup_data["is_good_aura"] == false:
 			_aura.region_rect.position.x = 32
@@ -57,4 +55,4 @@ func pickup() -> String:
 	_picked_up = true
 	queue_free()
 	
-	return _self_powerup_data["powerup_scene"]
+	return _self_powerup_data["scene_path"]
