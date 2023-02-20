@@ -272,9 +272,12 @@ margin_top = 136.0
 margin_right = 192.0
 margin_bottom = 168.0
 size_flags_vertical = 8
-_text = "TO MENU"
+_text = "QUIT"
 
 [node name="UnpauseTimer" type="Timer" parent="UI/Pause"]
+one_shot = true
+
+[node name="PulseCooldownTimer" type="Timer" parent="UI"]
 one_shot = true
 
 [node name="GameCamera" type="Camera2D" parent="."]

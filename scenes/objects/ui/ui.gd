@@ -8,7 +8,8 @@ onready var _pause_container : MarginContainer = $Pause
 onready var _unpause_label : Label = $Pause/MarginContainer/UnpauseLabel
 onready var _unpause_timer : Timer = $Pause/UnpauseTimer
 onready var _levelup_label : Label = $Hud/LevelLabel
-onready var _paulse_canvas : ColorRect = $PulseCanvas
+onready var _pulse_canvas : ColorRect = $PulseCanvas
+onready var _pulse_cooldown_timer : Timer = $PulseCooldownTimer
 
 const _point_tween_time : float = 0.8
 var _point_label_font : DynamicFont
@@ -17,9 +18,10 @@ const _levelup_tween_time : float = 1.0
 const _levelup_show_time : float = 1.2
 const _levelup_color : Color = Color("96ffa8")
 const _leveldown_color : Color = Color("ad4545")
+const _levelup_pulse_cooldown : float = 2.9 # don't spam pulses when player levels up then down then up very quick
 var _levelup_active_tween : SceneTreeTween = null
 
-const _time_to_unpause : int = 30
+const _time_to_unpause : int = 15
 var _current_pause_time : int = 0
 var _unpause_label_text : String
 
@@ -31,6 +33,7 @@ func _ready():
 	_point_label_font.size = 18
 	_point_label_font.font_data = preload("res://resources/fonts/m5x7.ttf")
 	
+	_pulse_cooldown_timer.wait_time = _levelup_pulse_cooldown
 	_unpause_label_text = _unpause_label.text
 
 func setup(points_to_win : int):
@@ -70,14 +73,20 @@ func decrement_points(value : float):
 	_progress_bar.decrement_value(value)
 
 func level_up(current_level : int):
-	_levelup_label.text = "Level Up!\n" + str(current_level)
+	var level_up_text : String =\
+		"Level Up!" if _pulse_cooldown_timer.time_left == 0 else "Sike!"
+	
+	_levelup_label.text = level_up_text + '\n' + str(current_level)
 	_levelup_label.add_color_override("font_color", _levelup_color)
 	_levelup_label.show()
 	
 	_make_levelup_tween(true)
 
 func level_down(current_level : int):
-	_levelup_label.text = "Level Down\n" + str(current_level)
+	var level_down_text : String =\
+		"Level Down" if _pulse_cooldown_timer.time_left == 0 else "Sike!"
+	
+	_levelup_label.text = level_down_text + '\n' + str(current_level)
 	_levelup_label.add_color_override("font_color", _leveldown_color)
 	_levelup_label.show()
 	
@@ -108,21 +117,23 @@ func _make_levelup_tween(do_pulse : bool):
 		_levelup_active_tween.kill()
 		_levelup_label.rect_scale = Vector2.ONE
 		_levelup_label.rect_rotation = 0
-		_paulse_canvas.material.set_shader_param("start_radius", 0.0)
-		_paulse_canvas.material.set_shader_param("end_radius", 0.0)
+		_pulse_canvas.material.set_shader_param("start_radius", 0.0)
+		_pulse_canvas.material.set_shader_param("end_radius", 0.0)
 	
 	# popup
 	tween.tween_property(_levelup_label, "rect_scale", Vector2.ONE, _levelup_tween_time)\
 		.from(Vector2.ZERO).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	# pulse
-	if do_pulse:
+	if do_pulse && _pulse_cooldown_timer.time_left == 0.0:
 		tween.parallel()
-		tween.tween_property(_paulse_canvas.material, "shader_param/start_radius", 1.0, _levelup_tween_time)\
+		tween.tween_property(_pulse_canvas.material, "shader_param/start_radius", 1.0, _levelup_tween_time)\
 			.from(0.0)
 		tween.parallel()
-		tween.tween_property(_paulse_canvas.material, "shader_param/end_radius", 1.2, _levelup_tween_time)\
+		tween.tween_property(_pulse_canvas.material, "shader_param/end_radius", 1.2, _levelup_tween_time)\
 			.from(0.2)
+		
 		emit_signal("pulsed")
+	_pulse_cooldown_timer.start()
 		
 	tween.tween_interval(_levelup_show_time)
 	

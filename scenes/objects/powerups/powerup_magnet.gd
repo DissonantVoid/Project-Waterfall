@@ -6,8 +6,8 @@ onready var _life_timer : Timer = $LifeTimer
 
 const _magnet_offset : Vector2 = Vector2(0, -20)
 var _characters_in_range : Dictionary # dicts are more efficient here
-const _min_pull_force : float = 200.0
-const _max_pull_force : float = 800.0
+const _min_pull_force : float = 120.0
+const _max_pull_force : float = 700.0
 var _furthest_collider_point_distance : float
 
 

@@ -5,8 +5,8 @@ onready var _sprite : AnimatedSprite = $Sprite
 onready var _held_character_sprite : Sprite = $HeldCharacter
 onready var _warning_sprite : Sprite = $Warning
 onready var _collider : CollisionShape2D = $CollisionShape2D
+onready var _warning_timer : Timer = $WarningTimer
 
-const _warning_time : float = 2.0
 var _speed : float
 var _direction : Vector2
 var _x_edges : Vector2
@@ -19,7 +19,8 @@ func _ready():
 	_sprite.speed_scale = LevelData.time_factor
 	LevelData.connect("time_factor_changed", self, "_on_time_factor_changed")
 
-func setup(min_speed : float, max_speed : float):
+func setup(min_speed : float, max_speed : float, warning_time : float):
+	# setup movement variables
 	var y_25_percent : float = lerp(0, LevelData.view_size.y, 0.25)
 	var end_position : Vector2
 	global_position.y = Utility.rng.randi_range(0, LevelData.view_size.y - y_25_percent)
@@ -38,23 +39,24 @@ func setup(min_speed : float, max_speed : float):
 	_x_edges = Vector2(0, LevelData.view_size.x)
 	
 	# warn before showing the bird
-	# TODO: feels hacky, maybe hazards_maker.gd should do this for rocks and birds
 	_sprite.hide()
 	_warning_sprite.show()
 	_warning_sprite.global_position.x = clamp(_warning_sprite.global_position.x, 32, LevelData.view_size.x-32)
 	_collider.disabled = true
-	yield(get_tree().create_timer(_warning_time), "timeout")
-	
-	_sprite.show()
-	_warning_sprite.hide()
-	_collider.disabled = false
-	_is_moving = true
+	_warning_timer.wait_time = warning_time
+	_warning_timer.start()
 
 func _process(delta : float):
 	if _is_moving:
 		global_position += _direction * _speed * delta * LevelData.time_factor
 		if global_position.x < _x_edges[0] || global_position.x > _x_edges[1]:
 			queue_free()
+
+func _on_warning_timeout():
+	_sprite.show()
+	_warning_sprite.hide()
+	_collider.disabled = false
+	_is_moving = true
 
 func _on_time_factor_changed():
 	_sprite.speed_scale = LevelData.time_factor
@@ -67,3 +69,4 @@ func _on_body_entered(body):
 		_is_holding_character = true
 	elif body is HazardFallingRock:
 		body.queue_free()
+

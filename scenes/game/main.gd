@@ -66,8 +66,20 @@ func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
 		_set_pause(!_is_paused)
 	
-	#if event is InputEventKey && event.pressed:
-	#	_increment_points(10)
+	# TEMP for debugging (don't tell anyone :|)
+	if event is InputEventKey && event.pressed:
+		if event.scancode == KEY_SPACE:
+			_increment_points(10)
+		elif event.scancode == KEY_1:
+			_increment_points((_points_to_levelup*0) -_current_progress)
+		elif event.scancode == KEY_2:
+			_increment_points((_points_to_levelup*1) -_current_progress)
+		elif event.scancode == KEY_3:
+			_increment_points((_points_to_levelup*2) -_current_progress)
+		elif event.scancode == KEY_4:
+			_increment_points((_points_to_levelup*3) -_current_progress)
+		elif event.scancode == KEY_5:
+			_increment_points((_points_to_levelup*4) -_current_progress)
 
 func _exit_tree():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -133,11 +145,12 @@ func _set_pause(should_pause : bool):
 func _increment_points(value : float):
 	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
 	
+	var new_level : int = int(_current_progress) / _points_to_levelup
 	if sign(value) == 1:
 		_ui.increment_points(value, _bucket.global_position)
 		# level up
-		if int(_current_progress) / _points_to_levelup > _current_level:
-			_current_level += 1
+		if new_level > _current_level:
+			_current_level = new_level
 			if _current_level == (_points_to_win / _points_to_levelup):
 				# we won!
 				# do some particles n stuff first
@@ -146,12 +159,12 @@ func _increment_points(value : float):
 			else:
 				_ui.level_up(_current_level)
 				_apply_rules()
-				
+		
 	elif sign(value) == -1:
 		_ui.decrement_points(value)
 		# level down
-		if int(_current_progress) / _points_to_levelup < _current_level:
-			_current_level -= 1
+		if new_level < _current_level:
+			_current_level = new_level
 			_ui.level_down(_current_level)
 			_apply_rules()
 
@@ -175,6 +188,7 @@ func _apply_rules():
 		curr_level_data["multiple_rocks_chance"],
 		curr_level_data["bird_min_speed"],
 		curr_level_data["bird_max_speed"],
+		curr_level_data["bird_warning_time"],
 		curr_level_data["multiple_birds_chance"]
 	)
 	_powerups_spawner.update_rules(
@@ -209,6 +223,7 @@ func _load_rules_from_file():
 		level_dict["multiple_rocks_chance"]      = config_file.get_value(level, "multiple_rocks_chance")
 		level_dict["bird_min_speed"]             = config_file.get_value(level, "bird_min_speed")
 		level_dict["bird_max_speed"]             = config_file.get_value(level, "bird_max_speed")
+		level_dict["bird_warning_time"]          = config_file.get_value(level, "bird_warning_time")
 		level_dict["multiple_birds_chance"]      = config_file.get_value(level, "multiple_birds_chance")
 		level_dict["time_between_powerups"]      = config_file.get_value(level, "time_between_powerups")
 		level_dict["powerup_min_speed"]          = config_file.get_value(level, "powerup_min_speed")

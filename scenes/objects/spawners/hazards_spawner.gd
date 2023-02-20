@@ -11,7 +11,7 @@ const _hazards : Dictionary = {
 	},
 	"bird": {
 		"scene":preload("res://scenes/objects/hazards/hazard_bird.tscn"), "multiple_chance":0,
-		"min_speed":0.0, "max_speed":0.0
+		"min_speed":0.0, "max_speed":0.0, "warning_time":0.0
 	}
 }
 const _multiple_hazards_count : int = 3 # if we get a multiple chance (_multiple_rocks_chance etc..) we spawn this amount
@@ -22,7 +22,7 @@ func _ready():
 
 func update_rules(time_between_spawn : float, min_rock_speed : float, max_rock_speed : float,
 		multiple_rocks_chance : int, min_bird_speed : float, max_bird_speed : float,
-		multiple_birds_chance : int):
+		bird_warning_time : float, multiple_birds_chance : int):
 	_spawn_time = time_between_spawn
 	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 	_hazards["falling_rock"]["min_speed"] = min_rock_speed
@@ -30,6 +30,7 @@ func update_rules(time_between_spawn : float, min_rock_speed : float, max_rock_s
 	_hazards["falling_rock"]["multiple_chance"] = multiple_rocks_chance
 	_hazards["bird"]["min_speed"] = min_bird_speed
 	_hazards["bird"]["max_speed"] = max_bird_speed
+	_hazards["bird"]["warning_time"] = bird_warning_time
 	_hazards["bird"]["multiple_chance"] = multiple_birds_chance
 
 func destroy_all():
@@ -65,5 +66,6 @@ func _spawn_hazard():
 			"bird":
 				instances[i].setup(
 					_hazards[rnd_key]["min_speed"],
-					_hazards[rnd_key]["max_speed"]
+					_hazards[rnd_key]["max_speed"],
+					_hazards[rnd_key]["warning_time"]
 				)
