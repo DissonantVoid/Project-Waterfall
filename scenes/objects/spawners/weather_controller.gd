@@ -14,7 +14,6 @@ const _float_speed : float = 48.0
 
 func _ready():
 	_cloud_sprite_count = _texture.get_width() / _half_cloud_size.x*2
-	_spawn_timer.start()
 	
 	_spawn_bounds["x"] = Vector2(
 		-_half_cloud_size.x,
@@ -24,9 +23,13 @@ func _ready():
 		_half_cloud_size.y,
 		LevelData.view_size.y -_half_cloud_size.y
 	)
+	
+	LevelData.connect("level_rules_updated", self, "_on_level_rules_updated")
+	_spawn_timer.start()
 
-func update_rules(time_between_clouds : float):
-	_spawn_time = time_between_clouds
+func _on_level_rules_updated():
+	var current_rules : Dictionary = LevelData.levels_rules[LevelData.current_level]
+	_spawn_time = current_rules["time_between_clouds"]
 	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 
 func _on_spawn_timer_timeout():

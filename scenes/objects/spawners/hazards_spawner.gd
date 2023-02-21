@@ -18,24 +18,24 @@ const _multiple_hazards_count : int = 3 # if we get a multiple chance (_multiple
 
 
 func _ready():
+	LevelData.connect("level_rules_updated", self, "_on_level_rules_updated")
 	_spawn_timer.start()
-
-func update_rules(time_between_spawn : float, min_rock_speed : float, max_rock_speed : float,
-		multiple_rocks_chance : int, min_bird_speed : float, max_bird_speed : float,
-		bird_warning_time : float, multiple_birds_chance : int):
-	_spawn_time = time_between_spawn
-	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
-	_hazards["falling_rock"]["min_speed"] = min_rock_speed
-	_hazards["falling_rock"]["max_speed"] = max_rock_speed
-	_hazards["falling_rock"]["multiple_chance"] = multiple_rocks_chance
-	_hazards["bird"]["min_speed"] = min_bird_speed
-	_hazards["bird"]["max_speed"] = max_bird_speed
-	_hazards["bird"]["warning_time"] = bird_warning_time
-	_hazards["bird"]["multiple_chance"] = multiple_birds_chance
 
 func destroy_all():
 	for hazard in _hazards_container.get_children():
 		hazard.queue_free()
+
+func _on_level_rules_updated():
+	var current_rules : Dictionary = LevelData.levels_rules[LevelData.current_level]
+	_spawn_time =  current_rules["time_between_hazards"]
+	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
+	_hazards["falling_rock"]["min_speed"] = current_rules["falling_rock_min_speed"]
+	_hazards["falling_rock"]["max_speed"] = current_rules["falling_rock_max_speed"]
+	_hazards["falling_rock"]["multiple_chance"] = current_rules["multiple_rocks_chance"]
+	_hazards["bird"]["min_speed"] = current_rules["bird_min_speed"]
+	_hazards["bird"]["max_speed"] = current_rules["bird_max_speed"]
+	_hazards["bird"]["warning_time"] = current_rules["bird_warning_time"]
+	_hazards["bird"]["multiple_chance"] = current_rules["multiple_birds_chance"]
 
 func _on_spawn_timer_timeout():
 	_spawn_hazard()
