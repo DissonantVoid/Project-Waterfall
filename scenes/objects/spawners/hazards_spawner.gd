@@ -19,7 +19,6 @@ const _multiple_hazards_count : int = 3 # if we get a multiple chance (_multiple
 
 func _ready():
 	LevelData.connect("level_rules_updated", self, "_on_level_rules_updated")
-	_spawn_timer.start()
 
 func destroy_all():
 	for hazard in _hazards_container.get_children():
@@ -36,6 +35,8 @@ func _on_level_rules_updated():
 	_hazards["bird"]["max_speed"] = current_rules["bird_max_speed"]
 	_hazards["bird"]["warning_time"] = current_rules["bird_warning_time"]
 	_hazards["bird"]["multiple_chance"] = current_rules["multiple_birds_chance"]
+	
+	_spawn_timer.start()
 
 func _on_spawn_timer_timeout():
 	_spawn_hazard()

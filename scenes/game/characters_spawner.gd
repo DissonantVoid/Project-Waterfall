@@ -12,7 +12,6 @@ var _parachute_chance : int
 
 func _ready():
 	LevelData.connect("level_rules_updated", self, "_on_level_rules_updated")
-	_spawn_timer.start()
 
 func do_pulse():
 	# push characters along with the pulse
@@ -25,6 +24,8 @@ func _on_level_rules_updated():
 	_spawn_time = current_rules["time_between_characters"]
 	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
 	_parachute_chance = current_rules["characters_parachute_chance"]
+	
+	_spawn_timer.start()
 
 func _on_spawn_timeout():
 	var instance := _character_scene.instance()

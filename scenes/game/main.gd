@@ -162,13 +162,13 @@ func _increment_points(value : float):
 		_ui.increment_points(value, _bucket.global_position)
 		# level up
 		if new_level > LevelData.current_level:
-			LevelData.change_level(new_level)
-			if LevelData.current_level == (_points_to_win / _points_to_levelup):
+			if new_level == (_points_to_win / _points_to_levelup):
 				# we won!
 				# do some particles n stuff first
 				LevelData.game_won = true
 				SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 			else:
+				LevelData.change_level(new_level)
 				_ui.level_up(LevelData.current_level)
 				_update_music()
 		

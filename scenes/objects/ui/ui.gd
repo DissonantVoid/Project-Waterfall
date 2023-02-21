@@ -54,7 +54,7 @@ func increment_points(value : float, bucket_position : Vector2):
 	label.add_font_override("font", _point_label_font)
 	label.add_color_override("font_color", Color.black)
 	label.text = "+" + str(value)
-	# /2 because view is twice the screen size (camera is zoomed out), this feels hacky
+	# /2 because view is twice the screen size
 	label.rect_position = bucket_position / 2
 	add_child(label)
 	label.rect_pivot_offset = label.rect_size / 2
@@ -69,7 +69,6 @@ func increment_points(value : float, bucket_position : Vector2):
 
 func decrement_points(value : float):
 	# ...
-	
 	_progress_bar.decrement_value(value)
 
 func level_up(current_level : int):

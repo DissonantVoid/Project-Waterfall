@@ -1,11 +1,18 @@
 class_name HazardBird
 extends Area2D
 
-onready var _sprite : AnimatedSprite = $Sprite
+onready var _sprite : Sprite = $Sprite
+onready var _sprite_animation_timer : Timer = $Sprite/AnimationTimer
 onready var _held_character_sprite : Sprite = $HeldCharacter
 onready var _warning_sprite : Sprite = $Warning
 onready var _collider : CollisionShape2D = $CollisionShape2D
 onready var _warning_timer : Timer = $WarningTimer
+
+const _birds_sprite_count : int = 2 # the number of birds in the sprite sheet
+const _birds_sprite_frames : int = 7 # number of frames in an animation
+const _birds_sprite_width : int = 48 # width of a single frame
+
+var _sprite_animation_time : float = 0.1
 
 var _speed : float
 var _direction : Vector2
@@ -16,7 +23,10 @@ const _speed_with_held_character : float = 390.0
 
 
 func _ready():
-	_sprite.speed_scale = LevelData.time_factor
+	# random bird sprite
+	_sprite.frame = Utility.rng.randi_range(0, _birds_sprite_count-1)
+	
+	_sprite_animation_timer.wait_time = _sprite_animation_time / LevelData.time_factor
 	LevelData.connect("time_factor_changed", self, "_on_time_factor_changed")
 
 func setup(min_speed : float, max_speed : float, warning_time : float):
@@ -59,7 +69,7 @@ func _on_warning_timeout():
 	_is_moving = true
 
 func _on_time_factor_changed():
-	_sprite.speed_scale = LevelData.time_factor
+	_sprite_animation_timer.wait_time = _sprite_animation_time / LevelData.time_factor
 
 func _on_body_entered(body):
 	if body is Character && _is_holding_character == false:
@@ -70,3 +80,7 @@ func _on_body_entered(body):
 	elif body is HazardFallingRock:
 		body.queue_free()
 
+func _on_animation_timeout():
+	_sprite.region_rect.position.x += _birds_sprite_width
+	if _sprite.region_rect.position.x == _birds_sprite_width * _birds_sprite_frames:
+		_sprite.region_rect.position.x = 0
