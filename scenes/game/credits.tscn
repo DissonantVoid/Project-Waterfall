@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/game/credits.gd" type="Script" id=1]
 [ext_resource path="res://resources/fonts/quantum-font/Quantum-18n0.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://resources/textures/logo.png" type="Texture" id=3]
 [ext_resource path="res://scenes/objects/ui/button.tscn" type="PackedScene" id=4]
+[ext_resource path="res://resources/music/credits body.mp3" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]
+size = 14
 font_data = ExtResource( 2 )
 
 [sub_resource type="Animation" id=3]
@@ -73,7 +75,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "main"
-length = 45.0
+length = 55.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("RichTextLabel:rect_position")
 tracks/0/interp = 1
@@ -81,10 +83,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 6, 23.7, 30, 45 ),
+"times": PoolRealArray( 0, 6, 39.9, 46.2, 54.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 181 ), Vector2( 0, 181 ), Vector2( 0, -1012 ), Vector2( 0, -1012 ), Vector2( 0, -1361 ) ]
+"values": [ Vector2( 0, 181 ), Vector2( 0, 181 ), Vector2( 0, -1003 ), Vector2( 0, -1003 ), Vector2( 0, -1517 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Logo:modulate")
@@ -93,7 +95,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5, 3, 7, 9, 42, 45 ),
+"times": PoolRealArray( 0, 1.5, 3, 7, 9, 51.8, 54.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -105,7 +107,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 5, 7, 42, 45 ),
+"times": PoolRealArray( 0, 5, 7, 51.8, 54.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 89.5, 65.5 ), Vector2( 89.5, 65.5 ), Vector2( 89.5, 0 ), Vector2( 89.5, 0 ), Vector2( 89.5, 65.5 ) ]
@@ -117,7 +119,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 5, 7, 42, 45 ),
+"times": PoolRealArray( 0, 5, 7, 51.8, 54.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
@@ -132,7 +134,7 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 181.0
-margin_bottom = 1517.0
+margin_bottom = 1488.0
 custom_fonts/normal_font = SubResource( 1 )
 bbcode_enabled = true
 bbcode_text = "[center]
@@ -187,7 +189,7 @@ Thank you to all of you, who helped us to make this game real, and thanks to you
 Happy Milestone !!
 [img]res://resources/textures/credits/credits_button.png[/img]
 
-[rainbow freq=0.8 sat=10 val=40]p.s: keep your eyes peeled for a special surprise very soon[/rainbow]
+[rainbow freq=0.4 sat=10 val=40]p.s: keep your eyes peeled for a special surprise soon enough[/rainbow]
 [center]"
 text = "
 
@@ -241,7 +243,7 @@ Thank you to all of you, who helped us to make this game real, and thanks to you
 Happy Milestone !!
 
 
-p.s: keep your eyes peeled for a special surprise very soon
+p.s: keep your eyes peeled for a special surprise soon enough
 "
 fit_content_height = true
 scroll_active = false
@@ -254,12 +256,13 @@ anchor_bottom = 0.5
 margin_left = -70.5
 margin_top = -24.5
 margin_right = 70.5
-margin_bottom = 24.501
+margin_bottom = 24.5012
 rect_pivot_offset = Vector2( 70, 24 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "main"
+reset_on_save = false
 anims/RESET = SubResource( 3 )
 anims/main = SubResource( 4 )
 
@@ -275,5 +278,10 @@ margin_right = 32.0
 margin_bottom = -9.0
 _text = "TO MENU"
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
+[connection signal="finished" from="Music" to="." method="_on_music_finished"]

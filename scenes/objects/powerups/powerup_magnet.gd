@@ -20,7 +20,7 @@ func _ready():
 		if distance_to_point > _furthest_collider_point_distance:
 			_furthest_collider_point_distance = distance_to_point
 
-func _process(delta):
+func _process(delta : float):
 	global_position = _request_callback.call_func("global_position") + _magnet_offset
 	var average_characters_position : Vector2 = Vector2.ZERO
 	

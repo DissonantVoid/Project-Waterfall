@@ -67,9 +67,10 @@ ART:
 
 MUSIC:
 [ ] menu
-[ ] game (all layers)
-[ ] end screen
-[ ] credits
+[ ] introduction
+[..] game (all layers)
+[ ] end sceen
+[X] credits
 
 NOTES:
 -make sure that all audio is at 6DB or close, we tweak volume in engine

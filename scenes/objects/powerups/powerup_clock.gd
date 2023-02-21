@@ -15,7 +15,7 @@ onready var _timer : Timer = $LifeTimer
 const _clock_offset : Vector2 = Vector2(0, +30)
 
 
-func _process(delta):
+func _process(delta : float):
 	global_position = _request_callback.call_func("global_position") + _clock_offset
 
 # override

@@ -16,9 +16,6 @@ const _start_color : Color = Color("fab43c")
 const _end_color : Color = Color("d54d2d")
 
 
-# TODO: the progress bar is brocken, we should win once the meter reaches the end
-#       but it keeps going as if we had a level left
-
 func _ready():
 	# add characters, in a random order
 	var characters_count : int = _characters_sprite.get_width() / _char_sprite_size

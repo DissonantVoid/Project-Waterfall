@@ -4,10 +4,6 @@ const _sfx_folder : String = "res://resources/sounds/"
 var _directory : Directory = Directory.new()
 var _active_loops : Dictionary
 
-#TODO music
-#var main_music = load("res://<main_music_file>")
-#var menu_music = load("res://<menu_music_file>")
-
 
 # TODO: add checks to make sure that we don't call play_sound with a
 #       sound that loops, or play_sound_loop with a sound that doesn't loop

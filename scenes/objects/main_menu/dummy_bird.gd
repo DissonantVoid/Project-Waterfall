@@ -23,6 +23,8 @@ func _ready():
 		global_position.x = _window_size.x + 32
 		_x_direction = -1
 	global_position.y = Utility.rng.randf_range(0, _window_size.y)
+	
+	scale = Vector2.ONE * Utility.rng.randf_range(0.5, 1)
 
 func _process(delta : float):
 	global_position.x += _fly_speed * _x_direction * delta
