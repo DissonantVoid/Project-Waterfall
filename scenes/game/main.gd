@@ -12,6 +12,8 @@ onready var _weather_controller : Node2D = $Spawners/WeatherControler
 onready var _powerups_spawner : Node2D = $Spawners/PowerupsSpawner
 onready var _health_spawner : Node2D = $Spawners/HealthSpawner
 
+onready var _music_player : AudioStreamPlayer = $Music
+
 const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg, you'd also need to change the progress bar and.. just don't do it alright?
 const _points_to_win : int = 100
 const _points_to_levelup : int = _points_to_win / _levels_count
@@ -20,6 +22,12 @@ var _current_level : int = 0
 
 var _levels_rules : Array
 var _is_paused : bool = false
+
+var _music_levels : Dictionary = {
+	"1":preload("res://resources/music/main_level_1.mp3"),
+	"2":preload("res://resources/music/main_level_2_3.mp3"),
+	"4":preload("res://resources/music/main_level_4_5.mp3")
+}
 
 # TODO: the game starts immidiatly, we need to give player
 #       time to process what's what first, a delay at the start before
@@ -61,6 +69,8 @@ func _ready():
 	
 	_load_rules_from_file()
 	_apply_rules()
+	
+	_update_music()
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
@@ -159,6 +169,7 @@ func _increment_points(value : float):
 			else:
 				_ui.level_up(_current_level)
 				_apply_rules()
+				_update_music()
 		
 	elif sign(value) == -1:
 		_ui.decrement_points(value)
@@ -167,6 +178,7 @@ func _increment_points(value : float):
 			_current_level = new_level
 			_ui.level_down(_current_level)
 			_apply_rules()
+			_update_music()
 
 func _apply_rules():
 	# TODO: remove "update_rules" functions, instead use LevelData to update rules
@@ -201,6 +213,15 @@ func _apply_rules():
 		curr_level_data["health_item_speed"]
 	)
 	#...
+
+func _update_music():
+	var next_music_layer : int = _current_level + 1
+	while _music_levels.has(str(next_music_layer)) == false && next_music_layer > 0:
+		next_music_layer -= 1
+	
+	if _music_player.stream != _music_levels[str(next_music_layer)]:
+			_music_player.stream = _music_levels[str(next_music_layer)]
+			_music_player.play()
 
 func _load_rules_from_file():
 	var config_file : ConfigFile = ConfigFile.new()

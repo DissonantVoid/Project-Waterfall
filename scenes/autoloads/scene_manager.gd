@@ -28,8 +28,9 @@ func change_scene(scene_name : String):
 	get_tree().change_scene(scene_name)
 	yield(get_tree(),"idle_frame")
 	
+	var volume_before_fade : int = AudioServer.get_bus_volume_db(_master_bus_idx)
 	var tween : SceneTreeTween = get_tree().create_tween()
-	tween.tween_method(self, "_set_master_volume", 0, _low_volume_value, _audio_tween_time)
+	tween.tween_method(self, "_set_master_volume", volume_before_fade, _low_volume_value, _audio_tween_time)
 	tween.parallel()
 	tween.tween_property(_screen_capture.material, "shader_param/offset", 0.5, _tween_time)\
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
@@ -41,7 +42,7 @@ func change_scene(scene_name : String):
 	# reset
 	_screen_capture.material.set_shader_param("offset", 0.0) # NOTE: this has to be 0.0 and not 0, as 0 will make tween treat offset as int and hence give error on next tween "missmatch between int and float"
 	tween = get_tree().create_tween() # tween becomes invalid after finishing, creating new one
-	tween.tween_method(self,"_set_master_volume", _low_volume_value, 0, _audio_tween_time)
+	tween.tween_method(self, "_set_master_volume", _low_volume_value, volume_before_fade, _audio_tween_time)
 	yield(tween,"finished")
 	_is_changing = false
 

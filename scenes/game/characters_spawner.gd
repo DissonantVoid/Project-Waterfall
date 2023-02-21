@@ -19,7 +19,7 @@ func update_rules(time_between_spawn : float, characters_parachute_chance : int)
 	_parachute_chance = characters_parachute_chance
 
 func do_pulse():
-	# push character along with the pulse
+	# push characters along with the pulse
 	for character in _chars_container.get_children():
 		var x_direction : float = character.global_position.x - LevelData.view_size.x/2
 		character.apply_central_impulse(Vector2(x_direction * _pulse_force, 0))

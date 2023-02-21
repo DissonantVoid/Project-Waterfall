@@ -455,6 +455,9 @@ position = Vector2( 320, 435 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Abyss"]
 shape = SubResource( 4 )
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+
 [connection signal="pressed" from="UI/Pause/ButtonMargin/Back" to="UI" method="_on_back_to_menu_pressed"]
 [connection signal="timeout" from="UI/Pause/UnpauseTimer" to="UI" method="_on_unpause_timer_timeout"]
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]

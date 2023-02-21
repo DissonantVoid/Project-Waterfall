@@ -9,7 +9,7 @@ var _cloud_sprite_count : int # the number of clouds in the sprite sheet, calcul
 
 var _spawn_time : float
 var _spawn_bounds : Dictionary
-const _float_speed : float = 40.0
+const _float_speed : float = 48.0
 
 
 func _ready():
