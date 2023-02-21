@@ -88,6 +88,7 @@ func _on_detection_body_or_area_entered(object):
 	if object is HazardFallingRock || object is HazardBird:
 		object.queue_free()
 		_change_health(-1)
+		LevelData.increment_stat("hazards hit", 1)
 		
 		if _current_health == 0:
 			_front_sprite.visible = false
@@ -107,11 +108,13 @@ func _on_detection_body_or_area_entered(object):
 		yield(get_tree(), "idle_frame") # removing this causes issues with physics, godot moment
 		get_tree().current_scene.add_child(powerup_instance)
 		powerup_instance.powerup_start(funcref(self, "_powerup_request"))
+		LevelData.increment_stat("powerups collected", 1)
 		emit_signal("powerup_picked")
 	
 	elif object is Health:
 		object.queue_free()
 		_change_health(+1)
+		LevelData.increment_stat("health taken", 1)
 
 func _on_powerup_finished(powerup : Node2D):
 	powerup.powerup_cleanup()

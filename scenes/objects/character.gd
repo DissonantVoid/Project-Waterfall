@@ -76,6 +76,11 @@ func free_self(was_saved : bool):
 	# NOTE: call this if you want to allow character to make a sound before
 	#       dying/saved
 	# TODO: default saved and fall sounds needed
+	if was_saved:
+		LevelData.increment_stat("characters saved", 1)
+	else:
+		LevelData.increment_stat("characters lost", 1)
+	
 	queue_free()
 	return
 	

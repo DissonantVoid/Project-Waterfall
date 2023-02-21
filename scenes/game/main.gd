@@ -173,6 +173,7 @@ func _increment_points(value : float):
 				SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 			else:
 				LevelData.change_level(new_level)
+				LevelData.increment_stat("level ups", 1)
 				_ui.level_up(LevelData.current_level)
 				_update_music()
 		
@@ -181,6 +182,7 @@ func _increment_points(value : float):
 		# level down
 		if new_level < LevelData.current_level:
 			LevelData.change_level(new_level)
+			LevelData.increment_stat("level downs", 1)
 			_ui.level_down(LevelData.current_level)
 			_update_music()
 

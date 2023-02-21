@@ -77,6 +77,7 @@ func _on_body_entered(body):
 		_speed = _speed_with_held_character
 		_held_character_sprite.texture = body.get_texture()
 		_is_holding_character = true
+		LevelData.increment_stat("bird food", 1)
 	elif body is HazardFallingRock:
 		body.queue_free()
 

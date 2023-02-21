@@ -11,6 +11,10 @@ var view_size : Vector2 = Vector2(
 
 var levels_rules : Array
 var current_level : int = 0 setget _set_current_level
+var _stats : Dictionary = {
+	"characters saved":0, "characters lost":0, "bird food":0, "powerups collected":0,
+	"hazards hit":0, "health taken":0, "level ups":0, "level downs":0
+}
 
 var time_factor : float = 1.0 setget _set_time_factor
 var game_won : bool = false
@@ -30,10 +34,21 @@ func _set_current_level(value : int):
 func reset():
 	time_factor = 1.0
 	game_won = false
+	current_level = 0
+	for stat in _stats.values():
+		stat = 0
 
 func change_level(new_level : int):
 	current_level = new_level
 	emit_signal("level_rules_updated")
+
+func increment_stat(stat_name : String, increment : int):
+	assert(_stats.has(stat_name), "stat name doesn't exist")
+	_stats[stat_name] += increment
+
+func get_stats() -> Dictionary:
+	# TODO: maybe just make stats a public var
+	return _stats
 
 func _load_rules_from_file():
 	var config_file : ConfigFile = ConfigFile.new()
