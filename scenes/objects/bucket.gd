@@ -6,9 +6,13 @@ signal hit_hazard
 signal powerup_picked
 signal powerup_finished
 signal time_factor_changed(factor)
+signal about_to_be_destroyed
 signal destroyed
 
+onready var _full_sprite : Sprite = $Full # used mainly for animation
+onready var _full_sprite_animator : AnimationPlayer = $Full/AnimationPlayer
 onready var _front_sprite : Sprite = $Front
+onready var _back_sprite : Sprite = $Back
 onready var _health_bar : ProgressBar = $HealthBar
 
 const _front_spr_fade_time : float = 0.3
@@ -86,8 +90,12 @@ func _on_detection_body_or_area_entered(object):
 		_change_health(-1)
 		
 		if _current_health == 0:
-			# DIE!!!
-			emit_signal("destroyed")
+			_front_sprite.visible = false
+			_back_sprite.visible = false
+			_health_bar.visible = false
+			_full_sprite.visible = true
+			_full_sprite_animator.play("explode")
+			emit_signal("about_to_be_destroyed")
 		else:
 			emit_signal("hit_hazard")
 		
@@ -108,6 +116,10 @@ func _on_detection_body_or_area_entered(object):
 func _on_powerup_finished(powerup : Node2D):
 	powerup.powerup_cleanup()
 	emit_signal("powerup_finished")
+
+func _on_back_sprite_animation_finished(anim_name : String):
+	if anim_name == "explode":
+		emit_signal("destroyed")
 
 func _powerup_request(request_string : String, args : Dictionary = {}):
 	# for when a powerup can't do something on its own, and

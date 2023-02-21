@@ -60,6 +60,7 @@ func _ready():
 	_bucket.connect("powerup_picked",self,"_on_bucket_powerup_picked")
 	_bucket.connect("powerup_finished",self,"_on_bucket_powerup_finished")
 	_bucket.connect("time_factor_changed",self,"_on_bucket_time_factor_changed")
+	_bucket.connect("about_to_be_destroyed",self,"_on_bucket_about_to_be_destroyed")
 	_bucket.connect("destroyed",self,"_on_bucket_destroyed")
 	_ui.connect("pulsed", self, "_on_ui_pulsed")
 	_ui.connect("forced_unpause", self, "_on_ui_forced_unpause")
@@ -120,6 +121,9 @@ func _on_bucket_powerup_finished():
 
 func _on_bucket_time_factor_changed(factor : float):
 	LevelData.time_factor = factor
+
+func _on_bucket_about_to_be_destroyed():
+	_camera.shrink_to_target(_bucket)
 
 func _on_bucket_destroyed():
 	LevelData.game_won = false

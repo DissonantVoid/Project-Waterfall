@@ -11,8 +11,10 @@ var _window_size : Vector2 = Vector2(
 	ProjectSettings.get_setting("display/window/size/height")
 )
 
-# TODO: pick random bird sprite n animate
 func _ready():
+	var birds_count : int = _sprite.texture.get_height() / 32
+	_sprite.frame = Utility.rng.randi_range(0, birds_count-1)
+	
 	if Utility.rng.randi_range(0,1) == 0:
 		global_position.x = -32
 		_x_direction = 1

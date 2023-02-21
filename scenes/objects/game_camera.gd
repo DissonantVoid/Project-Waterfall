@@ -32,6 +32,16 @@ func shake(level : int):
 	
 	_shake_timer.start()
 
+func shrink_to_target(target : Node2D):
+	# NOTE: since this will be called when the bucket is about to explode
+	# there is no need for cleaning up
+	var quarter_screen_size : Vector2 = LevelData.view_size / 4
+	global_position = Vector2(
+		clamp(target.global_position.x, quarter_screen_size.x, LevelData.view_size.x - quarter_screen_size.x),
+		clamp(target.global_position.y, quarter_screen_size.y, LevelData.view_size.y - quarter_screen_size.y)
+	)
+	zoom = Vector2.ONE
+
 func _on_shake_timeout():
 	var strength : float = _shake_data[_curr_shake_level]["shake_strength"]
 	offset.x = _noise.get_noise_1d(_curr_noise_input) * strength

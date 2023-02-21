@@ -5,8 +5,8 @@ onready var _birds_container : Node2D = $Birds
 
 const _bird_scene : PackedScene = preload("res://scenes/objects/main_menu/dummy_bird.tscn")
 
-const _min_bird_time : float = 2.0
-const _max_bird_time : float = 5.0
+const _min_bird_time : float = 1.0
+const _max_bird_time : float = 2.5
 
 
 func _on_start_pressed():
