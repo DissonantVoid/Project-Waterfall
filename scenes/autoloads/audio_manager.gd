@@ -36,6 +36,7 @@ func _create_audio_player(stream_path : String, volume : float, is_loop : bool) 
 	assert(stream.loop == is_loop, "audio stream loop setting doesn't match the desired loop choice")
 	
 	audio_player.stream = stream
+	audio_player.volume_db = volume
 	audio_player.connect("finished", self, "_on_stream_finished", [audio_player])
 	add_child(audio_player)
 	audio_player.play()

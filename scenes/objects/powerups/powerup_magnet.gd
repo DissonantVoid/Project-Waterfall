@@ -88,6 +88,7 @@ func _on_body_exited(body):
 			_characters_in_range.erase(id)
 
 func _on_character_freed(id : int):
+	# TODO: there is an error here "Method expected 1 arguments, but called with 2"
 	_characters_in_range.erase(id)
 
 func _on_life_timer_timeout():
