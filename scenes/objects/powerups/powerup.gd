@@ -9,6 +9,8 @@ signal finished(powerup)
 
 var _request_callback : FuncRef
 
+# TODO: consider removing powerup_cleanup and allow powerups
+#       to cleanup on they're own before emmiting 
 
 func powerup_start(request_callback : FuncRef):
 	_request_callback = request_callback

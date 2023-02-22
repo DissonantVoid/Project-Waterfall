@@ -126,6 +126,7 @@ func _on_bucket_time_factor_changed(factor : float):
 
 func _on_bucket_about_to_be_destroyed():
 	_camera.shrink_to_target(_bucket)
+	_ui.set_hud_visible(false)
 
 func _on_bucket_destroyed():
 	LevelData.game_won = false

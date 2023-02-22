@@ -13,7 +13,7 @@ onready var _full_sprite : Sprite = $Full # used mainly for animation
 onready var _full_sprite_animator : AnimationPlayer = $Full/AnimationPlayer
 onready var _front_sprite : Sprite = $Front
 onready var _back_sprite : Sprite = $Back
-onready var _health_bar : ProgressBar = $HealthBar
+onready var _health_bar : Sprite = $HealthBar
 
 const _front_spr_fade_time : float = 0.3
 const _hold_time : float = 0.48 # a character is saved after staying in bucket for this time
@@ -24,9 +24,6 @@ var _characters_in_bucket : Array = [] # [{character, timeLeftToScore},..]
 const _max_health : int = 3
 var _current_health : int = _max_health
 
-
-func _ready():
-	_health_bar.max_value = _max_health
 
 func _process(delta : float):
 	# check bodies in bucket
@@ -80,7 +77,7 @@ func _change_health(by_value : int):
 		return
 	
 	_current_health += by_value
-	_health_bar.value = _current_health
+	_health_bar.region_rect.position.x = _current_health * _health_bar.region_rect.size.x - _health_bar.region_rect.size.x
 	
 	# change sprite
 

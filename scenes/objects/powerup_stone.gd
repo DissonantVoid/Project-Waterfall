@@ -7,12 +7,13 @@ onready var _sprite : Sprite = $Sprite
 onready var _aura : Sprite = $Aura
 
 const _powerups : Array = [
-	{"sprite_region":Rect2(Vector2(80, 0), Vector2(16, 16)), "scene_path":"<random>"}, # this has to be first, don't change
-	{"sprite_region":Rect2(Vector2(0, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_full_health.tscn", "is_good_aura":true},
-	{"sprite_region":Rect2(Vector2(64, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_magnet.tscn", "is_good_aura":true},
-	{"sprite_region":Rect2(Vector2(48, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_shrink.tscn", "is_good_aura":false},
-	{"sprite_region":Rect2(Vector2(16, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_shield.tscn", "is_good_aura":true},
-	{"sprite_region":Rect2(Vector2(32, 0), Vector2(16, 16)), "scene_path":"res://scenes/objects/powerups/powerup_clock.tscn", "is_good_aura":true},
+	{"x_position_in_sprite":0, "scene_path":"<random>"}, # this has to be first, don't change
+	{"x_position_in_sprite":16, "scene_path":"res://scenes/objects/powerups/powerup_full_health.tscn", "is_good_aura":true},
+	{"x_position_in_sprite":32, "scene_path":"res://scenes/objects/powerups/powerup_shield.tscn", "is_good_aura":true},
+	{"x_position_in_sprite":48, "scene_path":"res://scenes/objects/powerups/powerup_clock.tscn", "is_good_aura":true},
+	{"x_position_in_sprite":64, "scene_path":"res://scenes/objects/powerups/powerup_shrink.tscn", "is_good_aura":false},
+	{"x_position_in_sprite":80, "scene_path":"res://scenes/objects/powerups/powerup_magnet.tscn", "is_good_aura":true},
+	{"x_position_in_sprite":96, "scene_path":"res://scenes/objects/powerups/powerup_bad_vision.tscn", "is_good_aura":false},
 ]
 var _self_powerup_data : Dictionary
 
@@ -34,7 +35,10 @@ func _ready():
 		if _self_powerup_data["is_good_aura"] == false:
 			_aura.region_rect.position.x = 32
 	
-	_sprite.texture.region = _self_powerup_data["sprite_region"]
+	_sprite.texture.region = Rect2(
+		Vector2(_self_powerup_data["x_position_in_sprite"], 0),
+		Vector2(16, 16)
+	)
 
 func _process(delta : float):
 	position.y += _speed * delta

@@ -3,6 +3,7 @@ extends CanvasLayer
 signal pulsed
 signal forced_unpause
 
+onready var _hud : MarginContainer = $Hud
 onready var _progress_bar : Control = $Hud/Progress
 onready var _pause_container : MarginContainer = $Pause
 onready var _unpause_label : Label = $Pause/MarginContainer/UnpauseLabel
@@ -47,6 +48,9 @@ func set_pause(should_pause : bool):
 		_unpause_timer.start()
 	else:
 		_unpause_timer.stop()
+
+func set_hud_visible(is_visible : bool):
+	_hud.visible = is_visible
 
 func increment_points(value : float, bucket_position : Vector2):
 	# animate a score point moving from bucket to UI

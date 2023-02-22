@@ -13,6 +13,7 @@ var _max_stone_speed : float
 
 func _ready():
 	LevelData.connect("level_rules_updated", self, "_on_level_rules_updated")
+	_spawn_timer.start()
 
 func bucket_powerup_finished():
 	# bucket used the powerup untill it ran out, now we can spawn another
@@ -24,7 +25,8 @@ func _on_level_rules_updated():
 	_min_stone_speed = current_rules["powerup_min_speed"]
 	_max_stone_speed = current_rules["powerup_max_speed"]
 	
-	_spawn_timer.start()
+	if _spawn_timer.time_left > 0:
+		_spawn_timer.start()
 
 func _on_spawn_timer_timeout():
 	var instance := _powerup_stone_scene.instance()
