@@ -59,7 +59,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "build 2/21/23"
+text = "build 2/22/23"
 
 [connection signal="pressed" from="MarginContainer/Buttons/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MarginContainer/Buttons/Credits" to="." method="_on_credits_pressed"]

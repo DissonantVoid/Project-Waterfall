@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bucket_hit_hazard.ogg-175bd17c5bdf6aaa919fddac01ed7573.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/bucket_hit_hazard.ogg"
+dest_files=[ "res://.import/bucket_hit_hazard.ogg-175bd17c5bdf6aaa919fddac01ed7573.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

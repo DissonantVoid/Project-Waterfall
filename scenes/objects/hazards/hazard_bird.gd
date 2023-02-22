@@ -9,7 +9,7 @@ onready var _collider : CollisionShape2D = $CollisionShape2D
 onready var _warning_timer : Timer = $WarningTimer
 
 const _birds_sprite_count : int = 2 # the number of birds in the sprite sheet
-const _birds_sprite_frames : int = 7 # number of frames in an animation
+const _birds_sprite_frames : int = 6 # number of frames in an animation
 const _birds_sprite_width : int = 48 # width of a single frame
 
 var _sprite_animation_time : float = 0.1
@@ -67,6 +67,7 @@ func _on_warning_timeout():
 	_warning_sprite.hide()
 	_collider.disabled = false
 	_is_moving = true
+	AudioManager.play_sound("bird_spawn", true)
 
 func _on_time_factor_changed():
 	_sprite_animation_timer.wait_time = _sprite_animation_time / LevelData.time_factor
@@ -79,7 +80,7 @@ func _on_body_entered(body):
 		_is_holding_character = true
 		LevelData.increment_stat("bird food", 1)
 	elif body is HazardFallingRock:
-		body.queue_free()
+		body.destroy()
 
 func _on_animation_timeout():
 	_sprite.region_rect.position.x += _birds_sprite_width

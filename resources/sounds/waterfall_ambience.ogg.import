@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/waterfall_ambience.ogg-155c8caa863a540fd8409834b3655836.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/waterfall_ambience.ogg"
+dest_files=[ "res://.import/waterfall_ambience.ogg-155c8caa863a540fd8409834b3655836.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,40 +1,42 @@
 GAME DESIGN:
-[ ] menu
+[X] menu
 [ ] end screen
-[ ] credits
+[..] credits
+[X] stats
 [X] win condition
-[ ] lose condition
+[X] lose condition
 [X] progress bar
 [..] powerups
 [X] global audio manager
 [X] hazards
-[ ] difficulty balancing
-[ ] introduction animation
+[..] difficulty balancing
+[..] intro scene
+[ ] final polish
 
 SOUNDS:
 [X] character spawn (default)
 [ ] character fell (default)
 [ ] character collected (default)
-[ ] character taken by bird (default)
 [X] button hover
 [X] button click
-[ ] level up
-[ ] level down
+[x] level up
+[x] level down
 [X] scene changed
-[ ] rock destroyed
+[x] rock destroyed
 [ ] bird destroyed :'(
-[ ] ambiant waterfall loop
+[x] bucket hit hazard
+[x] ambiant waterfall loop
 [ ] player won
 [ ] bird warning
-[ ] bird sound
-[ ] (optional) character hit rock
+[x] bird spawn
+[x] character hit rock
 [ ] powerup spawned
 [ ] powerup magnet collected
 [ ] powerup shrink collected
 [ ] powerup shield collected
 [ ] powerup slowtime collected
 [ ] powerup over
-[ ] unpause timer ticking
+[x] unpause timer ticking
 [ ] bucket destroyed
 
 ART:
@@ -50,7 +52,7 @@ ART:
 [X] button (hover)
 [ ] end animation (after winning)
 [X] clouds
-[ ] falling rocks
+[X] falling rocks
 [ ] birds
 [X] warning sign
 [X] game logo
@@ -60,15 +62,19 @@ ART:
 [X] powerup magnet
 [ ] powerup shield
 [X] powerup clock
-[ ] falling water particles
 [ ] health pickup
 [ ] health bar (3 parts)
-[ ] parachute
+[X] parachute
+[ ] particles falling water
+[ ] particles rock destroyed by bird
+[ ] particles bird hit bucket
+[ ] particles character saved
+[ ] (optional) a "plus" sign when a character is saved
 
 MUSIC:
 [ ] menu
 [ ] introduction
-[..] game (all layers)
+[X] game (all layers)
 [ ] end sceen
 [X] credits
 

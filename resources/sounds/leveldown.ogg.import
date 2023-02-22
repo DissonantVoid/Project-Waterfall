@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/leveldown.ogg-eb1f917077d27ca36c361a857e6173f2.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/leveldown.ogg"
+dest_files=[ "res://.import/leveldown.ogg-eb1f917077d27ca36c361a857e6173f2.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -103,6 +103,9 @@ func _on_unpause_timer_timeout():
 	_current_pause_time -= 1
 	_unpause_label.text = _unpause_label_text % _current_pause_time
 	
+	if _current_pause_time <= 5:
+		AudioManager.play_sound("clock_tick", false)
+	
 	if _current_pause_time == 0:
 		emit_signal("forced_unpause")
 	else:

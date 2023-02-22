@@ -47,7 +47,6 @@ func increment_stat(stat_name : String, increment : int):
 	_stats[stat_name] += increment
 
 func get_stats() -> Dictionary:
-	# TODO: maybe just make stats a public var
 	return _stats
 
 func _load_rules_from_file():

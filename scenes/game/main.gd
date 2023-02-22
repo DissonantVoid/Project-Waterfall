@@ -66,6 +66,7 @@ func _ready():
 	_ui.connect("forced_unpause", self, "_on_ui_forced_unpause")
 	_ui.setup(_points_to_win)
 	
+	AudioManager.play_sound_loop("waterfall_ambience", -25)
 	LevelData.change_level(0)
 	_update_music()
 
@@ -91,6 +92,7 @@ func _input(event : InputEvent):
 func _exit_tree():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().paused = false
+	AudioManager.stop_loop("waterfall_ambience")
 
 func _on_level_time_factor_changed():
 	_waterfall_bg.speed_scale = LevelData.time_factor
@@ -111,7 +113,7 @@ func _on_bucket_hit_hazard():
 	# TODO: remove this, instead have hazards play their own sfx
 	#       when destroyed, this allows for more freedom when hazards
 	#       hit each other, or hit shield powerup etc..
-	AudioManager.play_sound("collide", true)
+	AudioManager.play_sound("bucket_hit_hazard", true)
 
 func _on_bucket_powerup_picked():
 	_camera.shake(_camera.ShakeLevel.low)
@@ -148,7 +150,6 @@ func _on_abyss_body_or_area_entered(object : Node):
 		object.queue_free()
 
 func _set_pause(should_pause : bool):
-	# TODO: test potential bugs, like pausing right after winning
 	_is_paused = should_pause
 	_ui.set_pause(_is_paused)
 	get_tree().paused = _is_paused
@@ -175,6 +176,7 @@ func _increment_points(value : float):
 				LevelData.change_level(new_level)
 				LevelData.increment_stat("level ups", 1)
 				_ui.level_up(LevelData.current_level)
+				AudioManager.play_sound("levelup", false)
 				_update_music()
 		
 	elif sign(value) == -1:
@@ -184,6 +186,7 @@ func _increment_points(value : float):
 			LevelData.change_level(new_level)
 			LevelData.increment_stat("level downs", 1)
 			_ui.level_down(LevelData.current_level)
+			AudioManager.play_sound("leveldown", false)
 			_update_music()
 
 func _update_music():

@@ -104,3 +104,7 @@ func set_material(material : Material):
 
 func get_texture() -> Texture:
 	return _sprite.texture
+
+func _on_body_entered(body):
+	if body is HazardFallingRock:
+		AudioManager.play_sound("character_hit_rock", false)

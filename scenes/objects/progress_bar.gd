@@ -7,6 +7,7 @@ onready var _chars_container : Control = $CharactersContainer
 const _characters_sprite : StreamTexture = preload("res://resources/textures/characters.png")
 const _char_sprite_size : int = 16
 const _backflip_time : float = 0.8
+var _character_y_pos : float # used for the backflip tween
 const _flash_time : float = 0.4
 
 var _min_value : float
@@ -43,6 +44,8 @@ func _ready():
 		texture_rect.rect_position.y = -half_char_size
 		texture_rect.rect_scale *= 0.65
 		_chars_container.add_child(texture_rect)
+	
+	_character_y_pos = _chars_container.get_child(0).rect_position.y
 
 func setup(min_value : float, max_value : float):
 	_min_value = min_value
@@ -65,10 +68,8 @@ func increment_value(increment : float):
 			
 			var move_tween : SceneTreeTween = get_tree().create_tween()
 			var character_pos : Vector2 = character.rect_position
-			move_tween.tween_property(character, "rect_position:y", character_pos.y - 8, _backflip_time/2)
-			move_tween.tween_property(character, "rect_position:y", character_pos.y, _backflip_time/2)
-			# NOTE: if this somehow gets called again before the move tween finishes
-			#       it will cause character position to start/end in a wrong position
+			move_tween.tween_property(character, "rect_position:y", _character_y_pos - 8, _backflip_time/2)
+			move_tween.tween_property(character, "rect_position:y", _character_y_pos, _backflip_time/2)
 	
 	var tween : SceneTreeTween = get_tree().create_tween()
 	var progress_color : Color = _progress.modulate
