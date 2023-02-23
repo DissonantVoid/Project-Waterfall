@@ -73,17 +73,19 @@ func _update_front_spr_visibility():
 		tween.tween_property(_front_sprite, "modulate", color, _front_spr_fade_time)
 
 func _change_health(by_value : int):
-	if clamp(_current_health + by_value, 0, _max_health) == _current_health:
+	var clamped_value : int = clamp(_current_health + by_value, 0, _max_health)
+	if clamped_value == _current_health:
 		return
 	
-	_current_health += by_value
-	_health_bar.region_rect.position.x = _current_health * _health_bar.region_rect.size.x - _health_bar.region_rect.size.x
+	_current_health = clamped_value
 	
-	# change sprite
+	_health_bar.region_rect.position.x = _current_health * _health_bar.region_rect.size.x - _health_bar.region_rect.size.x
+	_front_sprite.region_rect.position.x = _current_health * _front_sprite.region_rect.size.x - _front_sprite.region_rect.size.x
+	_back_sprite.region_rect.position.x = _current_health * _back_sprite.region_rect.size.x - _back_sprite.region_rect.size.x
 
 func _on_detection_body_or_area_entered(object):
 	if object is HazardFallingRock || object is HazardBird:
-		object.queue_free()
+		object.destroy()
 		_change_health(-1)
 		LevelData.increment_stat("hazards hit", 1)
 		
@@ -91,6 +93,7 @@ func _on_detection_body_or_area_entered(object):
 			_front_sprite.visible = false
 			_back_sprite.visible = false
 			_health_bar.visible = false
+			_full_sprite.region_rect.position.x = 32
 			_full_sprite.visible = true
 			_full_sprite_animator.play("explode")
 			emit_signal("about_to_be_destroyed")

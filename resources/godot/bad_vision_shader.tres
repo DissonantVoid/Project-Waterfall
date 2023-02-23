@@ -7,9 +7,9 @@ uniform sampler2D noise_tex;
 
 void fragment()
 {
-	vec4 noise_sample_1 = texture(noise_tex, UV + TIME*0.06);
+	vec4 noise_sample_1 = texture(noise_tex, UV + TIME*0.08);
 	vec4 noise_sample_2 = texture(noise_tex, UV - TIME*0.04);
-	vec2 final_uv = SCREEN_UV + vec2(noise_sample_2.r*0.1, 0) - + vec2(noise_sample_1.r*0.1, 0);
+	vec2 final_uv = SCREEN_UV + vec2(noise_sample_2.r*0.08, 0) - + vec2(noise_sample_1.r*0.08, 0);
 	COLOR = texture(SCREEN_TEXTURE, final_uv);
 }"
 

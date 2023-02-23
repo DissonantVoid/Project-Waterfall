@@ -5,7 +5,7 @@ onready var _spawn_timer : Timer = $SpawnTimer
 
 const _character_scene : PackedScene = preload("res://scenes/objects/character.tscn")
 
-const _pulse_force : float = 420.0
+const _pulse_force : float = 380.0
 var _spawn_time : float
 var _parachute_chance : int
 

@@ -3,6 +3,8 @@ extends KinematicBody2D
 
 onready var _sprite : Sprite = $Sprite
 
+const _debris_particles_scene : PackedScene = preload("res://scenes/objects/standalone_particles/rock_debris.tscn")
+
 const _rock_width : int = 32
 var _fall_speed : float
 
@@ -24,5 +26,8 @@ func setup(min_speed : float, max_speed : float):
 
 func destroy():
 	AudioManager.play_sound("rock_destroyed", false)
-	# particles here
+	var debris_instance := _debris_particles_scene.instance()
+	debris_instance.global_position = global_position
+	debris_instance.emitting = true
+	get_tree().current_scene.add_child(debris_instance)
 	queue_free()

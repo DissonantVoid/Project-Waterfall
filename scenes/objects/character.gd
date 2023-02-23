@@ -60,6 +60,7 @@ func setup(_parachute_chance : int):
 	if Utility.rng.randf_range(0, 100) < _parachute_chance:
 		_parachute_sprite.show()
 		_max_speed *= _parachute_slowdown_factor
+		linear_damp = 0.3
 
 func _physics_process(delta : float):
 	# speed limit

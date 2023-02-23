@@ -12,8 +12,8 @@ onready var _levelup_label : Label = $Hud/LevelLabel
 onready var _pulse_canvas : ColorRect = $PulseCanvas
 onready var _pulse_cooldown_timer : Timer = $PulseCooldownTimer
 
-const _point_tween_time : float = 0.8
-var _point_label_font : DynamicFont
+const _character_silhouette_texture : StreamTexture = preload("res://resources/textures/character_silhouette.png")
+const _point_tween_time : float = 0.7
 
 const _levelup_tween_time : float = 1.0
 const _levelup_show_time : float = 1.2
@@ -29,10 +29,6 @@ var _unpause_label_text : String
 
 func _ready():
 	_progress_bar.rect_pivot_offset = _progress_bar.rect_size / 2
-	
-	_point_label_font = DynamicFont.new()
-	_point_label_font.size = 18
-	_point_label_font.font_data = preload("res://resources/fonts/m5x7.ttf")
 	
 	_pulse_cooldown_timer.wait_time = _levelup_pulse_cooldown
 	_unpause_label_text = _unpause_label.text
@@ -53,23 +49,22 @@ func set_hud_visible(is_visible : bool):
 	_hud.visible = is_visible
 
 func increment_points(value : float, bucket_position : Vector2):
-	# animate a score point moving from bucket to UI
-	var label : Label = Label.new()
-	label.add_font_override("font", _point_label_font)
-	label.add_color_override("font_color", Color.black)
-	label.text = "+" + str(value)
-	# /2 because view is twice the screen size
-	label.rect_position = bucket_position / 2
-	add_child(label)
-	label.rect_pivot_offset = label.rect_size / 2
+	# animate a score character moving from bucket to UI
+	var sprite : TextureRect = TextureRect.new()
+	sprite.rect_scale = Vector2.ONE * 0.8
+	sprite.rect_position = bucket_position / 2
+	sprite.texture = _character_silhouette_texture
+	add_child(sprite)
+	sprite.rect_pivot_offset = sprite.rect_size / 2
 	
 	var progress_bar_edge : Vector2 = _progress_bar.get_progress_edge_position()
 	
 	var tween : SceneTreeTween = get_tree().create_tween()\
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE).set_parallel(true)
-	tween.tween_property(label, "rect_position", progress_bar_edge, _point_tween_time)
-	tween.tween_property(label, "rect_scale", Vector2.ONE * 0.8, _point_tween_time)
-	tween.connect("finished", self, "_on_point_added", [label, value])
+		.set_parallel(true)
+	tween.tween_property(sprite, "rect_position", progress_bar_edge, _point_tween_time)
+	tween.tween_property(sprite, "rect_scale", Vector2.ONE * 0.2, _point_tween_time)
+	tween.tween_property(sprite, "rect_rotation", 360.0, _point_tween_time)
+	tween.connect("finished", self, "_on_point_added", [sprite, value])
 
 func decrement_points(value : float):
 	# ...
@@ -98,9 +93,8 @@ func level_down(current_level : int):
 func _on_back_to_menu_pressed():
 	SceneManager.change_scene("res://scenes/game/menu.tscn")
 
-func _on_point_added(label : Label, value : float):
-	label.queue_free()
-	
+func _on_point_added(sprite : TextureRect, value : float):
+	sprite.queue_free()
 	_progress_bar.increment_value(value)
 
 func _on_unpause_timer_timeout():

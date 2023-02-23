@@ -10,11 +10,18 @@ radius = 35.0143
 [node name="PowerupShield" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
-modulate = Color( 1, 1, 1, 0.784314 )
+[node name="ShieldInner" type="Sprite" parent="." index="0"]
 texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 64, 0, 64, 64 )
 
-[node name="Area2D" type="Area2D" parent="." index="1"]
+[node name="ShieldOuter" type="Sprite" parent="." index="1"]
+modulate = Color( 1, 1, 1, 0.470588 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
+
+[node name="Area2D" type="Area2D" parent="." index="2"]
 monitorable = false
 priority = 10.0
 

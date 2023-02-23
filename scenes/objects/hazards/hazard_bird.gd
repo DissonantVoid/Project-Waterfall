@@ -8,7 +8,9 @@ onready var _warning_sprite : Sprite = $Warning
 onready var _collider : CollisionShape2D = $CollisionShape2D
 onready var _warning_timer : Timer = $WarningTimer
 
-const _birds_sprite_count : int = 2 # the number of birds in the sprite sheet
+const _feathers_particles_scene : PackedScene = preload("res://scenes/objects/standalone_particles/feathers.tscn")
+
+const _birds_sprite_count : int = 3 # the number of birds in the sprite sheet
 const _birds_sprite_frames : int = 6 # number of frames in an animation
 const _birds_sprite_width : int = 48 # width of a single frame
 
@@ -55,6 +57,14 @@ func setup(min_speed : float, max_speed : float, warning_time : float):
 	_collider.disabled = true
 	_warning_timer.wait_time = warning_time
 	_warning_timer.start()
+
+func destroy():
+	var feathers_instance := _feathers_particles_scene.instance()
+	feathers_instance.global_position = global_position
+	feathers_instance.emitting = true
+	#feathers_instance.process_material
+	get_tree().current_scene.add_child(feathers_instance)
+	queue_free()
 
 func _process(delta : float):
 	if _is_moving:

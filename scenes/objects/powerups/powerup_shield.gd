@@ -8,14 +8,18 @@ extends "res://scenes/objects/powerups/powerup.gd"
 #       I think it's something to do with _request_callback.call_func("global_position")
 #       returning a delayed position?
 
-onready var _sprite : Sprite = $Sprite
+onready var _inner_sprite : Sprite = $ShieldInner
+onready var _outer_sprite : Sprite = $ShieldOuter
 
-const _initial_expand_time : float = 0.6
+const _initial_expand_time : float = 0.4
 
 
 func _ready():
 	var tween : SceneTreeTween = get_tree().create_tween()
-	tween.tween_property(_sprite, "scale", Vector2.ONE, _initial_expand_time)\
+	tween.tween_property(_inner_sprite, "scale", Vector2.ONE, _initial_expand_time)\
+		.from(Vector2.ZERO)
+	tween.parallel()
+	tween.tween_property(_outer_sprite, "scale", Vector2.ONE, _initial_expand_time)\
 		.from(Vector2.ZERO)
 
 func _physics_process(delta : float):
@@ -31,5 +35,5 @@ func powerup_cleanup():
 
 func _on_body_or_area_entered(object):
 	if object is HazardBird || object is HazardFallingRock:
-		object.queue_free()
+		object.destroy()
 		emit_signal("finished", self)

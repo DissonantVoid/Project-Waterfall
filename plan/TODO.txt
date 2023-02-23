@@ -43,7 +43,7 @@ ART:
 [X] mouse shape
 [..] start animation
 [X] bucket
-[ ] bucket damaged (2 stages)
+[X] bucket damaged (2 stages)
 [X] progress bar
 [X] background
 [ ] menu background
@@ -54,16 +54,16 @@ ART:
 [ ] end animation (after winning)
 [X] clouds
 [X] falling rocks
-[ ] birds
+[X] birds
 [X] warning sign
 [X] game logo
 [X] game icon (as in desktop icon)
 [..] powerup stones
 [ ] powerup aura (good and bad)
 [X] powerup magnet
-[ ] powerup shield
+[X] powerup shield
 [X] powerup clock
-[ ] health pickup
+[X] health pickup
 [ ] health bar (3 parts)
 [X] parachute
 [ ] particles falling water
