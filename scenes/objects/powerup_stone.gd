@@ -21,15 +21,32 @@ var _speed : float
 var _picked_up : bool = false # we can do better than this
 
 
-func _ready():
-	_self_powerup_data = _powerups[Utility.rng.randi_range(0, _powerups.size()-1)]
+func _process(delta : float):
+	position.y += _speed * delta
+
+func _exit_tree():
+	if _picked_up == false:
+		emit_signal("destroyed", false)
+
+func setup(min_speed : float, max_speed : float, last_powerup_idx : int) -> int:
+	global_position = Vector2(
+		Utility.rng.randi_range(0, LevelData.view_size.x),
+		-_sprite.texture.get_height()
+	)
+	_speed = Utility.rng.randf_range(min_speed, max_speed)
+	
+	var random_idx : int = Utility.rng.randi_range(0, _powerups.size()-2)
+	# make sure we don't spawn same stone as last time
+	if random_idx >= last_powerup_idx:
+		random_idx += 1
+	_self_powerup_data = _powerups[random_idx]
 	
 	# if it's the random stone.. well.. pick a random powerup
 	if _self_powerup_data["scene_path"] == "<random>":
-		var random_idx : int = Utility.rng.randi_range(1, _powerups.size()-1)
+		var new_random_idx : int = Utility.rng.randi_range(1, _powerups.size()-1)
 		# don't foget to duplicate, otherwise we'll edit _powerups content directly
 		_self_powerup_data = _self_powerup_data.duplicate(true)
-		_self_powerup_data["scene_path"] = _powerups[random_idx]["scene_path"]
+		_self_powerup_data["scene_path"] = _powerups[new_random_idx]["scene_path"]
 	else:
 		_aura.show()
 		if _self_powerup_data["is_good_aura"] == false:
@@ -39,20 +56,8 @@ func _ready():
 		Vector2(_self_powerup_data["x_position_in_sprite"], 0),
 		Vector2(16, 16)
 	)
-
-func _process(delta : float):
-	position.y += _speed * delta
-
-func _exit_tree():
-	if _picked_up == false:
-		emit_signal("destroyed", false)
-
-func setup(min_speed : float, max_speed : float):
-	global_position = Vector2(
-		Utility.rng.randi_range(0, LevelData.view_size.x),
-		-_sprite.texture.get_height()
-	)
-	_speed = Utility.rng.randf_range(min_speed, max_speed)
+	
+	return random_idx
 
 func pickup() -> String:
 	emit_signal("destroyed", true)

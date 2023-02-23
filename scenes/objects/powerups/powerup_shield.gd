@@ -10,6 +10,7 @@ extends "res://scenes/objects/powerups/powerup.gd"
 
 onready var _inner_sprite : Sprite = $ShieldInner
 onready var _outer_sprite : Sprite = $ShieldOuter
+onready var _life_timer : Timer = $LifeTimer
 
 const _initial_expand_time : float = 0.4
 
@@ -36,4 +37,8 @@ func powerup_cleanup():
 func _on_body_or_area_entered(object):
 	if object is HazardBird || object is HazardFallingRock:
 		object.destroy()
+		_life_timer.stop()
 		emit_signal("finished", self)
+
+func _on_life_timer_timeout():
+	emit_signal("finished", self)

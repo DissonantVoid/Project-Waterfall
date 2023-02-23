@@ -44,6 +44,7 @@ ART:
 [..] start animation
 [X] bucket
 [X] bucket damaged (2 stages)
+[X] character silhouette
 [X] progress bar
 [X] background
 [ ] menu background
@@ -70,7 +71,7 @@ ART:
 [ ] particles rock destroyed by bird
 [ ] particles bird hit bucket
 [ ] particles character saved
-[ ] (optional) a "plus" sign when a character is saved
+[X] particles healing
 
 MUSIC:
 [X] menu

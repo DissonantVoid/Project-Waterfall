@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=9]
 code = "shader_type canvas_item;
 
 uniform float scroll_speed_x;
@@ -12,6 +12,6 @@ void fragment()
 }"
 
 [resource]
-shader = SubResource( 1 )
+shader = SubResource( 9 )
 shader_param/scroll_speed_x = -0.02
 shader_param/scroll_speed_y = 0.0

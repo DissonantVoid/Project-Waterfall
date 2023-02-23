@@ -7,6 +7,7 @@ const _powerup_stone_scene : PackedScene = preload("res://scenes/objects/powerup
 
 var _min_stone_speed : float
 var _max_stone_speed : float
+var _last_powerup_idx : int # index in powerup_stone._powerups
 
 # NOTE: there can only be 1 powerup at any given time
 
@@ -32,14 +33,11 @@ func _on_spawn_timer_timeout():
 	var instance := _powerup_stone_scene.instance()
 	instance.connect("destroyed", self, "_on_powerup_stone_destroyed")
 	_stones_container.add_child(instance)
-	instance.setup(
-		_min_stone_speed,
-		_max_stone_speed
-	)
+	_last_powerup_idx = instance.setup(_min_stone_speed, _max_stone_speed, _last_powerup_idx)
 
 func _on_powerup_stone_destroyed(was_picked : bool):
 	if was_picked == false:
 		_spawn_timer.start()
 	
-	# otherwise the bucket has picked the powerup, and now we have
+	# else the bucket has picked the powerup, and now we have
 	# to wait for it to finish (bucket_powerup_ended())

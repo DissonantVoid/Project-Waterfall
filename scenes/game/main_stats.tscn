@@ -171,8 +171,8 @@ margin_right = 320.0
 margin_bottom = 20.0
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "[center]You [color=yellow]{var}[/color], Grade: [color=yellow]{var}[/color][/center]"
-text = "You {var}, Grade: {var}"
+bbcode_text = "[center]Lost/Won, Grade[/center]"
+text = "Lost/Won, Grade"
 fit_content_height = true
 scroll_active = false
 
