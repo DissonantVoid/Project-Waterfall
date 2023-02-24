@@ -13,7 +13,7 @@ var levels_rules : Array
 var current_level : int = 0 setget _set_current_level
 var _stats : Dictionary = {
 	"characters saved":0, "characters lost":0, "bird food":0, "powerups collected":0,
-	"hazards hit":0, "health taken":0, "level ups":0, "level downs":0
+	"hazards hit":0, "health taken":0, "level ups":0, "level downs":0, "time played":0
 }
 
 var time_factor : float = 1.0 setget _set_time_factor

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/4_bucket.png-fcf209d777e39c51f9b0cd38f99278c4.stex"
+path="res://.import/4_boat.png-2c700e668b9de3b4942477dbe02e53f6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/textures/start animation/4_bucket.png"
-dest_files=[ "res://.import/4_bucket.png-fcf209d777e39c51f9b0cd38f99278c4.stex" ]
+source_file="res://resources/textures/start animation/4_boat.png"
+dest_files=[ "res://.import/4_boat.png-2c700e668b9de3b4942477dbe02e53f6.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/3_chars.png-2f05577c1eec03064c2e70a94e8d72de.stex"
+path="res://.import/4_bird.png-7b13034d4c7217000b5c32d4cc4de0ec.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/textures/start animation/3_chars.png"
-dest_files=[ "res://.import/3_chars.png-2f05577c1eec03064c2e70a94e8d72de.stex" ]
+source_file="res://resources/textures/start animation/4_bird.png"
+dest_files=[ "res://.import/4_bird.png-7b13034d4c7217000b5c32d4cc4de0ec.stex" ]
 
 [params]
 

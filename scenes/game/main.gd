@@ -20,6 +20,7 @@ const _points_to_levelup : int = _points_to_win / _levels_count
 var _current_progress : float = 0
 
 var _is_paused : bool = false
+var _start_time : Dictionary
 
 var _music_levels : Dictionary = {
 	"1":preload("res://resources/music/main_level_1.mp3"),
@@ -40,6 +41,8 @@ func _ready():
 	LevelData.reset()
 	
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	
+	_start_time = Time.get_datetime_dict_from_system()
 	
 	# have to do this manually, otherwise everytime I commit a change
 	# the background animation will be in a different frame leading
@@ -130,6 +133,7 @@ func _on_bucket_about_to_be_destroyed():
 
 func _on_bucket_destroyed():
 	LevelData.game_won = false
+	LevelData.increment_stat("time played", _get_seconds_played())
 	SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 
 func _on_ui_pulsed():
@@ -172,6 +176,7 @@ func _increment_points(value : float):
 				# we won!
 				# do some particles n stuff first
 				LevelData.game_won = true
+				LevelData.increment_stat("time played", _get_seconds_played())
 				SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 			else:
 				LevelData.change_level(new_level)
@@ -198,3 +203,18 @@ func _update_music():
 	if _music_player.stream != _music_levels[str(next_music_layer)]:
 			_music_player.stream = _music_levels[str(next_music_layer)]
 			_music_player.play()
+
+func _get_seconds_played() -> int:
+	var _end_time : Dictionary = Time.get_datetime_dict_from_system()
+	_start_time
+	
+	# this will break if you start playing right before the end
+	# of a months and stoped after the start of the month
+	# but that's unlikely
+	var seconds : int =\
+	(_end_time["day"] - _start_time["day"]) * 86400 +\
+	(_end_time["hour"] - _start_time["hour"]) * 3600 +\
+	(_end_time["minute"] - _start_time["minute"]) * 60 +\
+	(_end_time["second"] - _start_time["second"])
+	
+	return seconds

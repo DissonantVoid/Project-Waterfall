@@ -11,13 +11,15 @@ const _time_between_stats_n_text : float = 1.2
 
 # the threshold represents the min value for this Grade to be considered
 # the Grade text is based on the stat that hits the threshold and has the highest priority
+# TODO: improve texts, also check texts for breaking all threshold and breaking non
 const _grade_weights : Dictionary = {
-	"saved_characters":{"good_txt":"Super Bald", "bad_txt":"Epic Fail", "threshold":100, "priority":1},
-	"lost_characters" : {"good_txt":"Rock Food", "bad_txt":"Hairy",     "threshold":150, "priority":1},
-	"bird_food":       {"good_txt":"Bird Lover", "bad_txt":"Bird Food", "threshold":22, "priority":2},
-	"level_changes"   :{"good_txt":"Rollercoaster Rick", "bad_txt":"Git Gud", "threshold":12, "priority":3},
-	"hit_hazards"     :{"good_txt":"Phoenix ", "bad_txt":"Rest in Pieces",    "threshold":20, "priority":4},
-	"used_powerups"   :{"good_txt":"Hacker", "bad_txt":"Addicted",      "threshold":16, "priority":5}
+	"saved_characters":{"good_txt":"Super Bald", "bad_txt":"Epic Fail", "threshold":100, "priority":2},
+	"lost_characters" : {"good_txt":"Rock Food", "bad_txt":"Hairy",     "threshold":150, "priority":2},
+	"bird_food"       :{"good_txt":"Bird Lover", "bad_txt":"Bird Food", "threshold":22, "priority":3},
+	"level_changes"   :{"good_txt":"Rollercoaster Rick", "bad_txt":"Git Gud", "threshold":12, "priority":4},
+	"hit_hazards"     :{"good_txt":"Phoenix ", "bad_txt":"Rest in Pieces",    "threshold":20, "priority":5},
+	"used_powerups"   :{"good_txt":"Hacker",   "bad_txt":"Addicted",          "threshold":16, "priority":6},
+	"time_played"     :{"good_txt":"Zombie",   "bad_txt":"No Life",           "threshold":15*60, "priority":1}
 }
 
 func _ready():
@@ -52,6 +54,8 @@ func _ready():
 		threshold_passed.push_back("hit_hazards")
 	if stats["level ups"] + stats["level downs"] > _grade_weights["level_changes"]["threshold"]:
 		threshold_passed.push_back("level_changes")
+	if stats["time played"] > _grade_weights["time_played"]["threshold"]:
+		threshold_passed.push_back("time_played")
 	
 	var grade_text : String
 	if threshold_passed.empty():
