@@ -17,12 +17,14 @@ const _powerups : Array = [
 ]
 var _self_powerup_data : Dictionary
 
+const _aura_rotation_speed : float = 120.0
 var _speed : float
 var _picked_up : bool = false # we can do better than this
 
 
 func _process(delta : float):
 	position.y += _speed * delta
+	_aura.rotation_degrees += _aura_rotation_speed * delta
 
 func _exit_tree():
 	if _picked_up == false:

@@ -10,8 +10,11 @@ GAME DESIGN:
 [X] global audio manager
 [X] hazards
 [..] difficulty balancing
-[..] intro scene
+[X] intro scene
 [ ] final polish
+
+reworked credits scene, UI improvements to stats and credits scene, and more art
+credits: Aleiocus#9986 AddinSachen#6946 VGamer#2111
 
 SOUNDS:
 [X] character spawn (default)
@@ -41,26 +44,26 @@ SOUNDS:
 
 ART:
 [X] mouse shape
-[..] start animation
+[X] start animation
 [X] bucket
 [X] bucket damaged (2 stages)
 [X] character silhouette
 [X] progress bar
 [X] background
-[ ] menu background
+[X] menu background
 [ ] stats scene background
 [..] credits art
 [X] button (normal)
 [X] button (hover)
 [ ] end animation (after winning)
 [X] clouds
-[X] falling rocks
+[..] falling rocks
 [X] birds
 [X] warning sign
 [X] game logo
 [X] game icon (as in desktop icon)
 [..] powerup stones
-[ ] powerup aura (good and bad)
+[X] powerup aura (good and bad)
 [X] powerup magnet
 [X] powerup shield
 [X] powerup clock
@@ -68,9 +71,8 @@ ART:
 [ ] health bar (3 parts)
 [X] parachute
 [ ] particles falling water
-[ ] particles rock destroyed by bird
-[ ] particles bird hit bucket
-[ ] particles character saved
+[X] particles rock destroyed by bird
+[X] particles bird hit bucket
 [X] particles healing
 
 MUSIC:

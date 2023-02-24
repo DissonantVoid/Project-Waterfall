@@ -32,7 +32,7 @@ const _sounds_per_character : Array = [
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
+	{"spawn":"characters/aleiocus_spawn", "saved":"characters/aleiocus_saved", "fall":"characters/aleiocus_fall"},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
 	{"spawn":"characters/default_spawn", "saved":"", "fall":""},

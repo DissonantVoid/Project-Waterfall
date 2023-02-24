@@ -14,6 +14,8 @@ onready var _full_sprite_animator : AnimationPlayer = $Full/AnimationPlayer
 onready var _front_sprite : Sprite = $Front
 onready var _back_sprite : Sprite = $Back
 onready var _health_bar : Sprite = $HealthBar
+onready var _detection_collider : CollisionShape2D = $DetectionArea/CollisionShape2D
+onready var _inside_collider : CollisionShape2D = $InsideArea/CollisionShape2D
 
 const _front_spr_fade_time : float = 0.3
 const _hold_time : float = 0.48 # a character is saved after staying in bucket for this time
@@ -92,9 +94,11 @@ func _on_detection_body_or_area_entered(object):
 		if _current_health == 0:
 			_front_sprite.visible = false
 			_back_sprite.visible = false
-			_health_bar.visible = false
-			_full_sprite.region_rect.position.x = 32
 			_full_sprite.visible = true
+			_health_bar.visible = false
+			_detection_collider.set_deferred("disabled", true)
+			_inside_collider.set_deferred("disabled", true)
+			_full_sprite.region_rect.position.x = 32
 			_full_sprite_animator.play("explode")
 			emit_signal("about_to_be_destroyed")
 		else:

@@ -5,14 +5,9 @@ onready var _music_player : AudioStreamPlayer = $Music
 
 const _loop_music : AudioStream = preload("res://resources/music/credits loop.mp3")
 
-# TODO: there is a problematic difference in how the text is displayed in editor
-#       vs in window, which leads to text stopping at different position in
-#       the animation where we reach the play button
-#       this is due to oversampling (rendering/quality/dynamic_fonts/use_oversampling)
-#       we can disable oversampling for the entire project but it would make text ugly
-#       we need someway to enable it in the editor, or some other workaround
-#       if nothing works, we'll have to brute force it until we get the right
-#       text position
+# TODO: now that we no longer use a RichTextLabel we can put
+#       text on top of images, so there is no need for the images in
+#       res://resources/textures/credits/
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("back"):
