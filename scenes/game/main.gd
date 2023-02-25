@@ -78,7 +78,7 @@ func _input(event : InputEvent):
 		_set_pause(!_is_paused)
 	
 	# TEMP for debugging (don't tell anyone :|)
-	if event is InputEventKey && event.pressed:
+	if OS.is_debug_build() && event is InputEventKey && event.pressed:
 		if event.scancode == KEY_SPACE:
 			_increment_points(10)
 		elif event.scancode == KEY_1:
@@ -165,8 +165,10 @@ func _set_pause(should_pause : bool):
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _increment_points(value : float):
-	_current_progress = clamp(_current_progress + value, 0, _points_to_win)
-	
+	var new_progress : float = clamp(_current_progress + value, 0, _points_to_win)
+	if _current_progress == new_progress: return
+	 
+	_current_progress = new_progress
 	var new_level : int = int(_current_progress) / _points_to_levelup
 	if sign(value) == 1:
 		_ui.increment_points(value, _bucket.global_position)
@@ -174,9 +176,20 @@ func _increment_points(value : float):
 		if new_level > LevelData.current_level:
 			if new_level == (_points_to_win / _points_to_levelup):
 				# we won!
-				# do some particles n stuff first
 				LevelData.game_won = true
 				LevelData.increment_stat("time played", _get_seconds_played())
+				_bucket.deactivate()
+				
+				var white_screen : ColorRect = ColorRect.new()
+				white_screen.rect_size = LevelData.view_size
+				add_child(white_screen)
+				yield(get_tree(), "idle_frame")
+				
+				var tween : SceneTreeTween = get_tree().create_tween()
+				tween.tween_property(white_screen, "modulate:a", 1.0, 2.0)\
+					.from(0.0)
+				yield(tween, "finished")
+				
 				SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 			else:
 				LevelData.change_level(new_level)

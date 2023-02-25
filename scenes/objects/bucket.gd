@@ -50,6 +50,10 @@ func _physics_process(delta : float):
 	
 	_prev_position = global_position
 
+func deactivate():
+	_detection_collider.set_deferred("disabled", true)
+	_inside_collider.set_deferred("disabled", true)
+
 func _on_body_entered_inside_area(body : Node):
 	if body is Character:
 		_characters_in_bucket.append({"character":body, "time_left":_hold_time})

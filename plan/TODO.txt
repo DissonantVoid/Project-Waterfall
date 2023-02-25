@@ -57,7 +57,7 @@ ART:
 [X] button (hover)
 [ ] end animation (after winning)
 [X] clouds
-[..] falling rocks
+[X] falling rocks
 [X] birds
 [X] warning sign
 [X] game logo
@@ -68,9 +68,9 @@ ART:
 [X] powerup shield
 [X] powerup clock
 [X] health pickup
-[ ] health bar (3 parts)
+[X] health bar (3 parts)
 [X] parachute
-[ ] particles falling water
+[X] particles falling water
 [X] particles rock destroyed by bird
 [X] particles bird hit bucket
 [X] particles healing

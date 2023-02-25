@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise_tex;
+
+void fragment()
+{
+	vec2 noise_offset = SCREEN_PIXEL_SIZE / TEXTURE_PIXEL_SIZE;
+	
+	vec4 noise_sample1 = texture(noise_tex, UV + vec2(sin(TIME * 40.1), 0) * noise_offset);
+	vec4 noise_sample2 = texture(noise_tex, UV + vec2(sin(TIME * 28.6), 0) * noise_offset);
+	vec4 final_color = texture(SCREEN_TEXTURE, SCREEN_UV + vec2(noise_sample1.r) - vec2(noise_sample2.r));
+	
+	float shine_pulse = mix(1.0, 2.0, abs(sin(TIME * 2.0)));
+	COLOR = mix(final_color, vec4(1), distance(UV, vec2(0.5)) / shine_pulse);
+}"
+
+[sub_resource type="OpenSimplexNoise" id=2]
+
+[sub_resource type="NoiseTexture" id=3]
+noise = SubResource( 2 )
+
+[resource]
+shader = SubResource( 1 )
+shader_param/noise_tex = SubResource( 3 )

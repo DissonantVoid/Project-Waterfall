@@ -17,11 +17,11 @@ const _planks_offset : float = 140.0
 # the Grade text is based on the stat that hits the threshold and has the highest priority
 # TODO: improve texts, also check texts for breaking all threshold and breaking non
 const _grade_weights : Dictionary = {
-	"saved_characters":{"good_txt":"Super Bald", "bad_txt":"Epic Fail", "threshold":100, "priority":2},
-	"lost_characters" :{"good_txt":"Rock Food", "bad_txt":"Hairy",     "threshold":150, "priority":2},
-	"bird_food"       :{"good_txt":"Bird Lover", "bad_txt":"Bird Food", "threshold":22, "priority":3},
+	"saved_characters":{"good_txt":"Super Bald", "bad_txt":"Epic Fail", "threshold":110, "priority":5},
+	"lost_characters" :{"good_txt":"Rock Food", "bad_txt":"Hairy",     "threshold":140, "priority":5},
+	"bird_food"       :{"good_txt":"Bird Lover", "bad_txt":"Bird Food", "threshold":22, "priority":2},
 	"level_changes"   :{"good_txt":"Rollercoaster Rick", "bad_txt":"Git Gud", "threshold":12, "priority":4},
-	"hit_hazards"     :{"good_txt":"Phoenix ", "bad_txt":"Rest in Pieces",    "threshold":20, "priority":5},
+	"hit_hazards"     :{"good_txt":"Phoenix ", "bad_txt":"Rest in Pieces",    "threshold":20, "priority":3},
 	"used_powerups"   :{"good_txt":"Hacker",   "bad_txt":"Addicted",          "threshold":16, "priority":6},
 	"time_played"     :{"good_txt":"Zombie",   "bad_txt":"No Life",           "threshold":15*60, "priority":1}
 }
@@ -84,7 +84,7 @@ func _ready():
 	else:
 		var priority_threshold : String = threshold_passed[0]
 		for threshold_key in threshold_passed:
-			if _grade_weights[threshold_key]["priority"] > _grade_weights[priority_threshold]["priority"]:
+			if _grade_weights[threshold_key]["priority"] < _grade_weights[priority_threshold]["priority"]:
 				priority_threshold = threshold_key
 		
 		if LevelData.game_won:
@@ -96,9 +96,6 @@ func _ready():
 	_results_label.bbcode_text = "[center]" + result_text
 	_results_label.bbcode_text += '\n'
 	_results_label.bbcode_text += "[color=yellow]Grade[/color]: " + grade_text + "[/center]"
-	
-	# TEMP
-	print(threshold_passed)
 	
 	# gradually show elements #
 	yield(get_tree(), "idle_frame")
@@ -112,7 +109,7 @@ func _ready():
 	var tween : SceneTreeTween = get_tree().create_tween()
 	tween.tween_interval(1.0)
 	
-	# planks
+	# side planks
 	tween.tween_property(left_plank, "rect_position:x", left_plank.rect_position.x + _planks_offset, _transition_time_long)
 	tween.parallel()
 	tween.tween_property(right_plank, "rect_position:x", right_plank.rect_position.x - _planks_offset, _transition_time_long)

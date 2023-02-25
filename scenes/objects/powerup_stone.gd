@@ -14,6 +14,7 @@ const _powerups : Array = [
 	{"x_position_in_sprite":64, "scene_path":"res://scenes/objects/powerups/powerup_shrink.tscn", "is_good_aura":false},
 	{"x_position_in_sprite":80, "scene_path":"res://scenes/objects/powerups/powerup_magnet.tscn", "is_good_aura":true},
 	{"x_position_in_sprite":96, "scene_path":"res://scenes/objects/powerups/powerup_bad_vision.tscn", "is_good_aura":false},
+	{"x_position_in_sprite":112, "scene_path":"res://scenes/objects/powerups/powerup_ghost_bridge.tscn", "is_good_aura":true},
 ]
 var _self_powerup_data : Dictionary
 
