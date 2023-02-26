@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scenes/game/introduction.gd" type="Script" id=1]
 [ext_resource path="res://resources/textures/start animation/1_bg.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://resources/textures/start animation/1_cloud.png" type="Texture" id=14]
 [ext_resource path="res://resources/textures/start animation/5_warning.png" type="Texture" id=15]
 [ext_resource path="res://resources/textures/start animation/5_bg.png" type="Texture" id=16]
+[ext_resource path="res://resources/music/introduction.mp3" type="AudioStream" id=17]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -221,7 +222,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( -0.1, 25.9, 31.6 ),
+"times": PoolRealArray( 0, 25.9, 31.6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 482, 65 ), Vector2( 482, 65 ), Vector2( 480, 115 ) ]
@@ -369,6 +370,20 @@ tracks/17/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true, false, true, false ]
+}
+tracks/18/type = "method"
+tracks/18/path = NodePath("Music")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
 }
 
 [sub_resource type="Shader" id=9]
@@ -576,7 +591,7 @@ texture = ExtResource( 15 )
 position = Vector2( 480, 271 )
 scale = Vector2( 12, 12 )
 frames = SubResource( 20 )
-frame = 3
+frame = 4
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -586,5 +601,8 @@ current = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D"]
 anims/RESET = SubResource( 4 )
 anims/natural_shake = SubResource( 5 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

@@ -1,12 +1,12 @@
 GAME DESIGN:
 [X] menu
 [ ] end screen
-[..] credits
+[X] credits
 [X] stats
 [X] win condition
 [X] lose condition
 [X] progress bar
-[..] powerups
+[X] powerups
 [X] global audio manager
 [X] hazards
 [..] difficulty balancing
@@ -62,7 +62,7 @@ ART:
 [X] warning sign
 [X] game logo
 [X] game icon (as in desktop icon)
-[..] powerup stones
+[X] powerup stones
 [X] powerup aura (good and bad)
 [X] powerup magnet
 [X] powerup shield
