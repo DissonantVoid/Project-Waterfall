@@ -13,9 +13,6 @@ GAME DESIGN:
 [X] intro scene
 [ ] final polish
 
-reworked credits scene, UI improvements to stats and credits scene, and more art
-credits: Aleiocus#9986 AddinSachen#6946 VGamer#2111
-
 SOUNDS:
 [X] character spawn (default)
 [ ] character fell (default)

@@ -105,7 +105,6 @@ func _on_bucket_character_saved():
 	_increment_points(
 		LevelData.levels_rules[LevelData.current_level]["points_per_save"]
 	)
-	AudioManager.play_sound("score", true)
 
 func _on_bucket_hit_hazard():
 	_increment_points(

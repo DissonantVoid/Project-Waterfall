@@ -6,12 +6,16 @@ onready var _results_label : RichTextLabel = $MarginContainer/VBoxContainer/VBox
 onready var _stats_container : HBoxContainer = $MarginContainer/VBoxContainer/Stats
 onready var _buttons_container : HBoxContainer = $MarginContainer/VBoxContainer/VBoxContainer/Buttons
 
+const _palette_green : String = "#0b4122"
+const _palette_red : String = "#8e041d"
+const _palette_yellow : String = "#ffeb82"
 const _transition_time_short : float = 0.1
 const _transition_time_long : float = 0.8
 const _text_reveal_time : float = 2.0
 const _stat_reveal_y_offset : float = 20.0
 const _time_between_stats_n_text : float = 1.2
 const _planks_offset : float = 140.0
+
 
 # the threshold represents the min value for this Grade to be considered
 # the Grade text is based on the stat that hits the threshold and has the highest priority
@@ -30,8 +34,8 @@ const _grade_weights : Dictionary = {
 func _ready():
 	# extract info from LevelData
 	var result_text : String =\
-		"You've [color=green]saved[/color] everyone!" if LevelData.game_won else\
-		"The bucket has been [color=red]destroyed[/color]"
+		"You've [color=" + _palette_green + "]saved[/color] everyone!" if LevelData.game_won else\
+		"The bucket has been [color=" + _palette_red + "]destroyed[/color]"
 	
 	var stats : Dictionary = LevelData.get_stats()
 	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer/Saved.text      =\
@@ -93,9 +97,8 @@ func _ready():
 			grade_text = _grade_weights[priority_threshold]["bad_txt"]
 	
 	
-	_results_label.bbcode_text = "[center]" + result_text
-	_results_label.bbcode_text += '\n'
-	_results_label.bbcode_text += "[color=yellow]Grade[/color]: " + grade_text + "[/center]"
+	_results_label.bbcode_text = "[center]" + result_text + '\n' +\
+		"[color=" + _palette_yellow + "]Grade[/color]: " + grade_text + "[/center]"
 	
 	# gradually show elements #
 	yield(get_tree(), "idle_frame")

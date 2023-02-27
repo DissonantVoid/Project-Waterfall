@@ -18,25 +18,25 @@ var _curr_character_idx : int
 
 # in the same order as the sprite sheet
 const _sounds_per_character : Array = [
-	{"spawn":"characters/void_spawn", "saved":"characters/void_saved", "fall":"characters/void_fall"},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/vgamer_spawn", "saved":"", "fall":"characters/vgamer_fall"},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/addin_spawn", "saved":"characters/addin_saved", "fall":"characters/addin_fall"},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/aleiocus_spawn", "saved":"characters/aleiocus_saved", "fall":"characters/aleiocus_fall"},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
-	{"spawn":"characters/default_spawn", "saved":"", "fall":""},
+	{"spawn":"void_spawn", "saved":"void_saved", "fall":"void_fall"},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"vgamer_spawn", "saved":"default_saved", "fall":"vgamer_fall"},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"addin_spawn", "saved":"addin_saved", "fall":"addin_fall"},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"aleiocus_spawn", "saved":"aleiocus_saved", "fall":"aleiocus_fall"},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
+	{"spawn":"default_spawn", "saved":"default_saved", "fall":""},
 ]
 
 
@@ -52,7 +52,7 @@ func _ready():
 	
 	apply_central_impulse(Vector2(Utility.rng.randf_range(-100, 100), 0))
 	AudioManager.play_sound(
-		_sounds_per_character[_curr_character_idx]["spawn"], true
+		"characters/" + _sounds_per_character[_curr_character_idx]["spawn"], true
 	)
 
 func setup(_parachute_chance : int):
@@ -76,19 +76,23 @@ func _physics_process(delta : float):
 func free_self(was_saved : bool):
 	# NOTE: call this if you want to allow character to make a sound before
 	#       dying/saved
-	# TODO: default saved and fall sounds needed
 	if was_saved:
 		LevelData.increment_stat("characters saved", 1)
 	else:
 		LevelData.increment_stat("characters lost", 1)
 	
 	queue_free()
-	return
 	
-	var sound : String = "saved" if was_saved else "fall"
-	AudioManager.play_sound(
-		_sounds_per_character[_curr_character_idx]["sound"], true
-	)
+	# TODO: default fall sounds needed
+#	var sound : String = "saved" if was_saved else "fall"
+#	AudioManager.play_sound(
+#		"characters/" + _sounds_per_character[_curr_character_idx][sound], true
+#	)
+	
+	if was_saved:
+		AudioManager.play_sound(
+			"characters/" + _sounds_per_character[_curr_character_idx]["saved"], true
+		)
 
 func bucket_interacted(is_inside : bool):
 	if is_inside:

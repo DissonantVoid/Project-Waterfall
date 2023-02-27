@@ -26,8 +26,8 @@ func setup(speed : float):
 		_x_direction = 1
 
 func _process(delta : float):
+	global_position.y += _move_speed * delta * LevelData.time_factor
+	
 	global_position.x += _move_speed*2 * _x_direction * delta * LevelData.time_factor
 	if abs(global_position.x - _initial_x_position) >= _x_offset:
 		_x_direction *= -1
-	
-	global_position.y += _move_speed * delta * LevelData.time_factor
