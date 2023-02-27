@@ -22,6 +22,9 @@ var _current_progress : float = 0
 var _is_paused : bool = false
 var _start_time : Dictionary
 
+# NOTE: make sure it takes the same time as game_won.ogg
+const _win_white_screen_tween_time : float = 2.0
+
 var _music_levels : Dictionary = {
 	"1":preload("res://resources/music/main_level_1.mp3"),
 	"2":preload("res://resources/music/main_level_2_3.mp3"),
@@ -133,6 +136,7 @@ func _on_bucket_about_to_be_destroyed():
 func _on_bucket_destroyed():
 	LevelData.game_won = false
 	LevelData.increment_stat("time played", _get_seconds_played())
+	yield(_do_white_screen_fade(), "completed")
 	SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 
 func _on_ui_pulsed():
@@ -179,15 +183,8 @@ func _increment_points(value : float):
 				LevelData.increment_stat("time played", _get_seconds_played())
 				_bucket.deactivate()
 				
-				var white_screen : ColorRect = ColorRect.new()
-				white_screen.rect_size = LevelData.view_size
-				add_child(white_screen)
-				yield(get_tree(), "idle_frame")
-				
-				var tween : SceneTreeTween = get_tree().create_tween()
-				tween.tween_property(white_screen, "modulate:a", 1.0, 2.0)\
-					.from(0.0)
-				yield(tween, "finished")
+				AudioManager.play_sound("game_won", false)
+				yield(_do_white_screen_fade(), "completed")
 				
 				SceneManager.change_scene("res://scenes/game/main_stats.tscn")
 			else:
@@ -230,3 +227,13 @@ func _get_seconds_played() -> int:
 	(_end_time["second"] - _start_time["second"])
 	
 	return seconds
+
+func _do_white_screen_fade():
+	var white_screen : ColorRect = ColorRect.new()
+	white_screen.rect_size = LevelData.view_size
+	add_child(white_screen)
+	
+	var tween : SceneTreeTween = get_tree().create_tween()
+	tween.tween_property(white_screen, "modulate:a", 1.0, _win_white_screen_tween_time)\
+		.from(0.0)
+	yield(tween, "finished")

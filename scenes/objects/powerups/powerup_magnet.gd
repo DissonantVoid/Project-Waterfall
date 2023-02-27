@@ -12,6 +12,8 @@ var _furthest_collider_point_distance : float
 
 
 func _ready():
+	AudioManager.play_sound("powerups/magnet", false)
+	
 	# find the furthest point in the collider, we relly on that to iplement
 	# the slow down where the closest an object is, the lower the pull force
 	# would be
@@ -61,10 +63,6 @@ func _draw():
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 
-# override
-func powerup_cleanup():
-	queue_free()
-
 func _on_body_entered(body):
 	if body is Character:
 		var id : int = body.get_instance_id()
@@ -91,4 +89,5 @@ func _on_character_freed(body : PhysicsBody2D, id : int):
 	_characters_in_range.erase(id)
 
 func _on_life_timer_timeout():
+	_cleanup()
 	emit_signal("finished", self)

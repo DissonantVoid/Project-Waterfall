@@ -10,6 +10,8 @@ const _y_limits : Vector2 = Vector2(90.0, 180.0) # shouldn't spawn the bridge ve
 const _width_padding : float = 30.0 # additional width near edge of screen, so when we rotate bridge you can't see its end
 
 
+# TODO: bridge too low, bad angle too
+
 func _ready():
 	_bridge_collider.shape.extents.y = _bridge_height / 2
 	_bridge_color.rect_size.y = _bridge_height
@@ -45,9 +47,6 @@ func powerup_start(request_callback : FuncRef):
 		
 		_bridge.rotation_degrees = _tilt_angle
 
-# override
-func powerup_cleanup():
-	queue_free()
-
 func _on_life_timer_timeout():
+	_cleanup()
 	emit_signal("finished", self)

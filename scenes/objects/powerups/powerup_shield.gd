@@ -30,15 +30,14 @@ func _physics_process(delta : float):
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 
-# override
-func powerup_cleanup():
-	queue_free()
-
 func _on_body_or_area_entered(object):
 	if object is HazardBird || object is HazardFallingRock:
 		object.destroy()
 		_life_timer.stop()
+		
+		_cleanup()
 		emit_signal("finished", self)
 
 func _on_life_timer_timeout():
+	_cleanup()
 	emit_signal("finished", self)

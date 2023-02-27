@@ -18,6 +18,8 @@ var _slow_pitch_effect : AudioEffectPitchShift = AudioEffectPitchShift.new()
 
 
 func _ready():
+	AudioManager.play_sound("powerups/time_slowdown", false)
+	
 	_slow_pitch_effect.pitch_scale = 0.6
 	_slow_pitch_effect.oversampling = 8
 
@@ -32,14 +34,10 @@ func powerup_start(request_callback : FuncRef):
 	AudioServer.add_bus_effect(_master_bus_idx, _slow_pitch_effect)
 	_timer.start()
 
-# override
-func powerup_cleanup():
+func _on_life_timer_timeout():
 	_request_callback.call_func("modify_time", {"factor":1.0})
 	_remove_pitch_effect()
-	
-	queue_free()
-
-func _on_life_timer_timeout():
+	_cleanup()
 	emit_signal("finished", self)
 
 func _exit_tree():

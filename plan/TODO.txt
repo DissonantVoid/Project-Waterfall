@@ -16,28 +16,32 @@ GAME DESIGN:
 SOUNDS:
 [X] character spawn (default)
 [ ] character fell (default)
-[ ] character collected (default)
+[X] character collected (default)
 [X] button hover
 [X] button click
-[x] level up
-[x] level down
+[X] level up
+[X] level down
 [X] scene changed
-[x] rock destroyed
+[X] rock destroyed
 [ ] bird destroyed :'(
-[x] bucket hit hazard
-[x] ambiant waterfall loop
-[ ] player won
+[X] bucket hit hazard
+[X] ambience waterfall loop
+[X] player won
 [ ] bird warning
-[x] bird spawn
-[x] character hit rock
-[ ] powerup spawned
-[ ] powerup magnet collected
+[X] bird spawn
+[X] character hit rock
+[X] powerup spawned
+[X] powerup over
+[X] powerup magnet collected
 [ ] powerup shrink collected
 [ ] powerup shield collected
-[ ] powerup slowtime collected
-[ ] powerup over
-[x] unpause timer ticking
+[ ] powerup health collected
+[ ] powerup bad vision collected
+[X] powerup slowtime collected
+[ ] powerup ghost bridge collected
+[X] unpause timer ticking
 [ ] bucket destroyed
+[ ] stats sfx
 
 ART:
 [X] mouse shape
@@ -71,12 +75,14 @@ ART:
 [X] particles rock destroyed by bird
 [X] particles bird hit bucket
 [X] particles healing
+[X] stats images
 
 MUSIC:
 [X] menu
-[ ] introduction
+[X] introduction
 [X] game (all layers)
-[ ] end sceen
+[ ] stats scene
+[ ] end scene
 [X] credits
 
 NOTES:

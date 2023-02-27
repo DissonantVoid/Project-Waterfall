@@ -5,6 +5,7 @@ extends Control
 onready var _results_label : RichTextLabel = $MarginContainer/VBoxContainer/VBoxContainer/Results
 onready var _stats_container : HBoxContainer = $MarginContainer/VBoxContainer/Stats
 onready var _buttons_container : HBoxContainer = $MarginContainer/VBoxContainer/VBoxContainer/Buttons
+onready var _stats_image : TextureRect = $Planks/StatsImage
 
 const _palette_green : String = "#0b4122"
 const _palette_red : String = "#8e041d"
@@ -14,37 +15,33 @@ const _transition_time_long : float = 0.8
 const _text_reveal_time : float = 2.0
 const _stat_reveal_y_offset : float = 20.0
 const _time_between_stats_n_text : float = 1.2
-const _planks_offset : float = 140.0
+const _planks_tween_offset : float = 140.0
 
 
 # the threshold represents the min value for this Grade to be considered
 # the Grade text is based on the stat that hits the threshold and has the highest priority
 # TODO: improve texts, also check texts for breaking all threshold and breaking non
 const _grade_weights : Dictionary = {
-	"saved_characters":{"good_txt":"Super Bald", "bad_txt":"Epic Fail", "threshold":110, "priority":5},
-	"lost_characters" :{"good_txt":"Rock Food", "bad_txt":"Hairy",     "threshold":140, "priority":5},
-	"bird_food"       :{"good_txt":"Bird Lover", "bad_txt":"Bird Food", "threshold":22, "priority":2},
-	"level_changes"   :{"good_txt":"Rollercoaster Rick", "bad_txt":"Git Gud", "threshold":12, "priority":4},
-	"hit_hazards"     :{"good_txt":"Phoenix ", "bad_txt":"Rest in Pieces",    "threshold":20, "priority":3},
-	"used_powerups"   :{"good_txt":"Hacker",   "bad_txt":"Addicted",          "threshold":16, "priority":6},
-	"time_played"     :{"good_txt":"Zombie",   "bad_txt":"No Life",           "threshold":15*60, "priority":1}
+	"saved_characters":{"good_txt":"Super Bald","bad_txt":"Epic Fail",       "threshold":110, "priority":5},
+	"lost_characters" :{"good_txt":"Rock Food", "bad_txt":"Hairy",           "threshold":140, "priority":5},
+	"bird_food"       :{"good_txt":"Bird Lover","bad_txt":"Bird Food",       "threshold":22, "priority":2},
+	"level_changes"   :{"good_txt":"Rollercoaster Rick", "bad_txt":"Git Gud","threshold":12, "priority":4},
+	"hit_hazards"     :{"good_txt":"Phoenix ", "bad_txt":"Rest in Pieces",   "threshold":20, "priority":3},
+	"used_powerups"   :{"good_txt":"Hacker",   "bad_txt":"Addicted",         "threshold":16, "priority":6},
+	"time_played"     :{"good_txt":"Zombie",   "bad_txt":"No Life",          "threshold":15*60, "priority":1}
 }
 
 
 func _ready():
 	# extract info from LevelData
-	var result_text : String =\
-		"You've [color=" + _palette_green + "]saved[/color] everyone!" if LevelData.game_won else\
-		"The bucket has been [color=" + _palette_red + "]destroyed[/color]"
-	
 	var stats : Dictionary = LevelData.get_stats()
-	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer/Saved.text      =\
+	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer/Saved.text        =\
 		str(stats["characters saved"])
-	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer2/Lost.text       =\
+	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer2/Lost.text        =\
 		str(stats["characters lost"])
-	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer3/BirdFood.text   =\
+	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer3/BirdFood.text    =\
 		str(stats["bird food"])
-	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer4/Powerups.text   =\
+	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer4/Powerups.text    =\
 		str(stats["powerups collected"])
 	$MarginContainer/VBoxContainer/Stats/Right/HBoxContainer5/Hazards.text    =\
 		str(stats["hazards hit"])
@@ -54,11 +51,10 @@ func _ready():
 		str(stats["level ups"])
 	$MarginContainer/VBoxContainer/Stats/Right/HBoxContainer8/Leveldowns.text =\
 		str(stats["level downs"])
-	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer5/TimePlayed.text =\
+	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer5/TimePlayed.text  =\
 		str(stats["time played"] / 60)
 	
 	# calculate the Grade
-	# TODO: cleanup this mess
 	var threshold_passed : Array
 	if stats["characters saved"] - stats["characters lost"] > _grade_weights["saved_characters"]["threshold"]:
 		threshold_passed.push_back("saved_characters")
@@ -86,36 +82,47 @@ func _ready():
 		grade_text = "Pixel Perfect" if LevelData.game_won else\
 					"Jaggies"
 	else:
-		var priority_threshold : String = threshold_passed[0]
+		var highest_priority_thresh : String = threshold_passed[0]
 		for threshold_key in threshold_passed:
-			if _grade_weights[threshold_key]["priority"] < _grade_weights[priority_threshold]["priority"]:
-				priority_threshold = threshold_key
+			if _grade_weights[threshold_key]["priority"] < _grade_weights[highest_priority_thresh]["priority"]:
+				highest_priority_thresh = threshold_key
 		
-		if LevelData.game_won:
-			grade_text = _grade_weights[priority_threshold]["good_txt"]
-		else:
-			grade_text = _grade_weights[priority_threshold]["bad_txt"]
+		var text_key : String = "good_txt" if LevelData.game_won else "bad_txt"
+		grade_text = _grade_weights[highest_priority_thresh][text_key]
 	
+	# results
+	var result_text : String
+	if LevelData.game_won:
+		_stats_image.texture.region.position.y = 0
+		result_text = "You've [color=" + _palette_green + "]saved[/color] everyone!"
+	else:
+		_stats_image.texture.region.position.y = 64
+		result_text = "The bucket has been [color=" + _palette_red + "]destroyed[/color]"
 	
-	_results_label.bbcode_text = "[center]" + result_text + '\n' +\
-		"[color=" + _palette_yellow + "]Grade[/color]: " + grade_text + "[/center]"
+	_results_label.bbcode_text = "[center]" +\
+								  result_text + '\n' +\
+								 "[color=" + _palette_yellow + "]Grade[/color]: " + grade_text +\
+								 "[/center]"
 	
 	# gradually show elements #
 	yield(get_tree(), "idle_frame")
-	var center_plank : TextureRect = $Planks/StatsImage
-	center_plank.rect_position.y -= _planks_offset
 	var left_plank : TextureRect = $Planks/MarginContainer/HBoxContainer/LeftPlanks
-	left_plank.rect_position.x -= _planks_offset
+	left_plank.rect_position.x -= _planks_tween_offset
 	var right_plank : TextureRect = $Planks/MarginContainer/HBoxContainer/RightPlanks
-	right_plank.rect_position.x += _planks_offset
+	right_plank.rect_position.x += _planks_tween_offset
+	_stats_image.rect_position.y -= _planks_tween_offset
 	
 	var tween : SceneTreeTween = get_tree().create_tween()
 	tween.tween_interval(1.0)
 	
 	# side planks
-	tween.tween_property(left_plank, "rect_position:x", left_plank.rect_position.x + _planks_offset, _transition_time_long)
+	tween.tween_property(
+		left_plank, "rect_position:x", left_plank.rect_position.x + _planks_tween_offset, _transition_time_long
+	)
 	tween.parallel()
-	tween.tween_property(right_plank, "rect_position:x", right_plank.rect_position.x - _planks_offset, _transition_time_long)
+	tween.tween_property(
+		right_plank, "rect_position:x", right_plank.rect_position.x - _planks_tween_offset, _transition_time_long
+	)
 	
 	# stats
 	_fade_tween_labels_recursive(tween, _stats_container)
@@ -127,7 +134,9 @@ func _ready():
 	tween.parallel()
 	
 	# center plank
-	tween.tween_property(center_plank, "rect_position:y", center_plank.rect_position.y + _planks_offset, _transition_time_long)
+	tween.tween_property(
+		_stats_image, "rect_position:y", _stats_image.rect_position.y + _planks_tween_offset, _transition_time_long
+	)
 	
 	# buttons
 	_buttons_container.modulate.a = 0.0
@@ -142,11 +151,16 @@ func _on_restart_pressed():
 func _fade_tween_labels_recursive(tween : SceneTreeTween, root : Control):
 	for child in root.get_children():
 		if child is Label:
+			var y_pos : float = child.rect_position.y
+			
 			child.modulate.a = 0.0
 			tween.tween_property(child, "modulate:a", 1.0, _transition_time_short)
 			tween.parallel()
-			var y_pos : float = child.rect_position.y
 			tween.tween_property(child, "rect_position:y", child.rect_position.y, _transition_time_short)\
 				.from(child.rect_position.y - _stat_reveal_y_offset)
 		
 		_fade_tween_labels_recursive(tween, child)
+
+func _on_image_anim_timeout():
+	_stats_image.texture.region.position.x =\
+		64.0 if _stats_image.texture.region.position.x == 0.0 else 0.0

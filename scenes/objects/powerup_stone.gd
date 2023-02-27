@@ -32,6 +32,8 @@ func _exit_tree():
 		emit_signal("destroyed", false)
 
 func setup(min_speed : float, max_speed : float, last_powerup_idx : int) -> int:
+	AudioManager.play_sound("powerups/powerup_spawn", false)
+	
 	global_position = Vector2(
 		Utility.rng.randi_range(0, LevelData.view_size.x),
 		-_sprite.texture.get_height()

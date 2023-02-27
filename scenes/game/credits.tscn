@@ -1,7 +1,6 @@
 [gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/game/credits.gd" type="Script" id=1]
-[ext_resource path="res://resources/fonts/quantum-font/Quantum-18n0.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://resources/textures/credits/credits_aleocius.png" type="Texture" id=3]
 [ext_resource path="res://scenes/objects/ui/button.tscn" type="PackedScene" id=4]
 [ext_resource path="res://resources/music/credits body.mp3" type="AudioStream" id=5]
@@ -18,19 +17,26 @@ outline_size = 1
 font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=7]
-size = 18
-font_data = ExtResource( 2 )
+size = 28
+outline_size = 1
+outline_color = Color( 0.788235, 0.811765, 0.560784, 0.262745 )
+font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=8]
-size = 32
-font_data = ExtResource( 2 )
+size = 39
+font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=1]
-size = 14
-font_data = ExtResource( 2 )
+size = 26
+font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=6]
-font_data = ExtResource( 2 )
+size = 25
+font_data = ExtResource( 16 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 21
+font_data = ExtResource( 16 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -97,7 +103,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 7, 60 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 1424 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, 1620 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Back:modulate")
@@ -169,10 +175,16 @@ margin_right = 320.0
 margin_bottom = 1440.0
 texture = ExtResource( 8 )
 
-[node name="Bottom" type="TextureRect" parent="Background"]
+[node name="Center8" type="TextureRect" parent="Background"]
 margin_top = 1440.0
 margin_right = 320.0
 margin_bottom = 1620.0
+texture = ExtResource( 8 )
+
+[node name="Bottom" type="TextureRect" parent="Background"]
+margin_top = 1620.0
+margin_right = 320.0
+margin_bottom = 1800.0
 texture = ExtResource( 7 )
 
 [node name="GameBy" type="Label" parent="."]
@@ -204,13 +216,13 @@ custom_constants/margin_left = 40
 [node name="Credits" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 40.0
 margin_right = 280.0
-margin_bottom = 1324.0
+margin_bottom = 1473.0
 size_flags_horizontal = 5
-custom_constants/separation = 10
+custom_constants/separation = 26
 
 [node name="Party Planners" type="VBoxContainer" parent="MarginContainer/Credits"]
 margin_right = 240.0
-margin_bottom = 189.0
+margin_bottom = 225.0
 
 [node name="Plank" type="TextureRect" parent="MarginContainer/Credits/Party Planners"]
 margin_left = 69.0
@@ -224,10 +236,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -58.0
-margin_top = -10.5
-margin_right = 58.0
-margin_bottom = 10.5
+margin_left = -70.0
+margin_top = -11.5
+margin_right = 70.0
+margin_bottom = 11.5
 custom_colors/font_color = Color( 0.789075, 0.81, 0.5589, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Party Planners"
@@ -252,11 +264,13 @@ margin_right = 55.5
 margin_bottom = 18.5
 custom_fonts/font = SubResource( 8 )
 text = "Aleocius"
+align = 1
+valign = 1
 
 [node name="Label" type="Label" parent="MarginContainer/Credits/Party Planners"]
 margin_top = 78.0
 margin_right = 240.0
-margin_bottom = 189.0
+margin_bottom = 225.0
 custom_fonts/font = SubResource( 1 )
 text = "Colorful Frog
 KatieDooLally
@@ -267,9 +281,9 @@ NTCM"
 align = 1
 
 [node name="Ideas And Consepts" type="VBoxContainer" parent="MarginContainer/Credits"]
-margin_top = 199.0
+margin_top = 251.0
 margin_right = 240.0
-margin_bottom = 563.0
+margin_bottom = 723.0
 
 [node name="Plank" type="TextureRect" parent="MarginContainer/Credits/Ideas And Consepts"]
 margin_left = 69.0
@@ -283,19 +297,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -69.0
-margin_top = -10.5
-margin_right = 69.0
-margin_bottom = 10.5
+margin_left = -89.5
+margin_top = -11.5
+margin_right = 89.5
+margin_bottom = 11.5
 custom_colors/font_color = Color( 0.789075, 0.81, 0.5589, 1 )
 custom_fonts/font = SubResource( 7 )
-text = "Ideas and Consept"
+text = "Ideas and Concept"
 align = 1
 
 [node name="Label" type="Label" parent="MarginContainer/Credits/Ideas And Consepts"]
 margin_top = 25.0
 margin_right = 240.0
-margin_bottom = 364.0
+margin_bottom = 472.0
 custom_fonts/font = SubResource( 1 )
 text = "BBS001    jsalex7
 Vgamer
@@ -318,9 +332,9 @@ Sinclix"
 align = 1
 
 [node name="Character Art" type="VBoxContainer" parent="MarginContainer/Credits"]
-margin_top = 573.0
+margin_top = 749.0
 margin_right = 240.0
-margin_bottom = 671.0
+margin_bottom = 871.0
 
 [node name="Plank" type="TextureRect" parent="MarginContainer/Credits/Character Art"]
 margin_left = 69.0
@@ -335,9 +349,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -69.0
-margin_top = -10.5
+margin_top = -11.5
 margin_right = 69.0
-margin_bottom = 10.5
+margin_bottom = 11.5
 custom_colors/font_color = Color( 0.789075, 0.81, 0.5589, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Character Art"
@@ -346,7 +360,7 @@ align = 1
 [node name="Label" type="Label" parent="MarginContainer/Credits/Character Art"]
 margin_top = 25.0
 margin_right = 240.0
-margin_bottom = 98.0
+margin_bottom = 122.0
 custom_fonts/font = SubResource( 1 )
 text = "VGamer
 jsalex7
@@ -355,9 +369,9 @@ LavraSource"
 align = 1
 
 [node name="Background N Environnement" type="VBoxContainer" parent="MarginContainer/Credits"]
-margin_top = 681.0
+margin_top = 897.0
 margin_right = 240.0
-margin_bottom = 760.0
+margin_bottom = 994.0
 
 [node name="Plank" type="TextureRect" parent="MarginContainer/Credits/Background N Environnement"]
 margin_left = 69.0
@@ -371,9 +385,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -69.0
+margin_left = -73.0
 margin_top = -22.5
-margin_right = 69.0
+margin_right = 73.0
 margin_bottom = 22.5
 custom_colors/font_color = Color( 0.789075, 0.81, 0.5589, 1 )
 custom_constants/line_spacing = -4
@@ -385,7 +399,7 @@ align = 1
 [node name="Label" type="Label" parent="MarginContainer/Credits/Background N Environnement"]
 margin_top = 25.0
 margin_right = 240.0
-margin_bottom = 79.0
+margin_bottom = 97.0
 custom_fonts/font = SubResource( 1 )
 text = "VGamer
 lemms
@@ -393,9 +407,9 @@ Dissonant-Void"
 align = 1
 
 [node name="Programming" type="VBoxContainer" parent="MarginContainer/Credits"]
-margin_top = 770.0
+margin_top = 1020.0
 margin_right = 240.0
-margin_bottom = 830.0
+margin_bottom = 1092.0
 
 [node name="Plank" type="TextureRect" parent="MarginContainer/Credits/Programming"]
 margin_left = 69.0
@@ -410,9 +424,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -69.0
-margin_top = -10.5
+margin_top = -11.5
 margin_right = 69.0
-margin_bottom = 10.5
+margin_bottom = 11.5
 custom_colors/font_color = Color( 0.789075, 0.81, 0.5589, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Programming"
@@ -421,16 +435,16 @@ align = 1
 [node name="Label" type="Label" parent="MarginContainer/Credits/Programming"]
 margin_top = 25.0
 margin_right = 240.0
-margin_bottom = 60.0
+margin_bottom = 72.0
 custom_fonts/font = SubResource( 1 )
 text = "Dissonant-Void
 jsalex7"
 align = 1
 
 [node name="Music And Sound" type="VBoxContainer" parent="MarginContainer/Credits"]
-margin_top = 840.0
+margin_top = 1118.0
 margin_right = 240.0
-margin_bottom = 881.0
+margin_bottom = 1165.0
 
 [node name="Plank" type="TextureRect" parent="MarginContainer/Credits/Music And Sound"]
 margin_left = 69.0
@@ -444,10 +458,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -69.0
-margin_top = -10.5
-margin_right = 69.0
-margin_bottom = 10.5
+margin_left = -78.0
+margin_top = -11.5
+margin_right = 78.0
+margin_bottom = 11.5
 custom_colors/font_color = Color( 0.789075, 0.81, 0.5589, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Music and Sound"
@@ -456,32 +470,32 @@ align = 1
 [node name="Label" type="Label" parent="MarginContainer/Credits/Music And Sound"]
 margin_top = 25.0
 margin_right = 240.0
-margin_bottom = 41.0
+margin_bottom = 47.0
 custom_fonts/font = SubResource( 1 )
 text = "Dissonant-Void"
 align = 1
 
 [node name="Final" type="RichTextLabel" parent="MarginContainer/Credits"]
-margin_top = 891.0
+margin_top = 1191.0
 margin_right = 240.0
-margin_bottom = 931.0
+margin_bottom = 1257.0
 custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
-bbcode_text = "[rainbow]p.s: keep your eyes peeled for a special surprise soon enough[/rainbow]"
+bbcode_text = "[center][rainbow]p.s: keep your eyes peeled for a special surprise soon enough[/rainbow][/center]"
 text = "p.s: keep your eyes peeled for a special surprise soon enough"
 fit_content_height = true
 scroll_active = false
 
 [node name="Message" type="MarginContainer" parent="MarginContainer/Credits"]
-margin_top = 941.0
+margin_top = 1283.0
 margin_right = 240.0
-margin_bottom = 1254.0
-custom_constants/margin_top = 313
+margin_bottom = 1473.0
+custom_constants/margin_top = 190
 
 [node name="Control" type="Control" parent="MarginContainer/Credits/Message"]
-margin_top = 313.0
+margin_top = 190.0
 margin_right = 240.0
-margin_bottom = 313.0
+margin_bottom = 190.0
 
 [node name="Button" type="TextureRect" parent="MarginContainer/Credits/Message/Control"]
 margin_left = 14.0
@@ -491,12 +505,12 @@ size_flags_horizontal = 6
 texture = ExtResource( 15 )
 
 [node name="Message" type="Label" parent="MarginContainer/Credits/Message/Control"]
-margin_top = 72.0
+margin_top = 57.0
 margin_right = 240.0
-margin_bottom = 164.0
+margin_bottom = 297.0
 size_flags_vertical = 6
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 9 )
 text = "Thank you to all of you, who helped us to make this game real, and thanks to you, Saultoons, For the entertainment You’ve been giving us for so long.
 Happy Milestone !!"
 align = 1
@@ -508,9 +522,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = 95.0
-margin_top = 1246.0
+margin_top = 1438.0
 margin_right = 159.0
-margin_bottom = 1278.0
+margin_bottom = 1470.0
 _text = "TO MENU"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

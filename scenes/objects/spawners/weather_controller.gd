@@ -17,11 +17,13 @@ func _ready():
 	
 	_spawn_bounds["x"] = Vector2(
 		-_half_cloud_size.x,
-		LevelData.view_size.x +_half_cloud_size.x
+		LevelData.view_size.x + _half_cloud_size.x
 	)
+	
+	var height_25_percent : float = lerp(0, LevelData.view_size.y, 0.25)
 	_spawn_bounds["y"] = Vector2(
 		_half_cloud_size.y,
-		LevelData.view_size.y -_half_cloud_size.y
+		LevelData.view_size.y - _half_cloud_size.y - height_25_percent
 	)
 	
 	LevelData.connect("level_rules_updated", self, "_on_level_rules_updated")
@@ -36,6 +38,7 @@ func _on_level_rules_updated():
 func _on_spawn_timer_timeout():
 	_spawn_cloud()
 	_spawn_timer.wait_time = _spawn_time / LevelData.time_factor
+	
 	_spawn_timer.start()
 
 func _spawn_cloud():

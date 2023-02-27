@@ -12,8 +12,6 @@ func powerup_start(request_callback : FuncRef):
 	particles_instance.global_position = request_callback.call_func("global_position")
 	particles_instance.emitting = true
 	get_tree().current_scene.add_child(particles_instance)
+	
+	_cleanup()
 	emit_signal("finished", self)
-
-# override
-func powerup_cleanup():
-	queue_free()

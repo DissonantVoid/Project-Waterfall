@@ -5,9 +5,6 @@ onready var _music_player : AudioStreamPlayer = $Music
 
 const _loop_music : AudioStream = preload("res://resources/music/credits loop.mp3")
 
-# TODO: now that we no longer use a RichTextLabel we can put
-#       text on top of images, so there is no need for the images in
-#       res://resources/textures/credits/
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("back"):

@@ -9,12 +9,11 @@ signal finished(powerup)
 
 var _request_callback : FuncRef
 
-# TODO: consider removing powerup_cleanup and allow powerups
-#       to cleanup on they're own before emmiting 
 
 func powerup_start(request_callback : FuncRef):
 	_request_callback = request_callback
 
-func powerup_cleanup():
-	# don't forget to free this node yourself
+func _cleanup():
+	# helper function
+	AudioManager.play_sound("powerups/powerup_over", false)
 	queue_free()

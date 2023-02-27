@@ -43,7 +43,7 @@ func _process(delta : float):
 
 func _physics_process(delta : float):
 	# follow mouse
-	var lerp_value : Vector2 = lerp(global_position, get_global_mouse_position(), 0.25) # TODO: frame dependent lerp
+	var lerp_value : Vector2 = lerp(global_position, get_global_mouse_position(), 0.25)
 	global_position = lerp_value
 	
 	rotation_degrees = clamp(get_global_mouse_position().x-global_position.x, -_max_rotation, _max_rotation)
@@ -96,6 +96,7 @@ func _on_detection_body_or_area_entered(object):
 		LevelData.increment_stat("hazards hit", 1)
 		
 		if _current_health == 0:
+			# die
 			_front_sprite.visible = false
 			_back_sprite.visible = false
 			_full_sprite.visible = true
@@ -104,6 +105,7 @@ func _on_detection_body_or_area_entered(object):
 			_inside_collider.set_deferred("disabled", true)
 			_full_sprite.region_rect.position.x = 32
 			_full_sprite_animator.play("explode")
+			AudioManager.play_sound("bucket_explode", false)
 			emit_signal("about_to_be_destroyed")
 		else:
 			emit_signal("hit_hazard")
@@ -125,7 +127,6 @@ func _on_detection_body_or_area_entered(object):
 		LevelData.increment_stat("health taken", 1)
 
 func _on_powerup_finished(powerup : Node2D):
-	powerup.powerup_cleanup()
 	emit_signal("powerup_finished")
 
 func _on_back_sprite_animation_finished(anim_name : String):
