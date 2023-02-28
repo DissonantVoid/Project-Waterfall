@@ -69,4 +69,7 @@ func pickup() -> String:
 	_picked_up = true
 	queue_free()
 	
+	# TEMP
+	#return "res://scenes/objects/powerups/powerup_ghost_bridge.tscn"
+	
 	return _self_powerup_data["scene_path"]

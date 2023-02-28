@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/credits_aleocius.png-8970bf65ed87484be226d626ee88b44e.stex"
+path="res://.import/credits_aleocus.png-62220717811a5265e74907520783a2ce.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/textures/credits/credits_aleocius.png"
-dest_files=[ "res://.import/credits_aleocius.png-8970bf65ed87484be226d626ee88b44e.stex" ]
+source_file="res://resources/textures/credits/credits_aleocus.png"
+dest_files=[ "res://.import/credits_aleocus.png-62220717811a5265e74907520783a2ce.stex" ]
 
 [params]
 

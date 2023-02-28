@@ -10,7 +10,7 @@ onready var _stats_image : TextureRect = $Planks/StatsImage
 const _palette_green : String = "#0b4122"
 const _palette_red : String = "#8e041d"
 const _palette_yellow : String = "#ffeb82"
-const _transition_time_short : float = 0.1
+const _transition_time_short : float = 0.2
 const _transition_time_long : float = 0.8
 const _text_reveal_time : float = 2.0
 const _stat_reveal_y_offset : float = 20.0
@@ -113,7 +113,7 @@ func _ready():
 	_stats_image.rect_position.y -= _planks_tween_offset
 	
 	var tween : SceneTreeTween = get_tree().create_tween()
-	tween.tween_interval(1.0)
+	tween.tween_interval(2.0)
 	
 	# side planks
 	tween.tween_property(

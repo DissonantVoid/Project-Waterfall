@@ -23,12 +23,13 @@ SOUNDS:
 [X] level down
 [X] scene changed
 [X] rock destroyed
-[ ] bird destroyed :'(
+[X] bird warning
+[X] bird spawn
+[X] bird took caracter
+[X] bird destroyed :'(
 [X] bucket hit hazard
 [X] ambience waterfall loop
 [X] player won
-[ ] bird warning
-[X] bird spawn
 [X] character hit rock
 [X] powerup spawned
 [X] powerup over
@@ -40,7 +41,7 @@ SOUNDS:
 [X] powerup slowtime collected
 [ ] powerup ghost bridge collected
 [X] unpause timer ticking
-[ ] bucket destroyed
+[X] bucket destroyed
 [ ] stats sfx
 
 ART:
@@ -87,3 +88,5 @@ MUSIC:
 
 NOTES:
 -make sure that all audio is at 6DB or close, we tweak volume in engine
+
+

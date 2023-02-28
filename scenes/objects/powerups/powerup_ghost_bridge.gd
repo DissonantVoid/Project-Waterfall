@@ -4,13 +4,11 @@ onready var _bridge : StaticBody2D = $Bridge
 onready var _bridge_collider : CollisionShape2D = $Bridge/CollisionShape2D
 onready var _bridge_color : ColorRect = $Bridge/ColorRect
 
-const _tilt_angle : float = 30.0
+const _tilt_angle : float = 20.0
 const _bridge_height : float = 20.0
-const _y_limits : Vector2 = Vector2(90.0, 180.0) # shouldn't spawn the bridge very close to top or bottom of screen
+const _y_limits : Vector2 = Vector2(20.0, 180.0) # shouldn't spawn the bridge very close to top or bottom of screen
 const _width_padding : float = 30.0 # additional width near edge of screen, so when we rotate bridge you can't see its end
 
-
-# TODO: bridge too low, bad angle too
 
 func _ready():
 	_bridge_collider.shape.extents.y = _bridge_height / 2
@@ -22,7 +20,6 @@ func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)
 	
 	var pos : Vector2 = request_callback.call_func("global_position")
-	prints(pos.y, clamp(pos.y, _y_limits[0], _y_limits[1]))
 	pos.y = clamp(pos.y, _y_limits[0], _y_limits[1])
 	_bridge.global_position.y = pos.y
 	

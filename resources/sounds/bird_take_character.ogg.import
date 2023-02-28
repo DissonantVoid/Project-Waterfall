@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bird_take_character.ogg-46c81b81b3e3b309bfce565486d8e561.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/bird_take_character.ogg"
+dest_files=[ "res://.import/bird_take_character.ogg-46c81b81b3e3b309bfce565486d8e561.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

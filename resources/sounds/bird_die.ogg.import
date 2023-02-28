@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bird_die.ogg-f4659dea48548bff7d38c3a019ff2180.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/bird_die.ogg"
+dest_files=[ "res://.import/bird_die.ogg-f4659dea48548bff7d38c3a019ff2180.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -51,6 +51,7 @@ func setup(min_speed : float, max_speed : float, warning_time : float):
 	_x_edges = Vector2(0, LevelData.view_size.x)
 	
 	# warn before showing the bird
+	AudioManager.play_sound("bird_warning", false)
 	_sprite.hide()
 	_warning_sprite.show()
 	_warning_sprite.global_position.x = clamp(_warning_sprite.global_position.x, 32, LevelData.view_size.x-32)
@@ -64,6 +65,7 @@ func destroy():
 	feathers_instance.emitting = true
 	#feathers_instance.process_material
 	get_tree().current_scene.add_child(feathers_instance)
+	AudioManager.play_sound("bird_die", true)
 	queue_free()
 
 func _process(delta : float):
@@ -89,6 +91,7 @@ func _on_body_entered(body):
 		_held_character_sprite.texture = body.get_texture()
 		_is_holding_character = true
 		LevelData.increment_stat("bird food", 1)
+		AudioManager.play_sound("bird_take_character", true)
 	elif body is HazardFallingRock:
 		body.destroy()
 
