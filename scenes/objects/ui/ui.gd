@@ -95,7 +95,7 @@ func level_down(current_level : int):
 		"Level Down" if _pulse_cooldown_timer.time_left == 0 else "Sike!"
 	_show_message(level_down_text + '\n' + str(current_level), _bad_color)
 
-func _on_back_to_menu_pressed():
+func _on_quit_pressed():
 	SceneManager.change_scene("res://scenes/game/menu.tscn")
 
 func _on_point_added(sprite : TextureRect, value : float):

@@ -1,50 +1,67 @@
 extends CanvasLayer
 
-onready var _screen_capture : TextureRect = $ScreenCapture
-var _curr_screen_texture : ImageTexture = ImageTexture.new()
+onready var _transitino_container : Control = $Transition
+onready var _characters_container : Control = $Transition/Characters
+onready var _background : ColorRect = $Transition/Background
+onready var _mouse_blocker : Control = $MouseBlocker
 
-const _tween_time : float = 0.9
-const _audio_tween_time : float = 0.95
+const _character_in_time : float = 0.04
+const _character_out_time : float = 0.03
+const _audio_tween_time : float = 0.4
 var _master_bus_idx : int = AudioServer.get_bus_index("Master")
 const _low_volume_value : int = -24
 
 var _is_changing : bool
 
 
+func _ready():
+	_transitino_container.show()
+	
+	for character in _characters_container.get_children():
+		character.modulate.a = 0.0
+	_background.modulate.a = 0.0
+
 func change_scene(scene_name : String):
 	if _is_changing:
 		return
 	
 	_is_changing = true
-	
-	# screen texture
-	var viewport_image : Image = get_tree().root.get_texture().get_data()
-	viewport_image.flip_y()
-	_curr_screen_texture.create_from_image(viewport_image)
-	_screen_capture.texture = _curr_screen_texture
-	_screen_capture.show()
-	
-	# change scene and move screen texture out of view
-	get_tree().change_scene(scene_name)
-	yield(get_tree(),"idle_frame")
-	
+	_mouse_blocker.show()
 	var volume_before_fade : int = AudioServer.get_bus_volume_db(_master_bus_idx)
-	var tween : SceneTreeTween = get_tree().create_tween()
-	tween.tween_method(self, "_set_master_volume", volume_before_fade, _low_volume_value, _audio_tween_time)
-	tween.parallel()
-	tween.tween_property(_screen_capture.material, "shader_param/offset", 0.5, _tween_time)\
-		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	AudioManager.play_sound("whoosh", false)
-	yield(tween,"finished")
-	_screen_capture.texture = null
-	_screen_capture.hide()
 	
-	# reset
-	_screen_capture.material.set_shader_param("offset", 0.0) # NOTE: this has to be 0.0 and not 0, as 0 will make tween treat offset as int and hence give error on next tween "missmatch between int and float"
-	tween = get_tree().create_tween() # tween becomes invalid after finishing, creating new one
+	# tween characters in
+	var tween : SceneTreeTween = create_tween().set_parallel(true)
+	tween.tween_property(_background, "modulate:a", 1.0, _characters_container.get_child_count() * _character_in_time)
+	tween.tween_method(self, "_set_master_volume", volume_before_fade, _low_volume_value, _audio_tween_time)
+	
+	var char_tween : SceneTreeTween = create_tween()
+	for i in range(_characters_container.get_child_count()-1, -1, -1):
+		var character := _characters_container.get_child(i)
+		char_tween.tween_property(character, "modulate:a", 1.0, _character_in_time)
+		char_tween.parallel()
+		char_tween.tween_property(character, "rect_scale", character.rect_scale, _character_in_time)\
+			.from(Vector2.ZERO)
+		
+	char_tween.tween_interval(1.0) # delay so transition isn't too fast
+	
+	# change scene
+	yield(char_tween,"finished")
+	get_tree().change_scene(scene_name)
+	
+	# remove characters and reset volume
+	tween = create_tween().set_parallel(true)
+	tween.tween_property(_background, "modulate:a", 0.0, _characters_container.get_child_count() * _character_out_time)
 	tween.tween_method(self, "_set_master_volume", _low_volume_value, volume_before_fade, _audio_tween_time)
-	yield(tween,"finished")
+	
+	char_tween = create_tween() # tween becomes invalid after finishing
+	char_tween.parallel()
+	
+	for character in _characters_container.get_children():
+		char_tween.tween_property(character, "modulate:a", 0.0, _character_out_time)
+	yield(char_tween,"finished")
+	
 	_is_changing = false
+	_mouse_blocker.hide()
 
 func restart_scene():
 	change_scene(get_tree().current_scene.filename)

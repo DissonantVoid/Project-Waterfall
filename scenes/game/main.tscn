@@ -246,6 +246,7 @@ margin_bottom = 16.0
 texture = SubResource( 32 )
 
 [node name="MessageLabel" type="Label" parent="UI/Hud"]
+visible = false
 modulate = Color( 1, 1, 1, 0.627451 )
 material = ExtResource( 20 )
 margin_left = 5.0
@@ -297,7 +298,7 @@ margin_right = 320.0
 margin_bottom = 180.0
 custom_constants/margin_bottom = 12
 
-[node name="Back" parent="UI/Pause/ButtonMargin" instance=ExtResource( 14 )]
+[node name="Quit" parent="UI/Pause/ButtonMargin" instance=ExtResource( 14 )]
 margin_left = 128.0
 margin_top = 136.0
 margin_right = 192.0
@@ -502,7 +503,7 @@ shape = SubResource( 4 )
 pause_mode = 2
 volume_db = -3.0
 
-[connection signal="pressed" from="UI/Pause/ButtonMargin/Back" to="UI" method="_on_back_to_menu_pressed"]
+[connection signal="pressed" from="UI/Pause/ButtonMargin/Quit" to="UI" method="_on_quit_pressed"]
 [connection signal="timeout" from="UI/Pause/UnpauseTimer" to="UI" method="_on_unpause_timer_timeout"]
 [connection signal="timeout" from="GameCamera/ShakeTimer" to="GameCamera" method="_on_shake_timeout"]
 [connection signal="animation_finished" from="Bucket/Full/AnimationPlayer" to="Bucket" method="_on_back_sprite_animation_finished"]
