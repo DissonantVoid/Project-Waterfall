@@ -6,10 +6,11 @@ onready var _results_label : RichTextLabel = $MarginContainer/VBoxContainer/VBox
 onready var _stats_container : HBoxContainer = $MarginContainer/VBoxContainer/Stats
 onready var _buttons_container : HBoxContainer = $MarginContainer/VBoxContainer/VBoxContainer/Buttons
 onready var _stats_image : TextureRect = $Planks/StatsImage
+onready var _continue_button : TextureButton = $MarginContainer/VBoxContainer/VBoxContainer/Buttons/Continue
 
-const _palette_green : String = "#0b4122"
-const _palette_red : String = "#8e041d"
-const _palette_yellow : String = "#ffeb82"
+const _palette_good : String = "#18722e"
+const _palette_bad : String = "#8e041d"
+const _palette_grade : String = "#2b0a68"
 const _transition_time_short : float = 0.2
 const _transition_time_long : float = 0.8
 const _text_reveal_time : float = 2.0
@@ -94,15 +95,20 @@ func _ready():
 	var result_text : String
 	if LevelData.game_won:
 		_stats_image.texture.region.position.y = 0
-		result_text = "You've [color=" + _palette_green + "]saved[/color] everyone!"
+		result_text = "You've [color=" + _palette_good + "]saved[/color] everyone!"
 	else:
 		_stats_image.texture.region.position.y = 64
-		result_text = "The bucket has been [color=" + _palette_red + "]destroyed[/color]"
+		result_text = "The bucket has been [color=" + _palette_bad + "]destroyed[/color]"
 	
 	_results_label.bbcode_text = "[center]" +\
 								  result_text + '\n' +\
-								 "[color=" + _palette_yellow + "]Grade[/color]: " + grade_text +\
+								 "[color=" + _palette_grade + "]Grade:[/color] " + grade_text +\
 								 "[/center]"
+	
+	if LevelData.game_won:
+		_continue_button.text = "NEXT"
+	else:
+		_continue_button.text = "MENU"
 	
 	# gradually show elements #
 	yield(get_tree(), "idle_frame")
@@ -142,8 +148,12 @@ func _ready():
 	_buttons_container.modulate.a = 0.0
 	tween.tween_property(_buttons_container, "modulate:a", 1.0, _transition_time_long)
 
-func _on_menu_pressed():
-	SceneManager.change_scene("res://scenes/game/menu.tscn")
+func _on_continue_pressed():
+	if LevelData.game_won:
+		# TODO: move to end animation
+		SceneManager.change_scene("res://scenes/game/menu.tscn")
+	else:
+		SceneManager.change_scene("res://scenes/game/menu.tscn")
 
 func _on_restart_pressed():
 	SceneManager.change_scene("res://scenes/game/main.tscn")

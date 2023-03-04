@@ -21,7 +21,7 @@
 [ext_resource path="res://resources/textures/bg_rocks_back.png" type="Texture" id=19]
 [ext_resource path="res://resources/godot/wiggle_shader.tres" type="Material" id=20]
 [ext_resource path="res://resources/godot/pulse_shader.tres" type="Material" id=21]
-[ext_resource path="res://scenes/game/characters_spawner.gd" type="Script" id=22]
+[ext_resource path="res://scenes/objects/spawners/characters_spawner.gd" type="Script" id=22]
 [ext_resource path="res://scenes/objects/spawners/health_spawner.gd" type="Script" id=23]
 [ext_resource path="res://resources/textures/health_bar.png" type="Texture" id=24]
 [ext_resource path="res://resources/textures/bucket.png" type="Texture" id=25]
@@ -245,8 +245,7 @@ margin_right = 302.0
 margin_bottom = 16.0
 texture = SubResource( 32 )
 
-[node name="LevelLabel" type="Label" parent="UI/Hud"]
-visible = false
+[node name="MessageLabel" type="Label" parent="UI/Hud"]
 modulate = Color( 1, 1, 1, 0.627451 )
 material = ExtResource( 20 )
 margin_left = 5.0
@@ -255,9 +254,9 @@ margin_right = 315.0
 margin_bottom = 139.0
 rect_pivot_offset = Vector2( 155, 30 )
 custom_fonts/font = SubResource( 55 )
-text = "Level UP/DOWN
-(X)"
+text = "Level UP/DOWN (X)"
 align = 1
+autowrap = true
 
 [node name="Pause" type="MarginContainer" parent="UI"]
 visible = false
@@ -304,7 +303,7 @@ margin_top = 136.0
 margin_right = 192.0
 margin_bottom = 168.0
 size_flags_vertical = 8
-_text = "QUIT"
+text = "QUIT"
 
 [node name="UnpauseTimer" type="Timer" parent="UI/Pause"]
 one_shot = true

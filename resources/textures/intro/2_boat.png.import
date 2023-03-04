@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/5_bg.png-4ac19b66250f33c9de045f33922952eb.stex"
+path="res://.import/2_boat.png-3f4750f5ea428ae1eb89c7e95a2c6d18.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/textures/start animation/5_bg.png"
-dest_files=[ "res://.import/5_bg.png-4ac19b66250f33c9de045f33922952eb.stex" ]
+source_file="res://resources/textures/intro/2_boat.png"
+dest_files=[ "res://.import/2_boat.png-3f4750f5ea428ae1eb89c7e95a2c6d18.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
+flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false

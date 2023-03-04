@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/5_saul.png-c957eadf6273f63b5782e567c732469a.stex"
+path="res://.import/2_question.png-9e1c88dc4ab59c132e18ac526e665779.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/textures/start animation/5_saul.png"
-dest_files=[ "res://.import/5_saul.png-c957eadf6273f63b5782e567c732469a.stex" ]
+source_file="res://resources/textures/intro/2_question.png"
+dest_files=[ "res://.import/2_question.png-9e1c88dc4ab59c132e18ac526e665779.stex" ]
 
 [params]
 

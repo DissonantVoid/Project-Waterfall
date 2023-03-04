@@ -53,7 +53,8 @@ func _ready():
 	
 	apply_central_impulse(Vector2(Utility.rng.randf_range(-100, 100), 0))
 	AudioManager.play_sound(
-		"characters/" + _sounds_per_character[_curr_character_idx]["spawn"], true
+		"characters/" + _sounds_per_character[_curr_character_idx]["spawn"], true,
+		-4.0
 	)
 
 func setup(_parachute_chance : int):
@@ -75,25 +76,20 @@ func _physics_process(delta : float):
 		_parachute_sprite.rotation_degrees = -rotation_degrees
 
 func free_self(was_saved : bool):
-	# NOTE: call this if you want to allow character to make a sound before
+	# NOTE: call this func if you want to allow character to make a sound before
 	#       dying/saved
 	if was_saved:
 		LevelData.increment_stat("characters saved", 1)
 	else:
 		LevelData.increment_stat("characters lost", 1)
 	
+	var sound : String = "saved" if was_saved else "fall"
+	AudioManager.play_sound(
+		"characters/" + _sounds_per_character[_curr_character_idx][sound], true,
+		-4.0
+	)
+	
 	queue_free()
-	
-	# TODO: default fall sounds needed
-#	var sound : String = "saved" if was_saved else "fall"
-#	AudioManager.play_sound(
-#		"characters/" + _sounds_per_character[_curr_character_idx][sound], true
-#	)
-	
-	if was_saved:
-		AudioManager.play_sound(
-			"characters/" + _sounds_per_character[_curr_character_idx]["saved"], true
-		)
 
 func bucket_interacted(is_inside : bool):
 	if is_inside:

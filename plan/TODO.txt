@@ -1,4 +1,4 @@
-GAME DESIGN:
+GAME DESIGN: (in godot code editor go to: seach -> find in files -> "TODO", for all code issues)
 [X] menu
 [ ] end screen
 [X] credits
@@ -9,13 +9,13 @@ GAME DESIGN:
 [X] powerups
 [X] global audio manager
 [X] hazards
-[..] difficulty balancing
+[X] difficulty balancing
 [X] intro scene
 [ ] final polish
 
 SOUNDS:
 [X] character spawn (default)
-[ ] character fell (default)
+[X] character fell (default)
 [X] character collected (default)
 [X] button hover
 [X] button click
@@ -28,21 +28,24 @@ SOUNDS:
 [X] bird took caracter
 [X] bird destroyed :'(
 [X] bucket hit hazard
+[X] bucket healing
 [X] ambience waterfall loop
 [X] player won
 [X] character hit rock
 [X] powerup spawned
 [X] powerup over
 [X] powerup magnet collected
-[ ] powerup shrink collected
+[X] powerup shrink collected
 [ ] powerup shield collected
-[ ] powerup health collected
-[ ] powerup bad vision collected
+[X] powerup health collected
+[X] powerup bad vision collected
 [X] powerup slowtime collected
-[ ] powerup ghost bridge collected
+[X] powerup ghost bridge collected
 [X] unpause timer ticking
 [X] bucket destroyed
+[X] intro sfx
 [ ] stats sfx
+[ ] end sfx
 
 ART:
 [X] mouse shape
@@ -77,16 +80,15 @@ ART:
 [X] particles bird hit bucket
 [X] particles healing
 [X] stats images
+[X] stats background
 
 MUSIC:
 [X] menu
 [X] introduction
 [X] game (all layers)
-[ ] stats scene
+[..] stats scene
 [ ] end scene
 [X] credits
 
 NOTES:
 -make sure that all audio is at 6DB or close, we tweak volume in engine
-
-

@@ -124,6 +124,7 @@ func _on_detection_body_or_area_entered(object):
 	elif object is Health:
 		object.queue_free()
 		_change_health(+1)
+		AudioManager.play_sound("healing", false)
 		LevelData.increment_stat("health taken", 1)
 
 func _on_powerup_finished(powerup : Node2D):

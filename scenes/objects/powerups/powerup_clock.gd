@@ -18,7 +18,7 @@ var _slow_pitch_effect : AudioEffectPitchShift = AudioEffectPitchShift.new()
 
 
 func _ready():
-	AudioManager.play_sound("powerups/time_slowdown", false)
+	AudioManager.play_sound("powerups/powerup_time_slowdown", false)
 	
 	_slow_pitch_effect.pitch_scale = 0.6
 	_slow_pitch_effect.oversampling = 8

@@ -1,6 +1,9 @@
 extends "res://scenes/objects/powerups/powerup.gd"
 
 
+func _ready():
+	AudioManager.play_sound("powerups/powerup_bad_vision", false)
+
 # override
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)

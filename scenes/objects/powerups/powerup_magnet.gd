@@ -12,7 +12,7 @@ var _furthest_collider_point_distance : float
 
 
 func _ready():
-	AudioManager.play_sound("powerups/magnet", false)
+	AudioManager.play_sound("powerups/powerup_magnet", false)
 	
 	# find the furthest point in the collider, we relly on that to iplement
 	# the slow down where the closest an object is, the lower the pull force

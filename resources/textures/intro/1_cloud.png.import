@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/5_warning.png-bcf2ebcd11e2ffc56795c276da0946ce.stex"
+path="res://.import/1_cloud.png-aac22a93f45ce41dd531ecee59e712cc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/textures/start animation/5_warning.png"
-dest_files=[ "res://.import/5_warning.png-bcf2ebcd11e2ffc56795c276da0946ce.stex" ]
+source_file="res://resources/textures/intro/1_cloud.png"
+dest_files=[ "res://.import/1_cloud.png-aac22a93f45ce41dd531ecee59e712cc.stex" ]
 
 [params]
 

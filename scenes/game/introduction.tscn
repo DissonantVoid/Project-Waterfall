@@ -1,21 +1,21 @@
 [gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scenes/game/introduction.gd" type="Script" id=1]
-[ext_resource path="res://resources/textures/start animation/1_bg.png" type="Texture" id=2]
-[ext_resource path="res://resources/textures/start animation/1_boat.png" type="Texture" id=3]
-[ext_resource path="res://resources/textures/start animation/4_bg.png" type="Texture" id=4]
-[ext_resource path="res://resources/textures/start animation/4_chars.png" type="Texture" id=5]
-[ext_resource path="res://resources/textures/start animation/4_boat.png" type="Texture" id=6]
-[ext_resource path="res://resources/textures/start animation/5_bucket.png" type="Texture" id=7]
-[ext_resource path="res://resources/textures/start animation/5_saul.png" type="Texture" id=8]
-[ext_resource path="res://resources/textures/start animation/3_bg.png" type="Texture" id=9]
-[ext_resource path="res://resources/textures/start animation/2_boat.png" type="Texture" id=10]
-[ext_resource path="res://resources/textures/start animation/4_bird.png" type="Texture" id=11]
-[ext_resource path="res://resources/textures/start animation/3_boat.png" type="Texture" id=12]
-[ext_resource path="res://resources/textures/start animation/2_question.png" type="Texture" id=13]
-[ext_resource path="res://resources/textures/start animation/1_cloud.png" type="Texture" id=14]
-[ext_resource path="res://resources/textures/start animation/5_warning.png" type="Texture" id=15]
-[ext_resource path="res://resources/textures/start animation/5_bg.png" type="Texture" id=16]
+[ext_resource path="res://resources/textures/intro/1_bg.png" type="Texture" id=2]
+[ext_resource path="res://resources/textures/intro/1_boat.png" type="Texture" id=3]
+[ext_resource path="res://resources/textures/intro/4_bg.png" type="Texture" id=4]
+[ext_resource path="res://resources/textures/intro/4_chars.png" type="Texture" id=5]
+[ext_resource path="res://resources/textures/intro/4_boat.png" type="Texture" id=6]
+[ext_resource path="res://resources/textures/intro/5_bucket.png" type="Texture" id=7]
+[ext_resource path="res://resources/textures/intro/5_saul.png" type="Texture" id=8]
+[ext_resource path="res://resources/textures/intro/3_bg.png" type="Texture" id=9]
+[ext_resource path="res://resources/textures/intro/2_boat.png" type="Texture" id=10]
+[ext_resource path="res://resources/textures/intro/4_bird.png" type="Texture" id=11]
+[ext_resource path="res://resources/textures/intro/3_boat.png" type="Texture" id=12]
+[ext_resource path="res://resources/textures/intro/2_question.png" type="Texture" id=13]
+[ext_resource path="res://resources/textures/intro/1_cloud.png" type="Texture" id=14]
+[ext_resource path="res://resources/textures/intro/5_warning.png" type="Texture" id=15]
+[ext_resource path="res://resources/textures/intro/5_bg.png" type="Texture" id=16]
 [ext_resource path="res://resources/music/introduction.mp3" type="AudioStream" id=17]
 
 [sub_resource type="Animation" id=2]
@@ -590,6 +590,7 @@ texture = ExtResource( 15 )
 position = Vector2( 480, 271 )
 scale = Vector2( 12, 12 )
 frames = SubResource( 20 )
+frame = 4
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]

@@ -11,6 +11,8 @@ const _width_padding : float = 30.0 # additional width near edge of screen, so w
 
 
 func _ready():
+	AudioManager.play_sound("powerups/powerup_ghost_bridge", false)
+	
 	_bridge_collider.shape.extents.y = _bridge_height / 2
 	_bridge_color.rect_size.y = _bridge_height
 	_bridge_color.rect_position.x = -_bridge_color.rect_size.y / 2

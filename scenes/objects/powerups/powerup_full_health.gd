@@ -3,6 +3,9 @@ extends "res://scenes/objects/powerups/powerup.gd"
 const _healing_particles_scene : PackedScene = preload("res://scenes/objects/standalone_particles/healing.tscn")
 
 
+func _ready():
+	AudioManager.play_sound("powerups/powerup_heal", false)
+
 # override
 func powerup_start(request_callback : FuncRef):
 	.powerup_start(request_callback)

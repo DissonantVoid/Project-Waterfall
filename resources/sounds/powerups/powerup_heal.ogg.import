@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/powerup_heal.ogg-1025163324c9c33f2100981608df3e66.oggstr"
+
+[deps]
+
+source_file="res://resources/sounds/powerups/powerup_heal.ogg"
+dest_files=[ "res://.import/powerup_heal.ogg-1025163324c9c33f2100981608df3e66.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
