@@ -750,7 +750,7 @@ margin_right = 240.0
 margin_bottom = 297.0
 size_flags_vertical = 6
 custom_fonts/font = SubResource( 9 )
-text = "Thank you to all of you, who helped us to make this game real, and thanks to you, Saultoons, For the entertainment You’ve been giving us for so long.
+text = "Thank you to all of you, who helped us to make this game real, and thanks to you, Saultoons! For the entertainment You’ve been giving us for so long.
 Happy Milestone !!"
 align = 1
 autowrap = true

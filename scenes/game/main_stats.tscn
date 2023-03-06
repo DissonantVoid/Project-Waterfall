@@ -298,7 +298,7 @@ text = "RESTART"
 [node name="Continue" parent="MarginContainer/VBoxContainer/VBoxContainer/Buttons" instance=ExtResource( 2 )]
 margin_left = 102.0
 margin_right = 166.0
-text = "MENU/NEXT"
+text = "NEXT"
 
 [node name="ImageAnimTimer" type="Timer" parent="."]
 wait_time = 0.4

@@ -1,6 +1,6 @@
 GAME DESIGN: (in godot code editor go to: seach -> find in files -> "TODO", for all code issues)
 [X] menu
-[ ] end screen
+[X] end screen
 [X] credits
 [X] stats
 [X] win condition
@@ -56,11 +56,11 @@ ART:
 [X] progress bar
 [X] background
 [X] menu background
-[ ] stats scene background
+[X] stats scene background
 [..] credits art
 [X] button (normal)
 [X] button (hover)
-[ ] end animation (after winning)
+[X] end animation (after winning)
 [X] clouds
 [X] falling rocks
 [X] birds

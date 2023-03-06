@@ -5,11 +5,10 @@ onready var _characters_container : Control = $Transition/Characters
 onready var _background : ColorRect = $Transition/Background
 onready var _mouse_blocker : Control = $MouseBlocker
 
-const _character_in_time : float = 0.04
-const _character_out_time : float = 0.03
-const _audio_tween_time : float = 0.4
+const _character_in_time : float = 0.03
+const _character_out_time : float = 0.024
 var _master_bus_idx : int = AudioServer.get_bus_index("Master")
-const _low_volume_value : int = -24
+const _low_volume_value : int = -40
 
 var _is_changing : bool
 
@@ -27,12 +26,15 @@ func change_scene(scene_name : String):
 	
 	_is_changing = true
 	_mouse_blocker.show()
+	
 	var volume_before_fade : int = AudioServer.get_bus_volume_db(_master_bus_idx)
+	var all_characters_in_time : float = _characters_container.get_child_count() * _character_in_time
+	var all_characters_out_time : float = _characters_container.get_child_count() * _character_out_time
 	
 	# tween characters in
 	var tween : SceneTreeTween = create_tween().set_parallel(true)
-	tween.tween_property(_background, "modulate:a", 1.0, _characters_container.get_child_count() * _character_in_time)
-	tween.tween_method(self, "_set_master_volume", volume_before_fade, _low_volume_value, _audio_tween_time)
+	tween.tween_property(_background, "modulate:a", 1.0, all_characters_in_time)
+	tween.tween_method(self, "_set_master_volume", volume_before_fade, _low_volume_value, all_characters_in_time)
 	
 	var char_tween : SceneTreeTween = create_tween()
 	for i in range(_characters_container.get_child_count()-1, -1, -1):
@@ -50,8 +52,8 @@ func change_scene(scene_name : String):
 	
 	# remove characters and reset volume
 	tween = create_tween().set_parallel(true)
-	tween.tween_property(_background, "modulate:a", 0.0, _characters_container.get_child_count() * _character_out_time)
-	tween.tween_method(self, "_set_master_volume", _low_volume_value, volume_before_fade, _audio_tween_time)
+	tween.tween_property(_background, "modulate:a", 0.0, all_characters_out_time)
+	tween.tween_method(self, "_set_master_volume", _low_volume_value, volume_before_fade, all_characters_out_time)
 	
 	char_tween = create_tween() # tween becomes invalid after finishing
 	char_tween.parallel()

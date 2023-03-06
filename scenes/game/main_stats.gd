@@ -18,7 +18,6 @@ const _stat_reveal_y_offset : float = 20.0
 const _time_between_stats_n_text : float = 1.2
 const _planks_tween_offset : float = 140.0
 
-
 # the threshold represents the min value for this Grade to be considered
 # the Grade text is based on the stat that hits the threshold and has the highest priority
 # TODO: improve texts, also check texts for breaking all threshold and breaking non
@@ -105,10 +104,7 @@ func _ready():
 								 "[color=" + _palette_grade + "]Grade:[/color] " + grade_text +\
 								 "[/center]"
 	
-	if LevelData.game_won:
-		_continue_button.text = "NEXT"
-	else:
-		_continue_button.text = "MENU"
+	_continue_button.visible = LevelData.game_won
 	
 	# gradually show elements #
 	yield(get_tree(), "idle_frame")
@@ -149,11 +145,7 @@ func _ready():
 	tween.tween_property(_buttons_container, "modulate:a", 1.0, _transition_time_long)
 
 func _on_continue_pressed():
-	if LevelData.game_won:
-		# TODO: move to end animation
-		SceneManager.change_scene("res://scenes/game/menu.tscn")
-	else:
-		SceneManager.change_scene("res://scenes/game/menu.tscn")
+	SceneManager.change_scene("res://scenes/game/ending.tscn")
 
 func _on_restart_pressed():
 	SceneManager.change_scene("res://scenes/game/main.tscn")

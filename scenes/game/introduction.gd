@@ -1,6 +1,5 @@
-extends Control
+extends Node2D
 
-onready var _anim_player : AnimationPlayer = $AnimationPlayer
 onready var _camera_anim_player : AnimationPlayer = $Camera2D/AnimationPlayer
 
 
