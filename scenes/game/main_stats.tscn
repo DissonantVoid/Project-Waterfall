@@ -304,6 +304,8 @@ text = "NEXT"
 wait_time = 0.4
 autostart = true
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Buttons/Continue" to="." method="_on_continue_pressed"]
 [connection signal="timeout" from="ImageAnimTimer" to="." method="_on_image_anim_timeout"]

@@ -7,6 +7,7 @@ onready var _stats_container : HBoxContainer = $MarginContainer/VBoxContainer/St
 onready var _buttons_container : HBoxContainer = $MarginContainer/VBoxContainer/VBoxContainer/Buttons
 onready var _stats_image : TextureRect = $Planks/StatsImage
 onready var _continue_button : TextureButton = $MarginContainer/VBoxContainer/VBoxContainer/Buttons/Continue
+onready var _music : AudioStreamPlayer = $Music
 
 const _palette_good : String = "#18722e"
 const _palette_bad : String = "#8e041d"
@@ -33,6 +34,10 @@ const _grade_weights : Dictionary = {
 
 
 func _ready():
+	var music_name : String = "stats_win.mp3" if LevelData.game_won else "stats_lose.mp3"
+	_music.stream = load("res://resources/music/" + music_name)
+	_music.play()
+	
 	# extract info from LevelData
 	var stats : Dictionary = LevelData.get_stats()
 	$MarginContainer/VBoxContainer/Stats/Left/HBoxContainer/Saved.text        =\

@@ -16,6 +16,8 @@ const _initial_expand_time : float = 0.4
 
 
 func _ready():
+	AudioManager.play_sound("powerups/powerup_shield", false)
+	
 	var tween : SceneTreeTween = get_tree().create_tween()
 	tween.tween_property(_inner_sprite, "scale", Vector2.ONE, _initial_expand_time)\
 		.from(Vector2.ZERO)

@@ -36,7 +36,7 @@ SOUNDS:
 [X] powerup over
 [X] powerup magnet collected
 [X] powerup shrink collected
-[ ] powerup shield collected
+[X] powerup shield collected
 [X] powerup health collected
 [X] powerup bad vision collected
 [X] powerup slowtime collected
@@ -44,7 +44,6 @@ SOUNDS:
 [X] unpause timer ticking
 [X] bucket destroyed
 [X] intro sfx
-[ ] stats sfx
 [ ] end sfx
 
 ART:
@@ -57,7 +56,7 @@ ART:
 [X] background
 [X] menu background
 [X] stats scene background
-[..] credits art
+[X] credits art
 [X] button (normal)
 [X] button (hover)
 [X] end animation (after winning)
@@ -86,7 +85,7 @@ MUSIC:
 [X] menu
 [X] introduction
 [X] game (all layers)
-[..] stats scene
+[X] stats scene
 [ ] end scene
 [X] credits
 

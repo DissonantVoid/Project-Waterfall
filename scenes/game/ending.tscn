@@ -17,66 +17,6 @@
 
 [sub_resource type="Animation" id=8]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Frames/6/Bird:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 28, 383 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Frames/6/CircleFade:material:shader_param/circle_pos")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0.454, 0.272 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Frames/6/CircleFade:material:shader_param/circle_size")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.197 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Camera2D:zoom")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0.1, 0.1 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Camera2D:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -421, 310 ) ]
-}
 
 [sub_resource type="Animation" id=1]
 resource_name = "full"
@@ -314,6 +254,7 @@ texture = ExtResource( 8 )
 position = Vector2( -462, 202 )
 rotation = -0.333358
 frames = SubResource( 11 )
+frame = 1
 playing = true
 
 [node name="5" type="Node2D" parent="Frames"]
@@ -349,9 +290,9 @@ margin_top = 340.0
 margin_bottom = 500.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( -421, 310 )
+position = Vector2( 80, 109 )
 current = true
-zoom = Vector2( 0.1, 0.1 )
+zoom = Vector2( 0.5, 0.5 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 

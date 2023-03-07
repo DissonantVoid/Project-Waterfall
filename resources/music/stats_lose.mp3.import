@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/stats_lose.mp3-f50eb9a8eef3d8b706e21d7a2a40a6df.mp3str"
+
+[deps]
+
+source_file="res://resources/music/stats_lose.mp3"
+dest_files=[ "res://.import/stats_lose.mp3-f50eb9a8eef3d8b706e21d7a2a40a6df.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
