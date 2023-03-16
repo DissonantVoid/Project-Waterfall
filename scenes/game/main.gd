@@ -14,6 +14,11 @@ onready var _health_spawner : Node2D = $Spawners/HealthSpawner
 
 onready var _music_player : AudioStreamPlayer = $Music
 
+const _radio_bird_scene : PackedScene = preload("res://scenes/objects/radio_bird.tscn")
+const _secret_code : String = "sans" # must be lowercase
+var _secret_code_buffer : Array
+var _secret_code_entered : bool = false
+
 const _levels_count : int = 5 # if you change this, you have to add/remove levels from res://resources/files/level_rules.cfg, you'd also need to change the progress bar and.. just don't do it alright?
 const _points_to_win : int = 100
 const _points_to_levelup : int = _points_to_win / _levels_count
@@ -30,10 +35,6 @@ var _music_levels : Dictionary = {
 	"2":preload("res://resources/music/main_level_2_3.mp3"),
 	"4":preload("res://resources/music/main_level_4_5.mp3")
 }
-
-# TODO: the game starts immidiatly, we need to give player
-#       time to process what's what first, a delay at the start before
-#       characters start to fall would do the trick
 
 # TODO: the way objects get freed is inconsistent, some objects
 #       are freed by their destroyer while others free themselves
@@ -79,6 +80,22 @@ func _ready():
 func _input(event : InputEvent):
 	if event.is_action_pressed("pause"):
 		_set_pause(!_is_paused)
+	
+	# listen for secret code
+	if (_secret_code_entered == false && event is InputEventKey &&
+	event.pressed && event.scancode >= KEY_A && event.scancode <= KEY_Z):
+		_secret_code_buffer.push_back(char(event.scancode))
+		if _secret_code_buffer.size() > _secret_code.length():
+			_secret_code_buffer.pop_front()
+		
+		var code : String
+		for letter in _secret_code_buffer: code += letter
+		if code.to_lower() == _secret_code:
+			_secret_code_entered = true
+			
+			# secret code entered!
+			var instance := _radio_bird_scene.instance()
+			add_child(instance)
 	
 	# TEMP for debugging (don't tell anyone :|)
 	if OS.is_debug_build() && event is InputEventKey && event.pressed:
@@ -213,8 +230,8 @@ func _get_seconds_played() -> int:
 	_start_time
 	
 	# this will break if you start playing right before the end
-	# of a months and stoped after the start of the month
-	# but that's unlikely
+	# of one month and stoped after the start of the next month
+	# but that's unlikely :-o
 	var seconds : int =\
 	(_end_time["day"] - _start_time["day"]) * 86400 +\
 	(_end_time["hour"] - _start_time["hour"]) * 3600 +\
