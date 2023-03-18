@@ -54,13 +54,13 @@ autostart = true
 
 [node name="BuildDate" type="Label" parent="."]
 margin_top = 171.0
-margin_right = 41.0
+margin_right = 45.0
 margin_bottom = 180.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 custom_fonts/font = SubResource( 1 )
-text = "build 3/4/23"
+text = "build 3/18/23"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )

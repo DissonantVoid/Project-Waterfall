@@ -1,3 +1,5 @@
+YEEEY ALL DONE!
+
 GAME DESIGN: (in godot code editor go to: seach -> find in files -> "TODO", for all code issues)
 [X] menu
 [X] end screen
@@ -11,7 +13,7 @@ GAME DESIGN: (in godot code editor go to: seach -> find in files -> "TODO", for 
 [X] hazards
 [X] difficulty balancing
 [X] intro scene
-[ ] final polish
+[X] final polish
 
 SOUNDS:
 [X] character spawn (default)
@@ -44,7 +46,6 @@ SOUNDS:
 [X] unpause timer ticking
 [X] bucket destroyed
 [X] intro sfx
-[ ] end sfx
 
 ART:
 [X] mouse shape
@@ -86,7 +87,7 @@ MUSIC:
 [X] introduction
 [X] game (all layers)
 [X] stats scene
-[ ] end scene
+[X] end scene
 [X] credits
 
 NOTES:

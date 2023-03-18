@@ -1,13 +1,5 @@
 extends "res://scenes/objects/powerups/powerup.gd"
 
-
-# TODO: sometimes an object will not be detected by the shield, and will be
-#       instead detected by the bucket first, I'm not sure why, tried giving it
-#       higher area priority, and using physics_process instead of process
-#       which made an improvement but it still hapends at fast speed
-#       I think it's something to do with _request_callback.call_func("global_position")
-#       returning a delayed position?
-
 onready var _inner_sprite : Sprite = $ShieldInner
 onready var _outer_sprite : Sprite = $ShieldOuter
 onready var _life_timer : Timer = $LifeTimer

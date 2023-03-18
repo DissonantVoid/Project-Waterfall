@@ -501,7 +501,7 @@ shape = SubResource( 4 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-volume_db = -3.0
+volume_db = -2.0
 
 [connection signal="pressed" from="UI/Pause/ButtonMargin/Quit" to="UI" method="_on_quit_pressed"]
 [connection signal="timeout" from="UI/Pause/UnpauseTimer" to="UI" method="_on_unpause_timer_timeout"]

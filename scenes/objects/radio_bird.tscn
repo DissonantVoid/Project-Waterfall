@@ -37,6 +37,6 @@ animations = [ {
 
 [node name="RadioBird" type="AnimatedSprite"]
 frames = SubResource( 7 )
-frame = 3
+frame = 4
 playing = true
 script = ExtResource( 1 )

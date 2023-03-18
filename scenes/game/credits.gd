@@ -5,6 +5,11 @@ onready var _music_player : AudioStreamPlayer = $Music
 
 const _loop_music : AudioStream = preload("res://resources/music/credits loop.mp3")
 
+# NOTE: due to oversampling, text position in editor doesn't match position in
+#       game, this isn't an issues in Godot4 but is a problem here, we have
+#       no choice but to have the credits scene open and brute force things
+#       in the editor untill they're in the right position
+
 
 func _input(event : InputEvent):
 	if event.is_action_pressed("skip"):

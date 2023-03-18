@@ -15,6 +15,7 @@ var _max_speed : float = _max_speed_normal
 const _char_sprite_size : int = 16
 var _curr_character_idx : int
 
+const _character_volume : float = -4.2 # don't want a soup'o'sounds when you have bunch of characters spawning
 
 # in the same order as the sprite sheet
 const _sounds_per_character : Array = [
@@ -54,7 +55,7 @@ func _ready():
 	apply_central_impulse(Vector2(Utility.rng.randf_range(-100, 100), 0))
 	AudioManager.play_sound(
 		"characters/" + _sounds_per_character[_curr_character_idx]["spawn"], true,
-		-4.0
+		_character_volume
 	)
 
 func setup(_parachute_chance : int):
@@ -86,7 +87,7 @@ func free_self(was_saved : bool):
 	var sound : String = "saved" if was_saved else "fall"
 	AudioManager.play_sound(
 		"characters/" + _sounds_per_character[_curr_character_idx][sound], true,
-		-4.0
+		_character_volume
 	)
 	
 	queue_free()
